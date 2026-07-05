@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Где применить ИИ — каталог Kris</title>
+<style>
+:root{
+  --accent:#E91E63;--accent-ink:#FFFFFF;--accent-2:#D4FF00;
+  --font-sans:'Archivo','Segoe UI',system-ui,sans-serif;--font-mono:ui-monospace,'SF Mono','JetBrains Mono',monospace;
+  --r-pill:99px;--r-card:14px;--r-md:10px;--r-sm:8px;
+}
+:root,:root.dark{--bg:#0D0D09;--surface:#15150F;--surface-2:#1E1E15;--surface-3:#26261B;--ink:#FAFAF7;--ink-soft:#C5C5BC;--muted:#8A8A80;--faint:#5C5C54;--line:#28281C;--line-2:#38382C;--grid:rgba(255,255,255,.04);--accent-soft:rgba(233,30,99,.14);--rail:rgba(255,255,255,.09);--rowhover:rgba(255,255,255,.035);}
+:root.light{--bg:#FBFBF8;--surface:#FFFFFF;--surface-2:#F3F1EA;--surface-3:#E9E6DC;--ink:#0A0A0A;--ink-soft:#3A3A36;--muted:#6A6A62;--faint:#9A9A90;--line:#E7E7E2;--line-2:#D5D5CD;--grid:rgba(0,0,0,.045);--accent-soft:rgba(233,30,99,.10);--rail:rgba(0,0,0,.12);--rowhover:rgba(0,0,0,.025);}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+button{font-family:inherit;color:inherit}
+:focus{outline:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+body{margin:0;color:var(--ink);background:var(--bg);font:15px/1.55 var(--font-sans);-webkit-font-smoothing:antialiased;background-image:radial-gradient(var(--grid) 1px,transparent 1px);background-size:24px 24px;}
+.wrap{max-width:980px;margin:0 auto;padding:26px 18px 90px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.eg-logo{font-weight:800;font-size:16px;display:inline-flex;align-items:center}
+.eg-logo .sq{width:9px;height:9px;background:var(--accent);display:inline-block;margin:0 3px;border-radius:1px}
+.eg-logo .l{font-weight:500;color:var(--ink-soft)}
+.theme-ctl{display:flex;align-items:center;gap:9px;font:600 11px var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.toggle{width:48px;height:27px;border-radius:var(--r-pill);background:var(--line-2);position:relative;cursor:pointer;transition:.2s;border:none}
+.toggle.on{background:var(--accent)}
+.toggle:after{content:"";position:absolute;top:3px;left:3px;width:21px;height:21px;border-radius:50%;background:#fff;transition:.2s}
+.toggle.on:after{left:24px}
+.kicker{font:600 12px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);display:inline-flex;align-items:center;gap:9px}
+.kicker:before{content:"";width:11px;height:11px;background:var(--accent);border-radius:2px}
+h1{font-size:clamp(24px,5vw,34px);font-weight:900;letter-spacing:-.025em;line-height:1.08;margin:.3em 0 .16em}
+.lead{font-size:15px;color:var(--ink-soft);max-width:720px}
+.lead b{color:var(--ink)}
+.q5{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.q5 span{font:600 10.5px var(--font-mono);letter-spacing:.04em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line-2);border-radius:var(--r-pill);padding:4px 11px}
+.q5 span b{color:var(--accent)}
+
+.controls{position:sticky;top:0;z-index:30;background:var(--bg);padding:14px 0 12px;border-bottom:1px solid var(--line);margin:20px 0 4px}
+.ctl-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.ctl-row+.ctl-row{margin-top:10px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--surface-2)}
+.seg button{font:600 12px var(--font-mono);background:transparent;color:var(--muted);border:none;padding:9px 15px;cursor:pointer;border-right:1px solid var(--line)}
+.seg button:last-child{border-right:none}
+.seg button.on{background:var(--accent);color:var(--accent-ink)}
+.spacer{flex:1}
+.mini{font:600 12px var(--font-mono);background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:var(--r-md);padding:8px 12px;cursor:pointer}
+.mini:hover{color:var(--ink);border-color:var(--accent)}
+.search input{font:14px var(--font-sans);color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-md);padding:9px 13px;min-width:220px;flex:1}
+.search input:focus{border-color:var(--accent)}
+.count{font:600 12px var(--font-mono);color:var(--faint);white-space:nowrap}
+.count b{color:var(--accent)}
+
+/* ---- FILTER CHIPS (вход: форма + ниша) ---- */
+.filt{margin-top:11px}
+.filt-lbl{font:600 9.5px var(--font-mono);letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin-right:3px;align-self:center}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chip{font:600 11.5px var(--font-sans);background:var(--surface-2);color:var(--ink-soft);border:1px solid var(--line);border-radius:var(--r-pill);padding:5px 12px;cursor:pointer;transition:.13s;white-space:nowrap}
+.chip:hover{border-color:var(--line-2);color:var(--ink)}
+.chip.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.chip.forma.on{background:var(--accent-2);color:#0A0A0A;border-color:var(--accent-2)}
+
+.view{margin-top:18px}
+.hide{display:none}
+.empty{padding:40px 16px;text-align:center;color:var(--muted);font:600 13px var(--font-mono);border:1px dashed var(--line-2);border-radius:var(--r-card)}
+
+/* ---- TREE ---- */
+.tree{display:flex;flex-direction:column;gap:7px}
+.nbtn{display:flex;align-items:center;gap:11px;width:100%;text-align:left;cursor:pointer;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);
+  padding:13px 15px;font:inherit;color:var(--ink);transition:border-color .15s,background .15s}
+.nbtn:hover{background:var(--rowhover);border-color:var(--line-2)}
+.node.open>.nbtn{border-color:var(--accent);background:var(--accent-soft)}
+.chev{flex:none;width:14px;color:var(--muted);font-size:11px;transition:transform .18s ease}
+.node.open>.nbtn .chev{transform:rotate(90deg);color:var(--accent)}
+.nlabel{font-weight:700;font-size:15px;letter-spacing:-.01em}
+.node.open>.nbtn .nlabel{color:var(--accent)}
+.ncount{margin-left:auto;font:600 11.5px var(--font-mono);color:var(--faint);white-space:nowrap;flex:none}
+.leaf-dot{flex:none;width:14px;color:var(--faint);text-align:center;font-size:9px}
+.kids{display:grid;grid-template-rows:0fr;transition:grid-template-rows .22s ease;padding-left:16px;margin-left:14px;border-left:1px solid var(--rail)}
+.node.open>.kids{grid-template-rows:1fr}
+.kids-in{overflow:hidden;min-height:0;display:flex;flex-direction:column;gap:6px;padding-top:7px}
+.d2 .nbtn{background:var(--surface-2);padding:11px 14px}
+.d2 .nlabel{font-size:14px}
+.tag-lvl{font:600 8.5px var(--font-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:var(--r-pill);padding:2px 7px;flex:none}
+.case{display:flex;align-items:flex-start;gap:11px;padding:9px 13px;border:1px dashed var(--line);border-radius:var(--r-sm);background:var(--surface)}
+.case .cl{flex:1;min-width:0}
+.case .cn{font-weight:700;font-size:13px;color:var(--ink)}
+.facets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.pin{font:600 9.5px var(--font-mono);padding:2px 8px;border-radius:var(--r-pill);background:var(--surface-3);color:var(--muted);white-space:nowrap}
+.pin.fmt{background:var(--accent-soft);color:var(--accent)}
+.pin.frm{background:transparent;border:1px solid var(--line-2);color:var(--ink-soft)}
+.pin.tool{background:transparent;border:1px dashed var(--faint);color:var(--faint)}
+
+/* ---- MATRIX ---- */
+.mx-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.mx-head .lbl{font:600 10.5px var(--font-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.mx-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-card);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:12.5px}
+th,td{border:1px solid var(--line);padding:10px 12px;text-align:center}
+thead th{background:var(--surface-2);font:700 11px var(--font-mono);color:var(--ink-soft);position:sticky;top:0}
+tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);background:var(--surface-2);white-space:nowrap}
+.cell-on{color:var(--accent);font-weight:800}
+.cell-off{color:var(--faint)}
+.corner{background:var(--surface)!important;color:var(--muted)!important;font:700 9.5px var(--font-mono)!important;text-transform:uppercase;text-align:left!important}
+
+.note{margin-top:22px;padding:14px 17px;border:1px dashed var(--line-2);border-radius:var(--r-card);background:var(--surface-2);font-size:12.5px;color:var(--ink-soft)}
+.note b{color:var(--ink)}
+.foot{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font:12px/1.6 var(--font-mono)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="eg-logo">kris<span class="sq"></span><span class="l">где применить ИИ</span></span>
+    <div class="theme-ctl"><span>тема</span><button class="toggle on" id="themeToggle" aria-label="theme"></button></div>
+  </div>
+
+  <header>
+    <span class="kicker">КАТАЛОГ · ВХОД ОТ ПЕРСОНЫ</span>
+    <h1>Где применить ИИ</h1>
+    <p class="lead">Заходишь как <b>ты</b> — мастер, наёмный сотрудник, эксперт, владелец бизнеса — и сразу видишь, где применить. Выбери <b>форму</b> и <b>нишу</b> сверху: каталог отфильтруется под тебя.</p>
+    <div class="q5">
+      <span><b>КОМУ</b> · форма + ниша</span>
+      <span><b>ГДЕ</b> · сфера</span>
+      <span><b>ЧТО</b> · под-направление</span>
+      <span><b>В КАКОМ ВИДЕ</b> · формат</span>
+      <span><b>ПРИМЕРЫ</b> · кейсы</span>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="ctl-row">
+      <div class="seg" id="seg-view">
+        <button data-v="tree" class="on">Каталог</button>
+        <button data-v="persona">От персоны</button>
+        <button data-v="matrix">Матрица</button>
+      </div>
+      <div class="spacer"></div>
+      <span class="count" id="count"></span>
+      <button class="mini" id="resetAll">Сбросить</button>
+    </div>
+    <div class="ctl-row filt">
+      <span class="filt-lbl">форма</span>
+      <div class="chips" id="chips-forma"></div>
+    </div>
+    <div class="ctl-row filt">
+      <span class="filt-lbl">ниша</span>
+      <div class="chips" id="chips-niche"></div>
+    </div>
+    <div class="ctl-row search">
+      <input type="text" id="search" placeholder="Поиск: пост, лендинг, звонки, договор, кэш…">
+    </div>
+  </div>
+
+  <div class="view" id="view-tree"></div>
+
+  <div class="view hide" id="view-persona">
+    <div class="mx-head">
+      <span class="lbl">Смотреть от:</span>
+      <div class="seg" id="seg-persona">
+        <button data-p="niche" class="on">Ниша</button>
+        <button data-p="forma">Форма</button>
+        <button data-p="fmt">Формат</button>
+        <button data-p="tool">Инструмент</button>
+      </div>
+    </div>
+    <div id="persona-body" class="tree"></div>
+    <div class="note"><b>Обратный вход.</b> Те же кейсы, сгруппированы «от метки». Тапни свою нишу или форму — увидишь ровно свои применения.</div>
+  </div>
+
+  <div class="view hide" id="view-matrix">
+    <div class="mx-head">
+      <span class="lbl">Колонки:</span>
+      <div class="seg" id="seg-axis">
+        <button data-a="niche" class="on">Ниши</button>
+        <button data-a="forma">Формы</button>
+      </div>
+    </div>
+    <div class="mx-wrap"><table id="mx-table"></table></div>
+    <div class="note"><b>Обзор покрытия.</b> «●» — есть применение сферы в этой нише/форме. Быстро видно, где ИИ заходит именно тебе.</div>
+  </div>
+
+  <div class="foot" id="foot"></div>
+</div>
+
+<script>
+/* ================= ДАННЫЕ =================
+   Спина каталога: sph (сфера) -> sub (под-направление) -> кейс.
+   Теги на кейсе: fmt (формат) · niche[] (ниша/род) · forma[] (форма/масштаб) · tool.
+   forma: сотрудник · соло · малый · стартап · крупный(=B2B)
+   niche: услуги · торговля · HoReCa · эксперт · агентство · проф-услуги · производство · IT · личное
+*/
+const SPHERES=['Контент','Маркетинг','Продажи','Сервис','Ресёрч и аналитика','Документооборот','Операции','Личный ассистент','Обучение','HR','Финансы'];
+const FORMAS=['сотрудник','соло','малый','стартап','крупный'];
+const NICHES=['услуги','торговля','HoReCa','эксперт','агентство','проф-услуги','производство','IT','личное'];
+const FORMA_LABEL={'сотрудник':'наёмный сотрудник','соло':'соло / самозанятый','малый':'малый бизнес','стартап':'стартап','крупный':'крупный / B2B'};
+const NICHE_LABEL={'услуги':'услуги (мастер)','торговля':'торговля / e-com','HoReCa':'HoReCa','эксперт':'эксперт / образование','агентство':'агентство / студия','проф-услуги':'проф-услуги (юр/бух)','производство':'производство','IT':'IT / диджитал','личное':'личное / для себя'};
+
+const DATA=[
+/* Контент */
+{sph:'Контент',sub:'Посты',n:'Контент-план на месяц из брифа',fmt:'Документ',niche:['услуги','эксперт','торговля'],forma:['соло','малый'],tool:'Claude'},
+{sph:'Контент',sub:'Посты',n:'Серия постов из одной статьи (репаковка)',fmt:'Пост',niche:['эксперт','агентство'],forma:['соло','малый'],tool:'Claude'},
+{sph:'Контент',sub:'Статьи',n:'Экспертная статья из голосовой заметки',fmt:'Статья',niche:['эксперт'],forma:['соло'],tool:'Claude'},
+{sph:'Контент',sub:'Сценарии',n:'Сценарий рилса / видео по структуре',fmt:'Сценарий',niche:['услуги','эксперт'],forma:['соло','малый'],tool:'Claude'},
+{sph:'Контент',sub:'Гайды и чек-листы',n:'Гайд или чек-лист как лид-магнит',fmt:'Гайд',niche:['эксперт','услуги'],forma:['соло','малый'],tool:'Claude'},
+
+/* Маркетинг */
+{sph:'Маркетинг',sub:'SMM',n:'Разбор охватов и гипотезы роста',fmt:'Отчёт',niche:['эксперт','торговля'],forma:['соло','малый'],tool:'Claude'},
+{sph:'Маркетинг',sub:'SEO',n:'Семантика и структура статей под запросы',fmt:'Таблица',niche:['торговля','агентство'],forma:['малый','стартап'],tool:'Claude'},
+{sph:'Маркетинг',sub:'Лендинги',n:'Лендинг из оффера: текст + секции',fmt:'Лендинг',niche:['услуги','эксперт'],forma:['соло','малый'],tool:'Claude'},
+{sph:'Маркетинг',sub:'Офферы и лид-магниты',n:'Упаковка оффера и лид-магнита',fmt:'Документ',niche:['эксперт','услуги'],forma:['соло','малый'],tool:'Claude'},
+{sph:'Маркетинг',sub:'Воронки',n:'Прогрев-воронка для запуска',fmt:'Процесс',niche:['эксперт'],forma:['соло','малый'],tool:'Claude'},
+{sph:'Маркетинг',sub:'Трафик',n:'Тексты объявлений + сегменты аудитории',fmt:'Таблица',niche:['торговля','услуги'],forma:['малый'],tool:'Claude'},
+
+/* Продажи */
+{sph:'Продажи',sub:'Лидген',n:'Парсер базы из 2ГИС / Яндекс.Карт по критериям',fmt:'Процесс',niche:['агентство','торговля'],forma:['малый','стартап','крупный'],tool:'Скрипт + Claude'},
+{sph:'Продажи',sub:'Отдел продаж',n:'Аналитика звонков по скрипту + оценка менеджеров',fmt:'Отчёт',niche:['агентство'],forma:['малый','крупный'],tool:'Claude'},
+{sph:'Продажи',sub:'Отдел продаж',n:'Авто follow-up с аудит-документом в чат клиента',fmt:'Агент',niche:['агентство'],forma:['малый','крупный'],tool:'Claude'},
+{sph:'Продажи',sub:'КП',n:'Персональное КП из карточки клиента',fmt:'Документ',niche:['услуги','агентство'],forma:['соло','малый'],tool:'Claude'},
+{sph:'Продажи',sub:'Клиентская база',n:'Ведение и обогащение CRM-базы',fmt:'Таблица',niche:['агентство','торговля'],forma:['малый','стартап'],tool:'Claude'},
+{sph:'Продажи',sub:'Переговоры',n:'Разбор возражений + скрипт ответов',fmt:'Документ',niche:['услуги','эксперт'],forma:['соло','малый'],tool:'Claude'},
+
+/* Сервис */
+{sph:'Сервис',sub:'Отзывы',n:'Обработка отзывов и авто-ответы',fmt:'Процесс',niche:['услуги','торговля','HoReCa'],forma:['малый'],tool:'Claude'},
+{sph:'Сервис',sub:'Колл-центр',n:'Классификация и роутинг обращений',fmt:'Процесс',niche:['торговля','агентство'],forma:['малый','крупный'],tool:'Claude'},
+{sph:'Сервис',sub:'Чат-бот',n:'Бот-ассистент по частым вопросам',fmt:'Чат-ассистент',niche:['услуги','торговля'],forma:['малый','стартап'],tool:'Claude'},
+{sph:'Сервис',sub:'База знаний',n:'Поиск по внутренней базе и регламентам',fmt:'Процесс',niche:['агентство','IT'],forma:['малый','крупный'],tool:'Claude'},
+
+/* Ресёрч и аналитика */
+{sph:'Ресёрч и аналитика',sub:'Аудитория',n:'Срез аудитории по репликам на форумах',fmt:'Отчёт',niche:['эксперт','IT'],forma:['соло','стартап'],tool:'Claude'},
+{sph:'Ресёрч и аналитика',sub:'Конкуренты',n:'Аудит конкурентов по отзывам и офферам',fmt:'Отчёт',niche:['услуги','торговля','эксперт'],forma:['соло','малый','стартап'],tool:'Claude'},
+{sph:'Ресёрч и аналитика',sub:'Тренды',n:'Глубокое исследование ниши или тренда',fmt:'Отчёт',niche:['эксперт','IT'],forma:['соло','стартап'],tool:'Claude'},
+{sph:'Ресёрч и аналитика',sub:'Кастдев',n:'Обработка кастдев-интервью → инсайты',fmt:'Отчёт',niche:['эксперт','IT'],forma:['соло','стартап'],tool:'Claude'},
+{sph:'Ресёрч и аналитика',sub:'Исторические данные',n:'Разбор истории продаж → выводы',fmt:'Дашборд',niche:['торговля','производство'],forma:['малый','крупный'],tool:'Claude'},
+
+/* Документооборот */
+{sph:'Документооборот',sub:'Генерация',n:'Договор или акт из шаблона и данных',fmt:'Документ',niche:['услуги','агентство','проф-услуги'],forma:['соло','малый'],tool:'Claude'},
+{sph:'Документооборот',sub:'Заполнение',n:'Массовое заполнение бланков по данным',fmt:'Процесс',niche:['проф-услуги','производство'],forma:['малый','крупный'],tool:'Claude'},
+{sph:'Документооборот',sub:'Письма',n:'Деловые, страховые, юридические письма',fmt:'Письмо',niche:['проф-услуги','личное'],forma:['соло','малый'],tool:'Claude'},
+{sph:'Документооборот',sub:'Перевод',n:'Перевод и адаптация документов',fmt:'Документ',niche:['торговля','личное'],forma:['соло','малый'],tool:'Claude'},
+
+/* Операции */
+{sph:'Операции',sub:'Онбординг',n:'Онбординг-методичка + чек-листы',fmt:'Документ',niche:['агентство','производство'],forma:['малый','стартап'],tool:'Claude'},
+{sph:'Операции',sub:'Мэппинг процессов',n:'Карта процесса из описания',fmt:'Майндкарта',niche:['агентство','IT'],forma:['стартап','малый','крупный'],tool:'Claude'},
+{sph:'Операции',sub:'Регламенты',n:'Регламент / SOP из практики',fmt:'Документ',niche:['услуги','производство'],forma:['малый','стартап'],tool:'Claude'},
+
+/* Личный ассистент */
+{sph:'Личный ассистент',sub:'Почта',n:'Разбор почты и черновики ответов',fmt:'Процесс',niche:['личное'],forma:['сотрудник','соло'],tool:'Gmail + Claude'},
+{sph:'Личный ассистент',sub:'Календарь',n:'Планирование недели + напоминания',fmt:'Процесс',niche:['личное'],forma:['сотрудник','соло'],tool:'Claude'},
+{sph:'Личный ассистент',sub:'Планирование',n:'Долгосрочный план целей → шаги',fmt:'Документ',niche:['личное','эксперт'],forma:['соло','сотрудник'],tool:'Claude'},
+{sph:'Личный ассистент',sub:'Тревел',n:'Консультация по визам и документам поездки',fmt:'Документ',niche:['личное'],forma:['соло','сотрудник'],tool:'Claude'},
+
+/* Обучение */
+{sph:'Обучение',sub:'Курсы',n:'Структура курса из экспертизы',fmt:'Документ',niche:['эксперт'],forma:['соло','малый'],tool:'Claude'},
+{sph:'Обучение',sub:'Уроки',n:'Урок + материалы + проверка работ',fmt:'Документ',niche:['эксперт','услуги'],forma:['соло'],tool:'Claude'},
+{sph:'Обучение',sub:'Вовлечение',n:'Квиз или игра для вовлечения',fmt:'Квиз / игра',niche:['эксперт','торговля'],forma:['соло','малый'],tool:'Claude'},
+
+/* HR */
+{sph:'HR',sub:'Найм',n:'Скрининг откликов по критериям',fmt:'Таблица',niche:['агентство','производство'],forma:['малый','стартап','крупный'],tool:'Claude'},
+{sph:'HR',sub:'Оценка',n:'Сводка обратной связи по сотруднику',fmt:'Отчёт',niche:['агентство','производство'],forma:['малый','крупный'],tool:'Claude'},
+
+/* Финансы */
+{sph:'Финансы',sub:'Учёт',n:'Сверка: банк vs учёт',fmt:'Процесс',niche:['агентство','торговля'],forma:['соло','малый'],tool:'Claude'},
+{sph:'Финансы',sub:'Прогноз',n:'Прогноз кэша на 30 дней',fmt:'Отчёт',niche:['услуги','торговля'],forma:['соло','малый','стартап'],tool:'Claude'},
+{sph:'Финансы',sub:'Счета',n:'Дожим просрочек (invoice chaser)',fmt:'Процесс',niche:['агентство','проф-услуги'],forma:['малый','крупный'],tool:'Claude'},
+];
+
+let view='tree',personaBy='niche',axis='niche',q='';
+const selForma=new Set(),selNiche=new Set();
+const openSet=new Set();
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const uid=(...p)=>p.join('¦');
+const distinct=(arr)=>arr.filter((v,i)=>arr.indexOf(v)===i);
+
+function matchQ(d){if(!q)return true;const h=(d.sph+' '+d.sub+' '+d.fmt+' '+d.n+' '+d.niche.join(' ')+' '+d.forma.join(' ')+' '+d.tool).toLowerCase();return h.includes(q);}
+function matchFilters(d){
+  if(selForma.size&&!d.forma.some(f=>selForma.has(f)))return false;
+  if(selNiche.size&&!d.niche.some(n=>selNiche.has(n)))return false;
+  return true;
+}
+function fdata(){return DATA.filter(d=>matchQ(d)&&matchFilters(d));}
+
+/* ---- pins on a case ---- */
+function casePins(d){
+  let h=`<span class="pin fmt">${esc(d.fmt)}</span>`;
+  d.niche.forEach(n=>h+=`<span class="pin">${esc(n)}</span>`);
+  h+=`<span class="pin frm">${d.forma.map(esc).join(' · ')}</span>`;
+  h+=`<span class="pin tool">${esc(d.tool)}</span>`;
+  return h;
+}
+function caseRow(d){return `<div class="case"><span class="leaf-dot">◦</span><div class="cl"><div class="cn">${esc(d.n)}</div><div class="facets">${casePins(d)}</div></div></div>`;}
+function nodeOpen(id){return openSet.has(id)?' open':'';}
+
+/* ---- TREE: сфера -> под -> кейс ---- */
+function renderTree(){
+  const rows=fdata();
+  let html='<div class="tree">';
+  let shown=0;
+  SPHERES.forEach(sph=>{
+    const sr=rows.filter(d=>d.sph===sph);if(!sr.length)return;shown++;
+    const subs=distinct(sr.map(d=>d.sub));
+    const sid=uid('s',sph);
+    let body='';
+    subs.forEach(sub=>{
+      const br=sr.filter(d=>d.sub===sub);
+      const bid=uid('b',sph,sub);
+      body+=`<div class="node d2${nodeOpen(bid)}"><button class="nbtn" data-id="${bid}"><span class="chev">▸</span><span class="tag-lvl">напр.</span><span class="nlabel">${esc(sub)}</span><span class="ncount">${br.length} ${br.length===1?'кейс':'кейсов'}</span></button><div class="kids"><div class="kids-in">${br.map(caseRow).join('')}</div></div></div>`;
+    });
+    html+=`<div class="node d1${nodeOpen(sid)}"><button class="nbtn" data-id="${sid}"><span class="chev">▸</span><span class="nlabel">${esc(sph)}</span><span class="ncount">${subs.length} напр. · ${sr.length}</span></button><div class="kids"><div class="kids-in">${body}</div></div></div>`;
+  });
+  html+='</div>';
+  document.getElementById('view-tree').innerHTML=shown?html:'<div class="empty">Под этот фильтр кейсов нет. Сними лишние чипы.</div>';
+  wireNodes('view-tree');
+}
+
+/* ---- PERSONA: группировка «от метки» ---- */
+function renderPersona(){
+  const rows=fdata();
+  let groups,label,valOf;
+  if(personaBy==='niche'){groups=NICHES;label='ниша';valOf=d=>d.niche;}
+  else if(personaBy==='forma'){groups=FORMAS;label='форма';valOf=d=>d.forma;}
+  else if(personaBy==='fmt'){groups=distinct(rows.map(d=>d.fmt)).sort((a,b)=>a.localeCompare(b,'ru'));label='формат';valOf=d=>[d.fmt];}
+  else{groups=distinct(rows.map(d=>d.tool)).sort((a,b)=>a.localeCompare(b,'ru'));label='инструмент';valOf=d=>[d.tool];}
+  let html='',shown=0;
+  groups.forEach(g=>{
+    const gr=rows.filter(d=>valOf(d).includes(g));if(!gr.length)return;shown++;
+    const id=uid('p',personaBy,g);
+    const lbl=personaBy==='niche'?NICHE_LABEL[g]:personaBy==='forma'?FORMA_LABEL[g]:g;
+    html+=`<div class="node d1${nodeOpen(id)}"><button class="nbtn" data-id="${id}"><span class="chev">▸</span><span class="tag-lvl">${label}</span><span class="nlabel">${esc(lbl)}</span><span class="ncount">${gr.length} ${gr.length===1?'применение':'применений'}</span></button><div class="kids"><div class="kids-in">${gr.map(caseRow).join('')}</div></div></div>`;
+  });
+  document.getElementById('persona-body').innerHTML=shown?html:'<div class="empty">Под этот фильтр применений нет.</div>';
+  wireNodes('persona-body');
+}
+
+/* ---- MATRIX: сфера × ниша|форма ---- */
+function renderMatrix(){
+  const rows=fdata();
+  const cols=axis==='niche'?NICHES:FORMAS;
+  const colLabel=axis==='niche'?NICHE_LABEL:FORMA_LABEL;
+  const valOf=axis==='niche'?(d=>d.niche):(d=>d.forma);
+  let head=`<thead><tr><th class="corner">Сфера ↓</th>${cols.map(c=>`<th>${esc(colLabel[c])}</th>`).join('')}</tr></thead>`;
+  let body='<tbody>';
+  SPHERES.forEach(sph=>{
+    const sr=rows.filter(d=>d.sph===sph);if(!sr.length)return;
+    body+=`<tr><th>${esc(sph)}</th>${cols.map(c=>{
+      const on=sr.some(d=>valOf(d).includes(c));
+      return on?`<td class="cell-on">●</td>`:`<td class="cell-off">·</td>`;
+    }).join('')}</tr>`;
+  });
+  body+='</tbody>';
+  document.getElementById('mx-table').innerHTML=head+body;
+}
+
+function wireNodes(containerId){
+  document.querySelectorAll('#'+containerId+' .nbtn[data-id]').forEach(b=>b.addEventListener('click',()=>{
+    const id=b.dataset.id;
+    if(openSet.has(id))openSet.delete(id);else openSet.add(id);
+    b.parentElement.classList.toggle('open');
+  }));
+}
+
+/* ---- chips ---- */
+function buildChips(){
+  const cf=document.getElementById('chips-forma');
+  cf.innerHTML=FORMAS.map(f=>`<button class="chip forma" data-f="${f}">${esc(FORMA_LABEL[f])}</button>`).join('');
+  const cn=document.getElementById('chips-niche');
+  cn.innerHTML=NICHES.map(n=>`<button class="chip niche" data-n="${n}">${esc(NICHE_LABEL[n])}</button>`).join('');
+  cf.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{
+    const f=b.dataset.f;if(selForma.has(f))selForma.delete(f);else selForma.add(f);
+    b.classList.toggle('on');renderAll();
+  }));
+  cn.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{
+    const n=b.dataset.n;if(selNiche.has(n))selNiche.delete(n);else selNiche.add(n);
+    b.classList.toggle('on');renderAll();
+  }));
+}
+
+function renderAll(){
+  const rows=fdata();
+  document.getElementById('count').innerHTML=`<b>${rows.length}</b> из ${DATA.length}`;
+  document.getElementById('foot').textContent='Каталог: '+DATA.length+' применений · '+SPHERES.length+' сфер. Спина: сфера → под-направление → кейс. Теги: формат · ниша · форма · инструмент. Вход двойной — от ниши или формы. Наполняется под аудиторию Kris; список кейсов растёт.';
+  if(view==='tree')renderTree();
+  if(view==='persona')renderPersona();
+  if(view==='matrix')renderMatrix();
+}
+
+/* ---- controls ---- */
+document.querySelectorAll('#seg-view button').forEach(b=>b.addEventListener('click',()=>{
+  view=b.dataset.v;
+  document.querySelectorAll('#seg-view button').forEach(x=>x.classList.toggle('on',x===b));
+  document.getElementById('view-tree').classList.toggle('hide',view!=='tree');
+  document.getElementById('view-persona').classList.toggle('hide',view!=='persona');
+  document.getElementById('view-matrix').classList.toggle('hide',view!=='matrix');
+  renderAll();
+}));
+document.querySelectorAll('#seg-persona button').forEach(b=>b.addEventListener('click',()=>{
+  personaBy=b.dataset.p;document.querySelectorAll('#seg-persona button').forEach(x=>x.classList.toggle('on',x===b));renderPersona();
+}));
+document.querySelectorAll('#seg-axis button').forEach(b=>b.addEventListener('click',()=>{
+  axis=b.dataset.a;document.querySelectorAll('#seg-axis button').forEach(x=>x.classList.toggle('on',x===b));renderMatrix();
+}));
+document.getElementById('resetAll').addEventListener('click',()=>{
+  selForma.clear();selNiche.clear();openSet.clear();q='';
+  document.getElementById('search').value='';
+  document.querySelectorAll('.chip.on').forEach(c=>c.classList.remove('on'));
+  renderAll();
+});
+document.getElementById('search').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase();renderAll();});
+const r=document.documentElement,t=document.getElementById('themeToggle');
+t.addEventListener('click',()=>{const dark=r.classList.contains('dark');r.classList.toggle('dark',!dark);r.classList.toggle('light',dark);t.classList.toggle('on',!dark);});
+
+buildChips();
+renderAll();
+</script>
+</body>
+</html>
