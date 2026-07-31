@@ -128,8 +128,8 @@ h1{font-size:clamp(24px,5vw,34px);font-weight:900;letter-spacing:-.025em;line-he
 .ftgl .c{font:600 10px var(--font-mono);color:var(--accent);margin-left:6px}
 /* Чипы ответов опроса: тот же вид, что и фильтры, но лаймовые — видно, что это
    не выбранный руками срез, а следствие опроса. */
-.qrow .chip.qf{border-color:var(--accent-2);color:var(--ink)}
-.qrow .chip.qf .x{color:var(--accent-2)}
+.qrow .chip.qf:not(.on){border-color:var(--accent-2);color:var(--ink)}
+.qrow .chip.qf:not(.on) .x{color:var(--accent-2)}
 .qrow .miss{font:500 11.5px var(--font-sans);color:var(--faint)}
 body.noscroll{overflow:hidden}
 
@@ -147,6 +147,8 @@ body.noscroll{overflow:hidden}
 dl.lg{display:grid;grid-template-columns:auto 1fr;gap:7px 14px;margin:8px 0;font-size:12.5px;line-height:1.55}
 dl.lg dt{font:600 10px var(--font-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--accent);white-space:nowrap;padding-top:2px}
 dl.lg dd{margin:0;color:var(--ink-soft)}
+/* строки легенды, где вместо подписи стоит сама метка с карточки */
+dl.lg.lgp dt{padding-top:1px;font:inherit;letter-spacing:normal;text-transform:none;color:inherit}
 .modal-x{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--faint);font-size:22px;line-height:1;cursor:pointer;padding:2px 6px}
 .modal-x:hover{color:var(--ink)}
 .picked{gap:6px}
@@ -160,6 +162,10 @@ dl.lg dd{margin:0;color:var(--ink-soft)}
 .chip.lime.on .c{color:#0A0A0A}
 .chip[disabled]{opacity:.32;cursor:default}
 .chip.fav.on{background:var(--accent-2);color:#0A0A0A;border-color:var(--accent-2)}
+.favpage{margin-top:18px}
+.favhead{border:1px solid var(--line);border-radius:var(--r-card);background:var(--surface);padding:20px 20px 18px;margin-bottom:16px}
+.favhead h2{margin:.45em 0 .3em}
+.favhead p{color:var(--ink-soft);max-width:640px;margin:0 0 14px}
 
 /* ---- ВЫДАЧА ---- */
 .view{margin-top:18px}
@@ -186,6 +192,9 @@ dl.lg dd{margin:0;color:var(--ink-soft)}
 .pin.tool{background:transparent;border:1px dashed var(--faint);color:var(--faint)}
 .pin.uni{background:var(--lime-soft);color:var(--ink)}
 /* Звезда — основная цель тапа на карточке: 34×34, не 15px глиф */
+.cp{flex:none;background:none;border:none;cursor:pointer;font-size:14px;line-height:1;width:30px;height:34px;margin:-6px 0;color:var(--faint);transition:.13s}
+.cp:hover{color:var(--accent)}
+.cp.done{color:var(--accent-2)}
 .star{flex:none;background:none;border:none;cursor:pointer;font-size:20px;line-height:1;width:34px;height:34px;margin:-6px -8px -6px 0;color:var(--faint);transition:.13s}
 .star:hover{color:var(--accent-2)}
 .star.on{color:var(--accent-2)}
@@ -316,7 +325,7 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
     <h1>Где применить ИИ</h1>
     <p class="sub" id="sub"></p>
     <p class="relink hide" id="requizLine"><button id="requiz">Пройти опрос заново</button></p>
-    <p class="lead">Каталог того, <b>что вообще можно сделать</b> с ИИ — в работе и в жизни. Ответь на три вопроса — и наверху окажется то, что ближе к твоим задачам. Ничего не исчезает: весь каталог остаётся под рукой.</p>
+    <p class="lead">Каталог того, <b>что вообще можно сделать</b> с ИИ — в работе и в жизни. Ответь на три вопроса — и наверху окажется то, что ближе к твоим задачам. Что зацепило, отмечай звездой: соберётся личная подборка, к которой можно вернуться.</p>
   </header>
 
   <!-- ОПРОС -->
@@ -367,6 +376,8 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
       <div class="mx-wrap"><table id="sell-table"></table></div>
       <div class="note"><b>Внутренний срез.</b> Сколько идей в каждой сфере тянут на услугу под ключ, на цифровой продукт и на внутреннюю интеграцию. Виден только по ссылке с «#kris».</div>
     </div>
+
+    <div class="favpage hide" id="favpage"></div>
 
     <div class="note" id="tip"></div>
     <div class="foot" id="foot"></div>
@@ -434,14 +445,23 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
       Звезда справа кладёт идею в избранное.</p>
 
     <h3>Метки на карточке</h3>
-    <dl class="lg">
-      <dt>Направление</dt><dd>Крупный срез каталога: 7 областей, кейс попадает ровно в одну.</dd>
-      <dt>Тема</dt><dd>Более узкий срез внутри направления.</dd>
-      <dt>Что сделать</dt><dd>Тип задачи: написать, проанализировать, автоматизировать и так далее.</dd>
-      <dt>Инструмент</dt><dd>Чем это делается — чат-модель, база знаний, таблицы, автоматизация, сборка приложения.</dd>
-      <dt>Вход</dt><dd>Сколько работы до первого результата. Три значения, ниже разобраны.</dd>
-      <dt>Риск ошибки</dt><dd>Низкий, средний или высокий — насколько дорого обойдётся, если ИИ ошибётся и это не заметят.</dd>
+    <p>Под названием идёт ряд меток. Слева направо и по оформлению они всегда одинаковые —
+      вот что за чем стоит:</p>
+    <dl class="lg lgp">
+      <dt><span class="pin sph">#направление</span></dt>
+      <dd>Розовая метка, всегда первая. Крупный срез каталога: 7 областей, кейс попадает ровно в одну.</dd>
+      <dt><span class="pin task">#тема</span></dt>
+      <dd>Метка в тонкой рамке сразу за розовой. Более узкий срез внутри направления.</dd>
+      <dt><span class="pin task">#что-сделать</span></dt>
+      <dd>В такой же рамке, дальше по ряду и может быть не одна. Тип задачи: написать,
+        проанализировать, автоматизировать и так далее.</dd>
+      <dt><span class="pin tool">#инструмент</span></dt>
+      <dd>Бледная метка пунктиром, замыкает ряд. Чем это делается — чат-модель, база знаний,
+        таблицы, автоматизация, сборка приложения.</dd>
     </dl>
+    <p>Тапни карточку — под меткам откроются <b>Сфера</b>, <b>Кому</b>, <b>Отрасли</b>,
+      а также <b>Вход</b> (сколько работы до первого результата, три значения разобраны ниже)
+      и <b>Риск ошибки</b>: насколько дорого обойдётся, если ИИ ошибётся и это не заметят.</p>
 
     <h3>Вход: в чате сразу · нужна настройка · нужна сборка</h3>
     <ul>
@@ -454,24 +474,10 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
     <p class="warn">Читай метку как ориентир, а не как приговор: граница между настройкой
       и сборкой у каждого своя и зависит от того, что уже настроено вокруг.</p>
 
-    <h3>Кому: подойдёт любому · под конкретную роль</h3>
-    <p><b>Подойдёт любому</b> — идеи, которые ложатся на любую работу. <b>Под конкретную роль</b> —
-      привязанные к маркетологу, бухгалтеру, врачу и так далее. Кейс не бывает одновременно
-      и там, и там. В личной ветке каталога этот фильтр не нужен и скрыт.</p>
-
-    <h3>Ответы опроса</h3>
-    <p>Три ответа висят чипами над списком: видно, чем сужен каталог, и каждый снимается по тапу.
-      «Пройти опрос заново» под заголовком сбрасывает все. Ответ, после которого осталось бы
-      меньше 8 идей, не применяется — под ним написано, какой именно пропущен.</p>
-
-    <h3>Порядок и полки</h3>
-    <p>«По совпадению» — единственный порядок с полками <b>Твоё / Близкое / Весь каталог</b>:
-      они опираются на ответы опроса. Любой другой порядок делает список плоским, ничего при
-      этом не теряя. «По дате добавления» — в порядке пополнения каталога, сначала новые.</p>
-
     <h3>Избранное</h3>
-    <p>Звезда справа на карточке. Отмеченное живёт в этом браузере и переживает перезагрузку;
-      кнопка «Сбросить фильтры» и клик по логотипу его не трогают.</p>
+    <p>Звезда справа на карточке собирает личную подборку: то, к чему хочешь вернуться и с чего
+      думаешь начать. Подборка живёт в этом браузере и переживает перезагрузку, а «Сбросить
+      фильтры» и клик по логотипу её не трогают — фильтры сбрасываются, отмеченное остаётся.</p>
   </div>
 </div>
 
@@ -560,7 +566,7 @@ const S={
   qOff:new Set(),        /* ответы опроса, снятые руками — не фильтруют */
   folded:true,           /* панель фильтров свёрнута (важно только на телефоне) */
   fav:new Set(),         /* id отмеченных звездой — переживает перезагрузку */
-  favOnly:false,         /* показывать только избранное */
+  favPage:false,         /* открыта страница подборки */
   openNodes:new Set(),   /* раскрытые узлы дерева */
   openCards:new Set(),   /* раскрытые карточки — общие для всех видов */
   openDD:''              /* ключ раскрытого выпадающего списка ('' — все закрыты) */
@@ -672,7 +678,7 @@ function passes(c,skip){
 /* skip — фасет, который не учитываем: так считаются счётчики его же чипов */
 function rows(skip){
   const qs=tokens(S.q).map(stem);
-  return CASES.filter(c=>(!S.favOnly||S.fav.has(c.id))&&matchSearch(c,qs)&&passes(c,skip)&&passesSurvey(c));
+  return CASES.filter(c=>matchSearch(c,qs)&&passes(c,skip)&&passesSurvey(c));
 }
 /* План считается по всему каталогу, а не по текущей выдаче: если бы он зависел от
    фильтров и поиска, выбор фильтра мог бы отменить ответ опроса и внезапно расширить
@@ -787,6 +793,7 @@ function showCatalog(on){
   $('requizLine').classList.toggle('hide',!on);
 }
 function startQuiz(){
+  S.favPage=false;
   S.step=0;S.answered=false;S.mode='';S.role='';S.grp='';S.life='';S.task='';S.qOff.clear();
   showCatalog(false);
   renderQuiz();
@@ -801,6 +808,18 @@ function hl(text){
     const n=stem(norm(w.replace(/[^0-9a-zа-я]/gi,'')));
     return n&&qs.some(q=>tmatch(n,q))?`<mark>${w}</mark>`:w;
   }).join('');
+}
+function copyText(t){
+  try{
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t);return;}
+  }catch(err){}
+  try{
+    const ta=document.createElement('textarea');
+    ta.value=t;ta.setAttribute('readonly','');
+    ta.style.cssText='position:fixed;top:-999px;opacity:0';
+    document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');document.body.removeChild(ta);
+  }catch(err){}
 }
 function card(c){
   const roles=c.roles.length?c.roles.join(' · '):'';
@@ -823,6 +842,7 @@ function card(c){
         <dt>Риск ошибки</dt><dd>${esc(c.risk)}</dd>
       </dl></div>
     </div>
+    <button class="cp" data-cp="${c.id}" title="Скопировать название" aria-label="Скопировать название">⧉</button>
     <button class="star${S.fav.has(c.id)?' on':''}" data-star="${c.id}" title="В избранное">${S.fav.has(c.id)?'★':'☆'}</button>
   </div>`;
 }
@@ -843,9 +863,7 @@ function renderList(){
         <div class="cards">${groups[g].map(card).join('')}</div></div>`;
     });
   }
-  $('view-list').innerHTML=html||(S.favOnly
-    ? '<div class="empty">В избранном под этот запрос ничего нет. Сними фильтры или выключи «★ избранное».</div>'
-    : '<div class="empty">Под этот запрос ничего нет. Сотри поиск или сними фильтры.</div>');
+  $('view-list').innerHTML=html||'<div class="empty">Под этот запрос ничего нет. Сотри поиск или сними фильтры.</div>';
 }
 function renderTree(){
   const r=rows();
@@ -960,15 +978,35 @@ function renderQFilters(){
   $('qrow').innerHTML=html?`<span class="filt-lbl">из опроса</span>${html}`:'';
   $('qrow').classList.toggle('hide',!html);
 }
-/* Избранное: переключатель показывает только отмеченные звездой. */
+/* Подборка — не фильтр каталога, а отдельная страница: чип в шапке её открывает
+   и закрывает. Пока ничего не отмечено, чипа нет. */
 function renderFav(){
   const n=S.fav.size;
-  $('fav-slot').innerHTML=n
-    ? `<button class="chip fav${S.favOnly?' on':''}" id="favTgl">★ избранное<span class="c">${n}</span></button>`
+  $('fav-slot').innerHTML=(n||S.favPage)
+    ? `<button class="chip fav${S.favPage?' on':''}" id="favTgl">★ подборка<span class="c">${n}</span></button>`
     : '';
   /* слот живёт в шапке, вне делегата каталога — слушатель вешаем на месте */
   const t=$('favTgl');
-  if(t)t.addEventListener('click',()=>{S.favOnly=!S.favOnly;track('fav_only',{on:S.favOnly});save();render();});
+  if(t)t.addEventListener('click',()=>{S.favPage=!S.favPage;track('fav_page',{on:S.favPage});save();render();});
+}
+/* Порядок — в котором отмечали: подборка читается как личный список, а не как
+   ещё одна выдача каталога. */
+function renderFavPage(){
+  const ids=[...S.fav],by={};CASES.forEach(c=>by[c.id]=c);
+  const cs=ids.map(id=>by[id]).filter(Boolean);
+  $('favpage').innerHTML=`<div class="favhead">
+      <span class="kicker">ПОДБОРКА</span>
+      <h2>Твоя подборка</h2>
+      <p>${cs.length?`Здесь ${cs.length} ${plural(cs.length,'отмеченная идея','отмеченные идеи','отмеченных идей')} — то, к чему стоит вернуться. Подборка хранится в этом браузере: фильтры и сброс её не трогают. Звезда здесь же убирает идею из списка.`:'Пока пусто. Вернись в каталог и отметь звездой то, к чему захочешь вернуться — здесь соберётся личный список.'}</p>
+      <button class="mini" id="favBack">← В каталог</button>
+    </div>
+    ${cs.length?`<div class="cards">${cs.map(card).join('')}</div>`:''}`;
+}
+function plural(n,one,few,many){
+  const a=Math.abs(n)%100,b=a%10;
+  if(a>10&&a<20)return many;
+  if(b>1&&b<5)return few;
+  return b===1?one:many;
 }
 function renderSort(){
   const open=S.openDD==='__sort__',cur=SORT_BY_KEY[S.sort]||SORTS[0];
@@ -982,6 +1020,14 @@ function renderSort(){
 
 /* ============ сборка ============ */
 function render(){
+  /* Подборка занимает экран целиком: контролы каталога к ней не относятся. */
+  $('favpage').classList.toggle('hide',!S.favPage);
+  ['controls','tip','foot','view-list','view-tree','view-sell'].forEach(id=>{
+    if(S.favPage)$(id).classList.add('hide');
+  });
+  if(S.favPage){renderFavPage();renderFav();return;}
+  $('controls').classList.remove('hide');$('foot').classList.remove('hide');
+  setView(S.view);
   S._plan=surveyPlan(planBase());
   renderFilters();renderSort();renderQFilters();
   const r=rows();
@@ -1011,7 +1057,7 @@ function save(){
   try{localStorage.setItem(LS_KEY,JSON.stringify({
     visited:S.visited,answered:S.answered,mode:S.mode,role:S.role,grp:S.grp,life:S.life,task:S.task,
     view:S.view,sort:S.sort,sel:Object.fromEntries(FACETS.map(f=>[f.key,[...S.sel[f.key]]])),
-    fav:[...S.fav],favOnly:S.favOnly,qOff:[...S.qOff]
+    fav:[...S.fav],favPage:S.favPage,qOff:[...S.qOff]
   }));}catch(e){}
 }
 function restore(){
@@ -1024,7 +1070,7 @@ function restore(){
     FACETS.forEach(f=>((d.sel&&d.sel[f.key])||[]).forEach(v=>S.sel[f.key].add(v)));
     (d.qOff||[]).forEach(k=>S.qOff.add(k));
     (d.fav||[]).forEach(id=>S.fav.add(id));
-    S.favOnly=!!d.favOnly&&S.fav.size>0;
+    S.favPage=!!d.favPage&&S.fav.size>0;
     if(d.view)setView(d.view);
     return true;
   }catch(e){return false;}
@@ -1075,6 +1121,14 @@ $('catalog').addEventListener('click',e=>{
   if(qoff){
     S.qOff.add(qoff.dataset.qoff);track('survey_off',{key:qoff.dataset.qoff});save();render();return;
   }
+  const cp=e.target.closest('.cp[data-cp]');
+  if(cp){
+    const c=CASES.find(x=>x.id===cp.dataset.cp);
+    if(c){copyText(c.n);track('copy_title',{id:c.id});}
+    cp.classList.add('done');cp.textContent='✓';
+    setTimeout(()=>{cp.classList.remove('done');cp.textContent='⧉';},1100);
+    return;
+  }
   const star=e.target.closest('.star[data-star]');
   if(star){
     const id=star.dataset.star;
@@ -1089,6 +1143,11 @@ $('catalog').addEventListener('click',e=>{
     if(chip.classList.contains('pick')||set.has(v))set.delete(v);
     else{set.add(v);track('filter',{facet:chip.dataset.f,value:v});}
     save();render();return;
+  }
+  if(e.target.closest('#favBack')){
+    S.favPage=false;save();render();
+    try{window.scrollTo({top:0,behavior:'smooth'});}catch(err){}
+    return;
   }
   if(e.target.closest('#clearAll')){
     FACETS.forEach(f=>S.sel[f.key].clear());S.openDD='';save();render();return;
@@ -1139,7 +1198,7 @@ document.addEventListener('keydown',e=>{
 function resetAll(){
   FACETS.forEach(f=>S.sel[f.key].clear());
   S.q='';$('search').value='';
-  S.sort='match';S.openDD='';S.favOnly=false;S.openNodes.clear();
+  S.sort='match';S.openDD='';S.favPage=false;S.openNodes.clear();
   save();render();
 }
 $('resetAll').addEventListener('click',resetAll);
