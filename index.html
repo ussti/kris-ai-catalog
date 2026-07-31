@@ -3,15 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Где применить ИИ — каталог Kris</title>
+<title>Где применить ИИ — банк идей · kris.usti</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230D0D09'/%3E%3Crect x='18' y='18' width='28' height='28' rx='4' fill='%23E91E63'/%3E%3C/svg%3E">
 <style>
 :root{
   --accent:#E91E63;--accent-ink:#FFFFFF;--accent-2:#D4FF00;
   --font-sans:'Archivo','Segoe UI',system-ui,sans-serif;--font-mono:ui-monospace,'SF Mono','JetBrains Mono',monospace;
   --r-pill:99px;--r-card:14px;--r-md:10px;--r-sm:8px;
 }
-:root,:root.dark{--bg:#0D0D09;--surface:#15150F;--surface-2:#1E1E15;--surface-3:#26261B;--ink:#FAFAF7;--ink-soft:#C5C5BC;--muted:#8A8A80;--faint:#5C5C54;--line:#28281C;--line-2:#38382C;--grid:rgba(255,255,255,.04);--accent-soft:rgba(233,30,99,.14);--rail:rgba(255,255,255,.09);--rowhover:rgba(255,255,255,.035);}
-:root.light{--bg:#FBFBF8;--surface:#FFFFFF;--surface-2:#F3F1EA;--surface-3:#E9E6DC;--ink:#0A0A0A;--ink-soft:#3A3A36;--muted:#6A6A62;--faint:#9A9A90;--line:#E7E7E2;--line-2:#D5D5CD;--grid:rgba(0,0,0,.045);--accent-soft:rgba(233,30,99,.10);--rail:rgba(0,0,0,.12);--rowhover:rgba(0,0,0,.025);}
+:root,:root.dark{--bg:#0D0D09;--surface:#15150F;--surface-2:#1E1E15;--surface-3:#26261B;--ink:#FAFAF7;--ink-soft:#C5C5BC;--muted:#8A8A80;--faint:#5C5C54;--line:#28281C;--line-2:#38382C;--grid:rgba(255,255,255,.04);--accent-soft:rgba(233,30,99,.14);--lime-soft:rgba(212,255,0,.12);--rail:rgba(255,255,255,.09);--rowhover:rgba(255,255,255,.035);}
+:root.light{--bg:#FBFBF8;--surface:#FFFFFF;--surface-2:#F3F1EA;--surface-3:#E9E6DC;--ink:#0A0A0A;--ink-soft:#3A3A36;--muted:#6A6A62;--faint:#9A9A90;--line:#E7E7E2;--line-2:#D5D5CD;--grid:rgba(0,0,0,.045);--accent-soft:rgba(233,30,99,.10);--lime-soft:rgba(150,180,0,.14);--rail:rgba(0,0,0,.12);--rowhover:rgba(0,0,0,.025);}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 button{font-family:inherit;color:inherit}
 :focus{outline:none}
@@ -19,7 +20,8 @@ button{font-family:inherit;color:inherit}
 body{margin:0;color:var(--ink);background:var(--bg);font:15px/1.55 var(--font-sans);-webkit-font-smoothing:antialiased;background-image:radial-gradient(var(--grid) 1px,transparent 1px);background-size:24px 24px;}
 .wrap{max-width:980px;margin:0 auto;padding:26px 18px 90px}
 .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
-.eg-logo{font-weight:800;font-size:16px;display:inline-flex;align-items:center}
+.eg-logo{font-weight:800;font-size:16px;display:inline-flex;align-items:center;background:none;border:none;padding:0;cursor:pointer;font-family:inherit}
+.eg-logo:hover .l{color:var(--accent)}
 .eg-logo .sq{width:9px;height:9px;background:var(--accent);display:inline-block;margin:0 3px;border-radius:1px}
 .eg-logo .l{font-weight:500;color:var(--ink-soft)}
 .theme-ctl{display:flex;align-items:center;gap:9px;font:600 11px var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
@@ -27,15 +29,43 @@ body{margin:0;color:var(--ink);background:var(--bg);font:15px/1.55 var(--font-sa
 .toggle.on{background:var(--accent)}
 .toggle:after{content:"";position:absolute;top:3px;left:3px;width:21px;height:21px;border-radius:50%;background:#fff;transition:.2s}
 .toggle.on:after{left:24px}
+.topacts{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.topleft{display:flex;align-items:center;gap:10px}
+/* избранное в шапке держим ровно по высоте переключателя темы (27px) */
+.topacts .chip{height:27px;display:inline-flex;align-items:center;box-sizing:border-box;padding:0 12px}
+/* «пройти опрос заново» — строка под подзаголовком, не кнопка */
+.relink{margin:0 0 10px}
+.relink button{font:600 12.5px var(--font-sans);background:none;border:none;padding:0;cursor:pointer;color:var(--muted);border-bottom:1px solid var(--line-2)}
+.relink button:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.sub{font:600 13.5px var(--font-mono);letter-spacing:-.01em;color:var(--accent-2);margin:0 0 10px}
 .kicker{font:600 12px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);display:inline-flex;align-items:center;gap:9px}
 .kicker:before{content:"";width:11px;height:11px;background:var(--accent);border-radius:2px}
 h1{font-size:clamp(24px,5vw,34px);font-weight:900;letter-spacing:-.025em;line-height:1.08;margin:.3em 0 .16em}
 .lead{font-size:15px;color:var(--ink-soft);max-width:720px}
 .lead b{color:var(--ink)}
-.q5{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
-.q5 span{font:600 10.5px var(--font-mono);letter-spacing:.04em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line-2);border-radius:var(--r-pill);padding:4px 11px}
-.q5 span b{color:var(--accent)}
+.hide{display:none!important}
 
+/* ---- ОПРОС ---- */
+.quiz{margin-top:26px;border:1px solid var(--line);border-radius:var(--r-card);background:var(--surface);padding:22px 20px}
+.steps{display:flex;gap:6px;margin-bottom:16px}
+.steps i{height:3px;flex:1;background:var(--line-2);border-radius:2px}
+.steps i.on{background:var(--accent)}
+.qhead{font:600 10.5px var(--font-mono);letter-spacing:.09em;text-transform:uppercase;color:var(--faint)}
+.qtitle{font-size:clamp(19px,3.6vw,24px);font-weight:800;letter-spacing:-.02em;margin:6px 0 4px}
+.qhint{font-size:13.5px;color:var(--muted);margin-bottom:16px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{display:inline-flex;align-items:center;gap:9px;font:600 13.5px var(--font-sans);background:var(--surface-2);color:var(--ink);border:1px solid var(--line);border-radius:var(--r-md);padding:11px 14px;cursor:pointer;transition:.13s;text-align:left}
+.opt:hover{border-color:var(--accent);background:var(--rowhover)}
+.opt .cnt{font:600 11px var(--font-mono);color:var(--faint)}
+.opt.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.opt.on .cnt{color:var(--accent-ink);opacity:.75}
+.qnav{display:flex;align-items:center;gap:10px;margin-top:18px;flex-wrap:wrap}
+.btn{font:700 13px var(--font-sans);background:var(--accent);color:var(--accent-ink);border:1px solid var(--accent);border-radius:var(--r-md);padding:11px 18px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--muted);border-color:var(--line)}
+.btn.ghost:hover{color:var(--ink);border-color:var(--accent)}
+.btn.lime{background:var(--accent-2);color:#0A0A0A;border-color:var(--accent-2)}
+
+/* ---- КОНТРОЛЫ ---- */
 .controls{position:sticky;top:0;z-index:30;background:var(--bg);padding:14px 0 12px;border-bottom:1px solid var(--line);margin:20px 0 4px}
 .ctl-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .ctl-row+.ctl-row{margin-top:10px}
@@ -50,25 +80,126 @@ h1{font-size:clamp(24px,5vw,34px);font-weight:900;letter-spacing:-.025em;line-he
 .search input:focus{border-color:var(--accent)}
 .count{font:600 12px var(--font-mono);color:var(--faint);white-space:nowrap}
 .count b{color:var(--accent)}
-
-/* ---- FILTER CHIPS (вход: форма + ниша) ---- */
-.filt{margin-top:11px}
 .filt-lbl{font:600 9.5px var(--font-mono);letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin-right:3px;align-self:center}
-.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+/* ---- выпадающие фильтры ---- */
+.dds{display:flex;flex-wrap:wrap;gap:7px;align-items:center;flex:1}
+.dd{position:relative}
+.ddb{display:inline-flex;align-items:center;gap:7px;font:600 12px var(--font-sans);background:var(--surface-2);color:var(--ink-soft);border:1px solid var(--line);border-radius:var(--r-md);padding:8px 11px;cursor:pointer;transition:.13s;white-space:nowrap;max-width:250px}
+.ddb:hover{border-color:var(--line-2);color:var(--ink)}
+.ddb .k{font:600 9.5px var(--font-mono);letter-spacing:.07em;text-transform:uppercase;color:var(--faint)}
+.ddb .v{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ddb .ch{font-size:9px;color:var(--faint);margin-left:auto}
+.ddb.on{border-color:var(--accent);color:var(--ink)}
+.ddb.on .k{color:var(--accent)}
+.ddb.lime.on{border-color:var(--accent-2)}
+.ddb.lime.on .k{color:var(--accent-2)}
+.ddb.open{border-color:var(--line-2)}
+.ddm{position:absolute;z-index:60;top:calc(100% + 5px);left:0;min-width:230px;max-width:330px;max-height:330px;overflow:auto;background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-md);box-shadow:0 14px 38px rgba(0,0,0,.34);padding:5px}
+.ddm.right{left:auto;right:0}
+.ddi{display:flex;align-items:center;gap:9px;width:100%;font:500 12.5px var(--font-sans);background:transparent;color:var(--ink-soft);border:none;border-radius:6px;padding:7px 9px;cursor:pointer;text-align:left}
+.ddi:hover{background:var(--rowhover);color:var(--ink)}
+.ddi .bx{flex:none;width:13px;height:13px;border:1px solid var(--line-2);border-radius:3px;font:700 9px var(--font-mono);line-height:11px;text-align:center;color:transparent}
+.ddi.on .bx{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.ddi.lime.on .bx{background:var(--accent-2);border-color:var(--accent-2);color:#0A0A0A}
+.ddi .l{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ddi .c{font:600 10px var(--font-mono);color:var(--faint)}
+.ddi.off{opacity:.34;cursor:default}
+.ddi.off:hover{background:transparent}
+.ddi.clr{color:var(--muted);font:600 11px var(--font-mono);border-bottom:1px solid var(--line);border-radius:0;margin-bottom:4px;padding-bottom:9px}
+.ddi.clr.off{opacity:.34}
+.ddg{font:600 9.5px var(--font-mono);letter-spacing:.07em;text-transform:uppercase;color:var(--faint);padding:9px 9px 4px;position:sticky;top:0;background:var(--surface)}
+.ctl-row.filters{gap:8px;align-items:center}
+/* Вид — не фильтр, а переключение экрана: розовый и в рамке, чтобы не читался
+   как ещё один срез рядом с лаймовым «кому». */
+.seg.views{border-color:var(--line-2);background:var(--surface)}
+.seg.views button{letter-spacing:.06em;text-transform:uppercase;font-size:10.5px;padding:9px 14px}
+.seg.views button.on{background:var(--accent);color:#fff}
+/* Сортировка — тише фильтров: не кнопка со своим полем, а текстовый контрол. */
+#sort-slot .ddb{background:transparent;border-color:transparent;color:var(--muted);padding:8px 6px}
+#sort-slot .ddb:hover{color:var(--ink);border-color:transparent}
+#sort-slot .ddb.on{border-color:transparent}
+#sort-slot .ddb.on .k{color:var(--muted)}
+#sort-slot .ddb .v{border-bottom:1px dashed var(--line-2)}
+/* «кому» — переключатель, а не список: значений два, выбор всегда должен быть виден */
+/* Панель фильтров фиксирована по ширине: значение выбранного среза уезжает в чипы
+   ниже, иначе длинное название роли растягивает кнопку и вся строка прыгает. */
+.dds .ddb{width:170px;max-width:170px}
+.ftgl{display:none}
+.ftgl .c{font:600 10px var(--font-mono);color:var(--accent);margin-left:6px}
+/* Чипы ответов опроса: тот же вид, что и фильтры, но лаймовые — видно, что это
+   не выбранный руками срез, а следствие опроса. */
+.qrow .chip.qf{border-color:var(--accent-2);color:var(--ink)}
+.qrow .chip.qf .x{color:var(--accent-2)}
+.qrow .miss{font:500 11.5px var(--font-sans);color:var(--faint)}
+body.noscroll{overflow:hidden}
+
+/* ---- легенда ---- */
+.mini.ico{width:26px;padding:0;font:700 12px var(--font-mono);border-radius:50%}
+.modal{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px}
+.modal.hide{display:none}
+.modal-bg{position:absolute;inset:0;background:rgba(0,0,0,.62)}
+.modal-box{position:relative;max-width:640px;max-height:86vh;overflow:auto;background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-card);padding:26px 26px 30px;box-shadow:0 24px 60px rgba(0,0,0,.4)}
+.modal-box h2{font-size:22px;letter-spacing:-.02em;margin:6px 0 4px}
+.modal-box h3{font-size:13px;letter-spacing:-.01em;margin:20px 0 6px}
+.modal-box p{font-size:13px;line-height:1.6;color:var(--ink-soft);margin:6px 0}
+.modal-box ul{margin:6px 0;padding-left:18px;font-size:13px;line-height:1.6;color:var(--ink-soft)}
+.modal-box .warn{border-left:2px solid var(--accent);padding-left:11px;color:var(--muted);font-size:12.5px}
+dl.lg{display:grid;grid-template-columns:auto 1fr;gap:7px 14px;margin:8px 0;font-size:12.5px;line-height:1.55}
+dl.lg dt{font:600 10px var(--font-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--accent);white-space:nowrap;padding-top:2px}
+dl.lg dd{margin:0;color:var(--ink-soft)}
+.modal-x{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--faint);font-size:22px;line-height:1;cursor:pointer;padding:2px 6px}
+.modal-x:hover{color:var(--ink)}
+.picked{gap:6px}
 .chip{font:600 11.5px var(--font-sans);background:var(--surface-2);color:var(--ink-soft);border:1px solid var(--line);border-radius:var(--r-pill);padding:5px 12px;cursor:pointer;transition:.13s;white-space:nowrap}
 .chip:hover{border-color:var(--line-2);color:var(--ink)}
 .chip.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-.chip.forma.on{background:var(--accent-2);color:#0A0A0A;border-color:var(--accent-2)}
+.chip.lime.on{background:var(--accent-2);color:#0A0A0A;border-color:var(--accent-2)}
+.chip .x{margin-left:7px;opacity:.65;font:600 12px var(--font-mono)}
+.chip .c{font:600 10px var(--font-mono);color:var(--faint);margin-left:6px}
+.chip.on .c{color:var(--accent-ink);opacity:.75}
+.chip.lime.on .c{color:#0A0A0A}
+.chip[disabled]{opacity:.32;cursor:default}
+.chip.fav.on{background:var(--accent-2);color:#0A0A0A;border-color:var(--accent-2)}
 
+/* ---- ВЫДАЧА ---- */
 .view{margin-top:18px}
-.hide{display:none}
-.empty{padding:40px 16px;text-align:center;color:var(--muted);font:600 13px var(--font-mono);border:1px dashed var(--line-2);border-radius:var(--r-card)}
+.band{margin-top:22px}
+.band-h{display:flex;align-items:baseline;gap:10px;margin-bottom:9px}
+.band-h .t{font:800 13px var(--font-sans);letter-spacing:-.01em}
+.band-h .n{font:600 11px var(--font-mono);color:var(--faint)}
+.band.own .band-h .t{color:var(--accent)}
+.band.near .band-h .t{color:var(--ink-soft)}
+.band.rest .band-h .t{color:var(--muted)}
+.cards{display:flex;flex-direction:column;gap:7px}
+.card{display:flex;align-items:flex-start;gap:11px;padding:12px 14px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--surface);cursor:pointer;transition:border-color .15s,background .15s}
+.card:hover{background:var(--rowhover);border-color:var(--line-2)}
+.card.on{border-color:var(--accent);background:var(--accent-soft)}
+.card .dot{flex:none;width:14px;color:var(--faint);text-align:center;font-size:9px;margin-top:3px}
+.band.own .card .dot{color:var(--accent)}
+.card .cl{flex:1;min-width:0}
+.cn{font-weight:700;font-size:14px;line-height:1.35}
+.cn mark{background:var(--lime-soft);color:inherit;border-radius:3px;padding:0 2px}
+.facets{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.pin{font:600 9.5px var(--font-mono);padding:2px 8px;border-radius:var(--r-pill);background:var(--surface-3);color:var(--muted);white-space:nowrap}
+.pin.sph{background:var(--accent-soft);color:var(--accent)}
+.pin.task{background:transparent;border:1px solid var(--line-2);color:var(--ink-soft)}
+.pin.tool{background:transparent;border:1px dashed var(--faint);color:var(--faint)}
+.pin.uni{background:var(--lime-soft);color:var(--ink)}
+/* Звезда — основная цель тапа на карточке: 34×34, не 15px глиф */
+.star{flex:none;background:none;border:none;cursor:pointer;font-size:20px;line-height:1;width:34px;height:34px;margin:-6px -8px -6px 0;color:var(--faint);transition:.13s}
+.star:hover{color:var(--accent-2)}
+.star.on{color:var(--accent-2)}
+.det{display:none;margin-top:9px;padding-top:9px;border-top:1px dashed var(--line-2);font-size:12.5px;color:var(--ink-soft)}
+.det .why{margin-top:8px;font-size:11.5px;color:var(--muted)}
+.det .why b{color:var(--ink-soft)}
+.card.on .det{display:block}
+.det dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0}
+.det dt{font:600 10px var(--font-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
+.det dd{margin:0}
 
-/* ---- TREE ---- */
+/* ---- ДЕРЕВО ---- */
 .tree{display:flex;flex-direction:column;gap:7px}
-.nbtn{display:flex;align-items:center;gap:11px;width:100%;text-align:left;cursor:pointer;
-  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);
-  padding:13px 15px;font:inherit;color:var(--ink);transition:border-color .15s,background .15s}
+.nbtn{display:flex;align-items:center;gap:11px;width:100%;text-align:left;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:13px 15px;font:inherit;color:var(--ink);transition:border-color .15s,background .15s}
 .nbtn:hover{background:var(--rowhover);border-color:var(--line-2)}
 .node.open>.nbtn{border-color:var(--accent);background:var(--accent-soft)}
 .chev{flex:none;width:14px;color:var(--muted);font-size:11px;transition:transform .18s ease}
@@ -76,342 +207,977 @@ h1{font-size:clamp(24px,5vw,34px);font-weight:900;letter-spacing:-.025em;line-he
 .nlabel{font-weight:700;font-size:15px;letter-spacing:-.01em}
 .node.open>.nbtn .nlabel{color:var(--accent)}
 .ncount{margin-left:auto;font:600 11.5px var(--font-mono);color:var(--faint);white-space:nowrap;flex:none}
-.leaf-dot{flex:none;width:14px;color:var(--faint);text-align:center;font-size:9px}
 .kids{display:grid;grid-template-rows:0fr;transition:grid-template-rows .22s ease;padding-left:16px;margin-left:14px;border-left:1px solid var(--rail)}
 .node.open>.kids{grid-template-rows:1fr}
 .kids-in{overflow:hidden;min-height:0;display:flex;flex-direction:column;gap:6px;padding-top:7px}
 .d2 .nbtn{background:var(--surface-2);padding:11px 14px}
 .d2 .nlabel{font-size:14px}
 .tag-lvl{font:600 8.5px var(--font-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:var(--r-pill);padding:2px 7px;flex:none}
-.case{display:flex;align-items:flex-start;gap:11px;padding:9px 13px;border:1px dashed var(--line);border-radius:var(--r-sm);background:var(--surface)}
-.case .cl{flex:1;min-width:0}
-.case .cn{font-weight:700;font-size:13px;color:var(--ink)}
-.facets{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
-.pin{font:600 9.5px var(--font-mono);padding:2px 8px;border-radius:var(--r-pill);background:var(--surface-3);color:var(--muted);white-space:nowrap}
-.pin.fmt{background:var(--accent-soft);color:var(--accent)}
-.pin.frm{background:transparent;border:1px solid var(--line-2);color:var(--ink-soft)}
-.pin.tool{background:transparent;border:1px dashed var(--faint);color:var(--faint)}
 
-/* ---- MATRIX ---- */
+/* ---- МАТРИЦА ---- */
 .mx-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
 .mx-head .lbl{font:600 10.5px var(--font-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .mx-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-card);background:var(--surface)}
-table{border-collapse:collapse;width:100%;min-width:640px;font-size:12.5px}
-th,td{border:1px solid var(--line);padding:10px 12px;text-align:center}
-thead th{background:var(--surface-2);font:700 11px var(--font-mono);color:var(--ink-soft);position:sticky;top:0}
+table{border-collapse:collapse;width:100%;min-width:680px;font-size:12.5px}
+th,td{border:1px solid var(--line);padding:9px 11px;text-align:center}
+thead th{background:var(--surface-2);font:700 10.5px var(--font-mono);color:var(--ink-soft);position:sticky;top:0}
 tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);background:var(--surface-2);white-space:nowrap}
 .cell-on{color:var(--accent);font-weight:800}
 .cell-off{color:var(--faint)}
 .corner{background:var(--surface)!important;color:var(--muted)!important;font:700 9.5px var(--font-mono)!important;text-transform:uppercase;text-align:left!important}
 
+.empty{padding:40px 16px;text-align:center;color:var(--muted);font:600 13px var(--font-mono);border:1px dashed var(--line-2);border-radius:var(--r-card)}
 .note{margin-top:22px;padding:14px 17px;border:1px dashed var(--line-2);border-radius:var(--r-card);background:var(--surface-2);font-size:12.5px;color:var(--ink-soft)}
 .note b{color:var(--ink)}
 .foot{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font:12px/1.6 var(--font-mono)}
+
+/* ---- CTA ---- */
+.cta{margin-top:30px;border:1px solid var(--accent);border-radius:var(--r-card);background:var(--surface);padding:24px 22px}
+.cta .kicker{margin-bottom:10px}
+.cta h2{font-size:clamp(20px,4.2vw,27px);font-weight:900;letter-spacing:-.025em;line-height:1.12;margin:0 0 10px}
+.cta p{margin:0 0 12px;font-size:14px;color:var(--ink-soft);max-width:640px}
+.cta ul{margin:0 0 16px;padding-left:18px;font-size:13.5px;color:var(--ink-soft)}
+.cta li{margin-bottom:5px}
+.cta .acts{display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+.cta .btn{text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+
+/* ---- ПОДВАЛ ---- */
+.site-foot{margin-top:34px;padding-top:20px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:flex-start}
+.site-foot .who{font-size:13px;color:var(--ink-soft);max-width:430px}
+.site-foot .who b{color:var(--ink)}
+.socials{display:flex;flex-wrap:wrap;gap:8px}
+.socials a{font:600 12px var(--font-mono);text-decoration:none;color:var(--ink-soft);border:1px solid var(--line);border-radius:var(--r-md);padding:8px 12px;transition:.13s}
+.socials a:hover{border-color:var(--accent);color:var(--ink)}
+.fineprint{margin-top:14px;font:11px/1.55 var(--font-mono);color:var(--faint);max-width:640px}
+
+/* ---- МОБИЛЬНАЯ ВЁРСТКА ---- */
+@media (max-width:720px){
+  .wrap{padding:18px 13px 70px}
+  .controls{padding:10px 0 9px;margin:16px 0 2px}
+  .ctl-row{gap:7px}
+  .ctl-row+.ctl-row{margin-top:8px}
+  .filt-lbl{display:none}
+  /* фильтры: переключатель во всю ширину, под ним сетка кнопок 2×2 — тапабельно
+     и без горизонтальной прокрутки, которая на телефоне читается как обрыв */
+  /* на телефоне панель фильтров по умолчанию свёрнута — экран отдан карточкам */
+  .ftgl{display:inline-flex;align-items:center}
+  .controls.folded #filt-panel,.controls.folded #search-row{display:none}
+  .ctl-row.filters{flex-direction:column;align-items:stretch;gap:7px}
+  .dds .ddb{width:auto;max-width:none}
+  .dds{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+  .ddb{width:100%;justify-content:flex-start}
+  .ddb .k{display:block}
+  .ddb .v{font-size:11.5px}
+  .modal{padding:0;align-items:flex-end}
+  .modal-box{max-width:none;width:100%;max-height:92vh;border-radius:var(--r-card) var(--r-card) 0 0;padding:22px 17px 28px}
+  dl.lg{grid-template-columns:1fr;gap:2px}
+  dl.lg dt{margin-top:9px}
+  .seg{width:100%;overflow-x:auto}
+  .seg button{flex:1;padding:9px 11px;font-size:11.5px;white-space:nowrap}
+  .spacer{display:none}
+  #sort-slot,#sort-slot .dd{width:100%}
+  #sort-slot .ddb{width:100%}
+  .count{order:-1}
+  .ddb{max-width:100%;padding:9px 11px}
+  .dd{position:static}
+  .ddm{position:absolute;left:13px;right:13px;min-width:0;max-width:none;width:auto}
+  .ddm.right{left:13px;right:13px}
+  .search input{min-width:0;width:100%}
+  .quiz{padding:18px 15px}
+  .opt{width:100%;justify-content:space-between}
+  .card{padding:11px 12px;gap:9px}
+  .cn{font-size:13.5px}
+  .det dl{grid-template-columns:1fr;gap:1px 0}
+  .det dt{margin-top:7px}
+  .band-h{flex-wrap:wrap;gap:4px}
+  .band-h .n{width:100%}
+  .cta{padding:19px 16px}
+  .cta .btn{width:100%;justify-content:center}
+  .site-foot{gap:14px}
+  .socials a{padding:9px 11px}
+}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="topbar">
-    <span class="eg-logo">kris<span class="sq"></span><span class="l">где применить ИИ</span></span>
-    <div class="theme-ctl"><span>тема</span><button class="toggle on" id="themeToggle" aria-label="theme"></button></div>
+    <div class="topleft">
+      <button class="eg-logo" id="logo" title="Сбросить всё: фильтры, поиск, порядок"><span class="sq"></span>kris.usti<span class="l">&nbsp;· где применить ИИ</span></button>
+      <button class="mini ico" id="legendBtn" title="Как читать каталог">i</button>
+    </div>
+    <div class="topacts">
+      <span id="fav-slot"></span>
+      <div class="theme-ctl"><span>тема</span><button class="toggle on" id="themeToggle" aria-label="тема"></button></div>
+    </div>
   </div>
 
   <header>
-    <span class="kicker">КАТАЛОГ · ВХОД ОТ ПЕРСОНЫ</span>
+    <span class="kicker">БАНК ИДЕЙ</span>
     <h1>Где применить ИИ</h1>
-    <p class="lead">Заходишь как <b>ты</b> — мастер, наёмный сотрудник, эксперт, владелец бизнеса — и сразу видишь, где применить. Выбери <b>форму</b> и <b>нишу</b> сверху: каталог отфильтруется под тебя.</p>
-    <div class="q5">
-      <span><b>КОМУ</b> · форма + ниша</span>
-      <span><b>ГДЕ</b> · сфера</span>
-      <span><b>ЧТО</b> · под-направление</span>
-      <span><b>В КАКОМ ВИДЕ</b> · формат</span>
-      <span><b>ПРИМЕРЫ</b> · кейсы</span>
-    </div>
+    <p class="sub" id="sub"></p>
+    <p class="relink hide" id="requizLine"><button id="requiz">Пройти опрос заново</button></p>
+    <p class="lead">Каталог того, <b>что вообще можно сделать</b> с ИИ — в работе и в жизни. Ответь на три вопроса — и наверху окажется то, что ближе к твоим задачам. Ничего не исчезает: весь каталог остаётся под рукой.</p>
   </header>
 
-  <div class="controls">
-    <div class="ctl-row">
-      <div class="seg" id="seg-view">
-        <button data-v="tree" class="on">Каталог</button>
-        <button data-v="persona">От персоны</button>
-        <button data-v="matrix">Матрица</button>
-      </div>
+  <!-- ОПРОС -->
+  <section class="quiz" id="quiz">
+    <div class="steps" id="steps"></div>
+    <div class="qhead" id="qhead"></div>
+    <div class="qtitle" id="qtitle"></div>
+    <div class="qhint" id="qhint"></div>
+    <div class="opts" id="qopts"></div>
+    <div class="qnav">
+      <button class="btn ghost hide" id="qback">Назад</button>
+      <button class="btn ghost" id="qskip">Пропустить опрос</button>
       <div class="spacer"></div>
-      <span class="count" id="count"></span>
-      <button class="mini" id="resetAll">Сбросить</button>
+      <span class="count" id="qpreview"></span>
     </div>
-    <div class="ctl-row filt">
-      <span class="filt-lbl">форма</span>
-      <div class="chips" id="chips-forma"></div>
-    </div>
-    <div class="ctl-row filt">
-      <span class="filt-lbl">ниша</span>
-      <div class="chips" id="chips-niche"></div>
-    </div>
-    <div class="ctl-row search">
-      <input type="text" id="search" placeholder="Поиск: пост, лендинг, звонки, договор, кэш…">
-    </div>
-  </div>
+  </section>
 
-  <div class="view" id="view-tree"></div>
-
-  <div class="view hide" id="view-persona">
-    <div class="mx-head">
-      <span class="lbl">Смотреть от:</span>
-      <div class="seg" id="seg-persona">
-        <button data-p="niche" class="on">Ниша</button>
-        <button data-p="forma">Форма</button>
-        <button data-p="fmt">Формат</button>
-        <button data-p="tool">Инструмент</button>
+  <!-- КАТАЛОГ -->
+  <section id="catalog" class="hide">
+    <div class="controls folded" id="controls">
+      <div class="ctl-row top">
+        <div class="seg views" id="seg-view">
+          <button data-v="list" class="on">Список</button>
+          <button data-v="tree">По направлениям</button>
+          <button data-v="sell" class="hide" id="btn-sell">Что продавать</button>
+        </div>
+        <button class="mini ftgl" id="filtToggle">Фильтры<span class="c" id="ftglN"></span></button>
+        <div class="spacer"></div>
+        <span class="count" id="count"></span>
+        <div id="sort-slot"></div>
+        <button class="mini" id="resetAll">Сбросить фильтры</button>
       </div>
-    </div>
-    <div id="persona-body" class="tree"></div>
-    <div class="note"><b>Обратный вход.</b> Те же кейсы, сгруппированы «от метки». Тапни свою нишу или форму — увидишь ровно свои применения.</div>
-  </div>
-
-  <div class="view hide" id="view-matrix">
-    <div class="mx-head">
-      <span class="lbl">Колонки:</span>
-      <div class="seg" id="seg-axis">
-        <button data-a="niche" class="on">Ниши</button>
-        <button data-a="forma">Формы</button>
+      <div class="ctl-row filters" id="filt-panel">
+        <div class="dds" id="facet-rows"></div>
       </div>
+      <div class="ctl-row search" id="search-row">
+        <input type="text" id="search" placeholder="Поиск: воронка, отчёт, ремонт, питание, договор…">
+      </div>
+      <div class="ctl-row qrow hide" id="qrow"></div>
+      <div class="ctl-row picked hide" id="picked"></div>
     </div>
-    <div class="mx-wrap"><table id="mx-table"></table></div>
-    <div class="note"><b>Обзор покрытия.</b> «●» — есть применение сферы в этой нише/форме. Быстро видно, где ИИ заходит именно тебе.</div>
-  </div>
 
-  <div class="foot" id="foot"></div>
+    <div class="view" id="view-list"></div>
+
+    <div class="view hide" id="view-tree"></div>
+
+    <div class="view hide" id="view-sell">
+      <div class="mx-wrap"><table id="sell-table"></table></div>
+      <div class="note"><b>Внутренний срез.</b> Сколько идей в каждой сфере тянут на услугу под ключ, на цифровой продукт и на внутреннюю интеграцию. Виден только по ссылке с «#kris».</div>
+    </div>
+
+    <div class="note" id="tip"></div>
+    <div class="foot" id="foot"></div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="cta">
+    <span class="kicker">ДАЛЬШЕ</span>
+    <h2>Со мной внедришь ИИ</h2>
+    <p>Давай вместе доведём идею из каталога до результата — в твоём контуре задач.</p>
+    <ul>
+      <li>★ Разберём твою идею и переложим на твои процессы</li>
+      <li>★ Подготовим рабочую среду: делаем один раз — дальше масштабируешь на другие проекты и задачи</li>
+      <li>★ Оцифруем твою экспертизу и передадим её агенту</li>
+      <li>★ Соберём продукт или автоматизацию</li>
+    </ul>
+    <p class="soft">Напиши мне — разберём твой кейс подробнее.</p>
+    <div class="acts">
+      <a class="btn" href="https://t.me/ussti" target="_blank" rel="noopener">Написать мне →</a>
+      <a class="btn ghost" href="https://t.me/ustikris" target="_blank" rel="noopener">Telegram-канал</a>
+      <a class="btn ghost" href="https://www.instagram.com/kris.usti" target="_blank" rel="noopener">Instagram*</a>
+    </div>
+  </section>
+
+  <!-- CTA: сообщество -->
+  <section class="cta soft-cta" id="cta-community">
+    <span class="kicker">СООБЩЕСТВО</span>
+    <h2>Ускорю твой старт в ИИ</h2>
+    <p>Если пока не до внедрения, а хочется просто начать — заходи туда, где я показываю всё это
+      на живых примерах: что я сама собрала, что сломалось, что из этого стоит повторить.</p>
+    <div class="acts">
+      <a class="btn" href="https://t.me/+wzxytsl7dlYxMWU6" target="_blank" rel="noopener">Сообщество в Telegram →</a>
+      <a class="btn ghost" href="https://www.instagram.com/kris.usti" target="_blank" rel="noopener">Instagram*</a>
+    </div>
+  </section>
+
+  <!-- ПОДВАЛ -->
+  <footer class="site-foot">
+    <div class="socials">
+      <a href="https://t.me/+wzxytsl7dlYxMWU6" target="_blank" rel="noopener">Сообщество</a>
+      <a href="https://t.me/ustikris" target="_blank" rel="noopener">Telegram-канал</a>
+      <a href="https://www.instagram.com/kris.usti" target="_blank" rel="noopener">Instagram*</a>
+    </div>
+  </footer>
+  <div class="fineprint">
+    * Instagram принадлежит компании Meta, признанной в РФ экстремистской организацией; её деятельность на территории России запрещена.
+  </div>
+</div>
+
+<!-- ЛЕГЕНДА -->
+<div class="modal hide" id="legend">
+  <div class="modal-bg" data-close="1"></div>
+  <div class="modal-box" role="dialog" aria-label="Как читать каталог">
+    <button class="modal-x" data-close="1" aria-label="Закрыть">×</button>
+    <span class="kicker">ЛЕГЕНДА</span>
+    <h2>Как читать каталог</h2>
+    <h3>Что это</h3>
+    <p>Банк идей: что <b>вообще можно</b> сделать с ИИ — в работе и в жизни. Инструкций здесь нет,
+      есть сам кейс и метки, по которым его можно найти. Каталог ничего не прячет: опрос и фильтры
+      меняют порядок и сужают выдачу, но полный список всегда в одном клике.</p>
+
+    <h3>Как устроен порядок</h3>
+    <p>Сверху — идеи под твои ответы, дальше соседние, в самом низу остальной каталог.
+      Тапни карточку — раскроется, кому это, что нужно на входе и чем рискуешь.
+      Звезда справа кладёт идею в избранное.</p>
+
+    <h3>Метки на карточке</h3>
+    <dl class="lg">
+      <dt>Направление</dt><dd>Крупный срез каталога: 7 областей, кейс попадает ровно в одну.</dd>
+      <dt>Тема</dt><dd>Более узкий срез внутри направления.</dd>
+      <dt>Что сделать</dt><dd>Тип задачи: написать, проанализировать, автоматизировать и так далее.</dd>
+      <dt>Инструмент</dt><dd>Чем это делается — чат-модель, база знаний, таблицы, автоматизация, сборка приложения.</dd>
+      <dt>Вход</dt><dd>Сколько работы до первого результата. Три значения, ниже разобраны.</dd>
+      <dt>Риск ошибки</dt><dd>Низкий, средний или высокий — насколько дорого обойдётся, если ИИ ошибётся и это не заметят.</dd>
+    </dl>
+
+    <h3>Вход: в чате сразу · нужна настройка · нужна сборка</h3>
+    <ul>
+      <li><b>В чате сразу</b> — открыл модель, написал запрос, получил результат.</li>
+      <li><b>Нужна настройка</b> — один раз собираешь инструмент под себя: подключаешь свои
+        документы, таблицы, шаблоны. Дальше он работает сам.</li>
+      <li><b>Нужна сборка</b> — связать несколько частей, дать доступ к данным и запустить
+        по событию. Либо самому разобраться, либо с чьей-то помощью.</li>
+    </ul>
+    <p class="warn">Читай метку как ориентир, а не как приговор: граница между настройкой
+      и сборкой у каждого своя и зависит от того, что уже настроено вокруг.</p>
+
+    <h3>Кому: подойдёт любому · под конкретную роль</h3>
+    <p><b>Подойдёт любому</b> — идеи, которые ложатся на любую работу. <b>Под конкретную роль</b> —
+      привязанные к маркетологу, бухгалтеру, врачу и так далее. Кейс не бывает одновременно
+      и там, и там. В личной ветке каталога этот фильтр не нужен и скрыт.</p>
+
+    <h3>Ответы опроса</h3>
+    <p>Три ответа висят чипами над списком: видно, чем сужен каталог, и каждый снимается по тапу.
+      «Пройти опрос заново» под заголовком сбрасывает все. Ответ, после которого осталось бы
+      меньше 8 идей, не применяется — под ним написано, какой именно пропущен.</p>
+
+    <h3>Порядок и полки</h3>
+    <p>«По совпадению» — единственный порядок с полками <b>Твоё / Близкое / Весь каталог</b>:
+      они опираются на ответы опроса. Любой другой порядок делает список плоским, ничего при
+      этом не теряя. «По дате добавления» — в порядке пополнения каталога, сначала новые.</p>
+
+    <h3>Избранное</h3>
+    <p>Звезда справа на карточке. Отмеченное живёт в этом браузере и переживает перезагрузку;
+      кнопка «Сбросить фильтры» и клик по логотипу его не трогают.</p>
+  </div>
 </div>
 
 <script>
-/* ================= ДАННЫЕ =================
-   Спина каталога: sph (сфера) -> sub (под-направление) -> кейс.
-   Теги на кейсе: fmt (формат) · niche[] (ниша/род) · forma[] (форма/масштаб) · tool.
-   forma: сотрудник · соло · малый · стартап · крупный(=B2B)
-   niche: услуги · торговля · HoReCa · эксперт · агентство · проф-услуги · производство · IT · личное
-*/
-const SPHERES=['Контент','Маркетинг','Продажи','Сервис','Ресёрч и аналитика','Документооборот','Операции','Личный ассистент','Обучение','HR','Финансы'];
-const FORMAS=['сотрудник','соло','малый','стартап','крупный'];
-const NICHES=['услуги','торговля','HoReCa','эксперт','агентство','проф-услуги','производство','IT','личное'];
-const FORMA_LABEL={'сотрудник':'наёмный сотрудник','соло':'соло / самозанятый','малый':'малый бизнес','стартап':'стартап','крупный':'крупный / B2B'};
-const NICHE_LABEL={'услуги':'услуги (мастер)','торговля':'торговля / e-com','HoReCa':'HoReCa','эксперт':'эксперт / образование','агентство':'агентство / студия','проф-услуги':'проф-услуги (юр/бух)','производство':'производство','IT':'IT / диджитал','личное':'личное / для себя'};
+const CATALOG={"cases":[{"id":"AI-0001","n":"Автоворонка найма с тестами и квизами до разговора","sph":"HR и команда","grp":"Работа и процессы","topic":"Воронки и лиды","life":"","task":["Консультация и поддержка"],"roles":["Предприниматель / руководитель","HR / рекрутер"],"ind":["HR и рекрутинг"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт"]},{"id":"AI-0002","n":"Создание HR-воронки от вакансии до адаптации","sph":"HR и команда","grp":"Работа и процессы","topic":"Воронки и лиды","life":"","task":["Создание"],"roles":["Предприниматель / руководитель","HR / рекрутер"],"ind":["HR и рекрутинг"],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"средний","pack":["Шаблон / промпт","Услуга под ключ","Цифровой продукт / клиентский сервис"]},{"id":"AI-0003","n":"Подготовка к собеседованию","sph":"HR и команда","grp":"Работа и процессы","topic":"Найм и адаптация","life":"Учёба, языки, карьера","task":["Создание"],"roles":["HR / рекрутер"],"ind":["HR и рекрутинг"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0004","n":"Создание и адаптация резюме","sph":"HR и команда","grp":"Работа и процессы","topic":"Найм и адаптация","life":"Учёба, языки, карьера","task":["Создание"],"roles":[],"ind":[],"mode":["личное"],"uni":true,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"средний","pack":["Шаблон / промпт","Услуга под ключ","Цифровой продукт / клиентский сервис"]},{"id":"AI-0005","n":"Написание сопроводительных писем","sph":"HR и команда","grp":"Работа и процессы","topic":"Управление командой","life":"","task":["Создание"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0006","n":"Сводка обратной связи по сотруднику","sph":"HR и команда","grp":"Работа и процессы","topic":"Управление командой","life":"","task":["Консультация и поддержка"],"roles":["HR / рекрутер"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Сборка приложения (Claude Code / Lovable)","lvl":"нужна сборка","risk":"средний","pack":["Шаблон / промпт","Внутренний инструмент / интеграция"]},{"id":"AI-0007","n":"Скрининг откликов по критериям","sph":"HR и команда","grp":"Работа и процессы","topic":"Управление командой","life":"","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт"]},{"id":"AI-0008","n":"Визуализация кодовой базы в HTML","sph":"IT и разработка","grp":"Продукт и технологии","topic":"Разработка и данные","life":"","task":["Консультация и поддержка"],"roles":["Разработчик / IT-специалист"],"ind":["IT и разработка"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0009","n":"Консультации по вопросам IT и технологий","sph":"IT и разработка","grp":"Продукт и технологии","topic":"Разработка и данные","life":"","task":["Коммуникация"],"roles":["Эксперт / консультант / коуч","Разработчик / IT-специалист"],"ind":["IT и разработка","Профессиональные услуги"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0010","n":"Подготовка технического задания","sph":"IT и разработка","grp":"Продукт и технологии","topic":"Разработка и данные","life":"","task":["Создание"],"roles":["Разработчик / IT-специалист"],"ind":["IT и разработка"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0011","n":"Автоматическое заполнение документов и бланков","sph":"Документы, право и комплаенс","grp":"Работа и процессы","topic":"Документы и договоры","life":"","task":["Автоматизация"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Автоматизация (n8n / Make)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Внутренний инструмент / интеграция"]},{"id":"AI-0012","n":"Подготовка отчетов и документов","sph":"Документы, право и комплаенс","grp":"Работа и процессы","topic":"Документы и договоры","life":"","task":["Создание"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Сборка приложения (Claude Code / Lovable)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ","Внутренний инструмент / интеграция"]},{"id":"AI-0013","n":"Шаблонные документы и отчеты из структурированных данных","sph":"Документы, право и комплаенс","grp":"Работа и процессы","topic":"Документы и договоры","life":"","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Сборка приложения (Claude Code / Lovable)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Внутренний инструмент / интеграция"]},{"id":"AI-0014","n":"Автоматизация обработки заявок, документов и клиентских запросов","sph":"Документы, право и комплаенс","grp":"Работа и процессы","topic":"Клиентская поддержка","life":"","task":["Автоматизация"],"roles":["Администратор / операционный менеджер"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна сборка","risk":"средний","pack":["Шаблон / промпт","Внутренний инструмент / интеграция","Цифровой продукт / клиентский сервис"]},{"id":"AI-0015","n":"Помощник по страховым обращениям и полисам","sph":"Документы, право и комплаенс","grp":"Работа и процессы","topic":"Клиентская поддержка","life":"","task":["Консультация и поддержка"],"roles":["Юрист / страховой специалист"],"ind":["Страхование"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт"]},{"id":"AI-0016","n":"Договор или акт из шаблона и данных","sph":"Документы, право и комплаенс","grp":"Работа и процессы","topic":"Право и страхование","life":"","task":["Консультация и поддержка"],"roles":["Юрист / страховой специалист"],"ind":["Юридические услуги"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт"]},{"id":"AI-0017","n":"Подготовка претензии для досудебного спора","sph":"Документы, право и комплаенс","grp":"Работа и процессы","topic":"Право и страхование","life":"","task":["Создание"],"roles":["Юрист / страховой специалист"],"ind":["Юридические услуги"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0018","n":"Юридический информационный помощник","sph":"Документы, право и комплаенс","grp":"Работа и процессы","topic":"Право и страхование","life":"","task":["Консультация и поддержка"],"roles":["Юрист / страховой специалист"],"ind":["Юридические услуги"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт"]},{"id":"AI-0019","n":"Контроль техники упражнений в тренажерном зале","sph":"Здоровье и wellbeing","grp":"Жизнь, дом и здоровье","topic":"Самочувствие и привычки","life":"Здоровье и тело","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["личное"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт"]},{"id":"AI-0020","n":"Персональные рекомендации по улучшению сна","sph":"Здоровье и wellbeing","grp":"Жизнь, дом и здоровье","topic":"Самочувствие и привычки","life":"Здоровье и тело","task":["Поиск и рекомендации"],"roles":["Медицинский / wellness-специалист"],"ind":["Здравоохранение и wellness"],"mode":["личное"],"uni":false,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт"]},{"id":"AI-0021","n":"Персональный помощник по здоровому образу жизни","sph":"Здоровье и wellbeing","grp":"Жизнь, дом и здоровье","topic":"Самочувствие и привычки","life":"Здоровье и тело","task":["Консультация и поддержка"],"roles":["Медицинский / wellness-специалист"],"ind":["Здравоохранение и wellness"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт"]},{"id":"AI-0022","n":"График профилактических медицинских осмотров","sph":"Здоровье и wellbeing","grp":"Жизнь, дом и здоровье","topic":"Здоровье и врачи","life":"Здоровье и тело","task":["Консультация и поддержка"],"roles":["Медицинский / wellness-специалист"],"ind":["Здравоохранение и wellness"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт"]},{"id":"AI-0023","n":"Единый архив медицинских осмотров","sph":"Здоровье и wellbeing","grp":"Жизнь, дом и здоровье","topic":"Здоровье и врачи","life":"Здоровье и тело","task":["Консультация и поддержка"],"roles":["Медицинский / wellness-специалист"],"ind":["Здравоохранение и wellness"],"mode":["личное"],"uni":false,"tool":"База знаний (NotebookLM)","lvl":"нужна настройка","risk":"высокий","pack":["Шаблон / промпт","Внутренний инструмент / интеграция"]},{"id":"AI-0024","n":"Предварительный разбор симптомов перед визитом к врачу","sph":"Здоровье и wellbeing","grp":"Жизнь, дом и здоровье","topic":"Здоровье и врачи","life":"Здоровье и тело","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["личное"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт"]},{"id":"AI-0025","n":"Расшифровка медицинских анализов","sph":"Здоровье и wellbeing","grp":"Жизнь, дом и здоровье","topic":"Здоровье и врачи","life":"Здоровье и тело","task":["Анализ"],"roles":["Медицинский / wellness-специалист"],"ind":["Здравоохранение и wellness"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0026","n":"Справочник по лекарствам и напоминания о приеме","sph":"Здоровье и wellbeing","grp":"Жизнь, дом и здоровье","topic":"Здоровье и врачи","life":"Здоровье и тело","task":["Автоматизация"],"roles":[],"ind":[],"mode":["личное"],"uni":true,"tool":"Автоматизация (n8n / Make)","lvl":"нужна сборка","risk":"высокий","pack":["Шаблон / промпт","Внутренний инструмент / интеграция"]},{"id":"AI-0027","n":"Поддержка психологического благополучия и снижения стресса","sph":"Здоровье и wellbeing","grp":"Жизнь, дом и здоровье","topic":"Психика и стресс","life":"Здоровье и тело","task":["Консультация и поддержка"],"roles":["Медицинский / wellness-специалист"],"ind":["Здравоохранение и wellness"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт"]},{"id":"AI-0028","n":"Помощник по осознанности и медитации","sph":"Здоровье и wellbeing","grp":"Жизнь, дом и здоровье","topic":"Психика и стресс","life":"Здоровье и тело","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["личное"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт"]},{"id":"AI-0029","n":"Персональный план питания и меню","sph":"Здоровье и wellbeing","grp":"Жизнь, дом и здоровье","topic":"Питание","life":"Здоровье и тело","task":["Планирование"],"roles":["Медицинский / wellness-специалист"],"ind":["Здравоохранение и wellness"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт"]},{"id":"AI-0030","n":"Подбор рецептов и обучение приготовлению","sph":"Здоровье и wellbeing","grp":"Жизнь, дом и здоровье","topic":"Питание","life":"Здоровье и тело","task":["Поиск и рекомендации","Обучение"],"roles":["Педагог / методист"],"ind":["Образование и EdTech","HoReCa и доставка еды"],"mode":["личное"],"uni":false,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт"]},{"id":"AI-0031","n":"Рецепты из имеющихся продуктов и остатков","sph":"Здоровье и wellbeing","grp":"Жизнь, дом и здоровье","topic":"Питание","life":"Здоровье и тело","task":["Консультация и поддержка"],"roles":["Предприниматель / руководитель"],"ind":["HoReCa и доставка еды"],"mode":["личное","рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт"]},{"id":"AI-0032","n":"Анализ данных фитнес-трекеров и сенсоров здоровья","sph":"Здоровье и wellbeing","grp":"Жизнь, дом и здоровье","topic":"Фитнес и спорт","life":"Здоровье и тело","task":["Анализ"],"roles":["Медицинский / wellness-специалист"],"ind":["Здравоохранение и wellness","Спорт и фитнес"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0033","n":"Персональный план тренировок","sph":"Здоровье и wellbeing","grp":"Жизнь, дом и здоровье","topic":"Фитнес и спорт","life":"Здоровье и тело","task":["Планирование"],"roles":["Медицинский / wellness-специалист"],"ind":["Здравоохранение и wellness","Спорт и фитнес"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт"]},{"id":"AI-0034","n":"План подготовки к спортивному соревнованию","sph":"Здоровье и wellbeing","grp":"Жизнь, дом и здоровье","topic":"Фитнес и спорт","life":"Здоровье и тело","task":["Создание","Планирование"],"roles":[],"ind":["Спорт и фитнес"],"mode":["личное"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0035","n":"Рекомендации по осанке","sph":"Здоровье и wellbeing","grp":"Жизнь, дом и здоровье","topic":"Фитнес и спорт","life":"Здоровье и тело","task":["Поиск и рекомендации"],"roles":[],"ind":[],"mode":["личное"],"uni":true,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт"]},{"id":"AI-0036","n":"Анализ звонков и переписок менеджеров","sph":"Исследования и аналитика","grp":"Деньги и аналитика","topic":"Исследования и отчёты","life":"","task":["Анализ"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Таблицы + модель (Sheets / Excel)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0037","n":"Анализ продуктовых запусков и поиск закономерностей","sph":"Исследования и аналитика","grp":"Деньги и аналитика","topic":"Исследования и отчёты","life":"","task":["Анализ","Поиск и рекомендации"],"roles":["Предприниматель / руководитель"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0038","n":"Аналитика звонков по скрипту + оценка менеджеров","sph":"Исследования и аналитика","grp":"Деньги и аналитика","topic":"Исследования и отчёты","life":"","task":["Анализ"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Сборка приложения (Claude Code / Lovable)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Внутренний инструмент / интеграция"]},{"id":"AI-0039","n":"Глубокое исследование ниши или тренда","sph":"Исследования и аналитика","grp":"Деньги и аналитика","topic":"Исследования и отчёты","life":"","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0040","n":"ИИ-аналитика сохраненных материалов из Instagram","sph":"Исследования и аналитика","grp":"Деньги и аналитика","topic":"Исследования и отчёты","life":"","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Сборка приложения (Claude Code / Lovable)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Внутренний инструмент / интеграция"]},{"id":"AI-0041","n":"Персональный мониторинг и дайджест новостей","sph":"Исследования и аналитика","grp":"Деньги и аналитика","topic":"Исследования и отчёты","life":"","task":["Автоматизация"],"roles":["Медицинский / wellness-специалист"],"ind":["Здравоохранение и wellness"],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Внутренний инструмент / интеграция"]},{"id":"AI-0042","n":"Обработка кастдев-интервью и поиск инсайтов","sph":"Исследования и аналитика","grp":"Деньги и аналитика","topic":"Аудитория и конкуренты","life":"","task":["Поиск и рекомендации","Автоматизация"],"roles":["Разработчик / IT-специалист"],"ind":["IT и разработка"],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0043","n":"Интерактивные отчеты после консультаций","sph":"Клиентский сервис","grp":"Клиенты и продажи","topic":"Документы и договоры","life":"","task":["Коммуникация"],"roles":["Эксперт / консультант / коуч"],"ind":["Профессиональные услуги"],"mode":["рабочее"],"uni":false,"tool":"Сборка приложения (Claude Code / Lovable)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ","Внутренний инструмент / интеграция"]},{"id":"AI-0044","n":"Автоматическая запись клиентов на сессии","sph":"Клиентский сервис","grp":"Клиенты и продажи","topic":"Клиентская поддержка","life":"","task":["Автоматизация"],"roles":["Администратор / операционный менеджер"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна сборка","risk":"средний","pack":["Шаблон / промпт","Внутренний инструмент / интеграция"]},{"id":"AI-0045","n":"Автоматический чат-бот по частым вопросам","sph":"Клиентский сервис","grp":"Клиенты и продажи","topic":"Клиентская поддержка","life":"","task":["Автоматизация"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Автоматизация (n8n / Make)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Внутренний инструмент / интеграция","Цифровой продукт / клиентский сервис"]},{"id":"AI-0046","n":"Запись на консультации со встроенной оплатой","sph":"Клиентский сервис","grp":"Клиенты и продажи","topic":"Клиентская поддержка","life":"","task":["Коммуникация"],"roles":["Эксперт / консультант / коуч"],"ind":["Профессиональные услуги"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0047","n":"Классификация и роутинг обращений","sph":"Клиентский сервис","grp":"Клиенты и продажи","topic":"Клиентская поддержка","life":"","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0048","n":"Персонализация ответов и коммуникаций с клиентами","sph":"Клиентский сервис","grp":"Клиенты и продажи","topic":"Клиентская поддержка","life":"","task":["Коммуникация"],"roles":["Медицинский / wellness-специалист"],"ind":["Здравоохранение и wellness"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт"]},{"id":"AI-0049","n":"План внедрения изменений клиентского опыта","sph":"Клиентский сервис","grp":"Клиенты и продажи","topic":"Клиентская поддержка","life":"","task":["Планирование"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт"]},{"id":"AI-0050","n":"Поиск и проектирование запоминающихся моментов клиентского сервиса","sph":"Клиентский сервис","grp":"Клиенты и продажи","topic":"Клиентская поддержка","life":"","task":["Поиск и рекомендации"],"roles":["Предприниматель / руководитель"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Сборка приложения (Claude Code / Lovable)","lvl":"нужна сборка","risk":"средний","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0051","n":"Эмоциональный анализ клиентского опыта","sph":"Клиентский сервис","grp":"Клиенты и продажи","topic":"Клиентская поддержка","life":"","task":["Анализ"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0052","n":"Бесплатный сервис транскрибации","sph":"Контент и медиа","grp":"Продвижение и контент","topic":"Видео, аудио и подкасты","life":"Творчество и контент","task":["Преобразование"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Сборка приложения (Claude Code / Lovable)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0053","n":"Разработка вирального сценария короткого видео","sph":"Контент и медиа","grp":"Продвижение и контент","topic":"Видео, аудио и подкасты","life":"Творчество и контент","task":["Создание","Автоматизация"],"roles":["Контент-креатор / редактор"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"средний","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0054","n":"Репаковка одного видео в многоканальный контент-завод","sph":"Контент и медиа","grp":"Продвижение и контент","topic":"Видео, аудио и подкасты","life":"Творчество и контент","task":["Преобразование"],"roles":["Маркетолог / SMM-специалист","Контент-креатор / редактор"],"ind":["Маркетинг, медиа и реклама"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт"]},{"id":"AI-0055","n":"Создание сценариев для видео","sph":"Контент и медиа","grp":"Продвижение и контент","topic":"Видео, аудио и подкасты","life":"Творчество и контент","task":["Создание"],"roles":["Контент-креатор / редактор"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"средний","pack":["Шаблон / промпт","Услуга под ключ","Цифровой продукт / клиентский сервис"]},{"id":"AI-0056","n":"Транскрибация встреч, созвонов, эфиров и кастдевов","sph":"Контент и медиа","grp":"Продвижение и контент","topic":"Видео, аудио и подкасты","life":"Творчество и контент","task":["Преобразование"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0057","n":"Аудит контента на банальность и клише","sph":"Контент и медиа","grp":"Продвижение и контент","topic":"Производство контента","life":"","task":["Анализ"],"roles":["Маркетолог / SMM-специалист"],"ind":["Маркетинг, медиа и реклама"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0058","n":"Запуск блога с нуля с помощью ИИ","sph":"Контент и медиа","grp":"Продвижение и контент","topic":"Производство контента","life":"","task":["Консультация и поддержка"],"roles":["Контент-креатор / редактор"],"ind":["Маркетинг, медиа и реклама"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0059","n":"ИИ-копилот для фотографа","sph":"Контент и медиа","grp":"Продвижение и контент","topic":"Производство контента","life":"","task":["Консультация и поддержка"],"roles":["Фотограф / видеограф"],"ind":["Фото- и видеопроизводство"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0060","n":"Обучение модели на фотографиях автора для контента","sph":"Контент и медиа","grp":"Продвижение и контент","topic":"Производство контента","life":"","task":["Обучение"],"roles":["Фотограф / видеограф","Маркетолог / SMM-специалист","Педагог / методист"],"ind":["Фото- и видеопроизводство","Маркетинг, медиа и реклама","Образование и EdTech"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт"]},{"id":"AI-0061","n":"Создание устойчивой системы контент-производства без выгорания","sph":"Контент и медиа","grp":"Продвижение и контент","topic":"Производство контента","life":"","task":["Создание"],"roles":["Маркетолог / SMM-специалист"],"ind":["Маркетинг, медиа и реклама"],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"средний","pack":["Шаблон / промпт","Услуга под ключ","Цифровой продукт / клиентский сервис"]},{"id":"AI-0062","n":"Сценарий праздника","sph":"Контент и медиа","grp":"Продвижение и контент","topic":"Производство контента","life":"","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт"]},{"id":"AI-0063","n":"Адаптация контента под разные платформы","sph":"Контент и медиа","grp":"Продвижение и контент","topic":"Найм и адаптация","life":"Учёба, языки, карьера","task":["Консультация и поддержка"],"roles":["Маркетолог / SMM-специалист"],"ind":["Маркетинг, медиа и реклама"],"mode":["рабочее"],"uni":false,"tool":"Сборка приложения (Claude Code / Lovable)","lvl":"нужна сборка","risk":"средний","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0064","n":"Контент-план на месяц из брифа","sph":"Контент и медиа","grp":"Продвижение и контент","topic":"Планирование и продуктивность","life":"Планирование и время","task":["Планирование"],"roles":["Маркетолог / SMM-специалист"],"ind":["Маркетинг, медиа и реклама"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт"]},{"id":"AI-0065","n":"Планирование и организация фотосессии","sph":"Контент и медиа","grp":"Продвижение и контент","topic":"Планирование и продуктивность","life":"Планирование и время","task":["Планирование"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0066","n":"Создание презентаций","sph":"Контент и медиа","grp":"Продвижение и контент","topic":"Презентации и выступления","life":"Творчество и контент","task":["Создание"],"roles":["Контент-креатор / редактор"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ","Цифровой продукт / клиентский сервис"]},{"id":"AI-0067","n":"Очеловечивание шаблонного ИИ-текста","sph":"Контент и медиа","grp":"Продвижение и контент","topic":"Тексты и редактура","life":"","task":["Консультация и поддержка"],"roles":["Контент-креатор / редактор"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0068","n":"Перевод и локализация текстов и документов","sph":"Контент и медиа","grp":"Продвижение и контент","topic":"Тексты и редактура","life":"","task":["Преобразование"],"roles":["Контент-креатор / редактор"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0069","n":"Распознавание текста, написанного ИИ","sph":"Контент и медиа","grp":"Продвижение и контент","topic":"Тексты и редактура","life":"","task":["Создание"],"roles":["Контент-креатор / редактор"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0070","n":"Редактирование и улучшение текстов","sph":"Контент и медиа","grp":"Продвижение и контент","topic":"Тексты и редактура","life":"","task":["Консультация и поддержка"],"roles":["Контент-креатор / редактор"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0071","n":"Экспертная статья из голосовой заметки","sph":"Контент и медиа","grp":"Продвижение и контент","topic":"Тексты и редактура","life":"","task":["Консультация и поддержка"],"roles":["Эксперт / консультант / коуч"],"ind":["Профессиональные услуги"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0072","n":"Проверка авторских прав и рисков ИИ-контента","sph":"Контент и медиа","grp":"Продвижение и контент","topic":"Право и страхование","life":"","task":["Анализ"],"roles":["Маркетолог / SMM-специалист","Юрист / страховой специалист"],"ind":["Маркетинг, медиа и реклама","Юридические услуги"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт"]},{"id":"AI-0073","n":"Создание семейного фото- и видеоальбома","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Видео, аудио и подкасты","life":"Творчество и контент","task":["Создание"],"roles":["Частное лицо / член семьи","Контент-креатор / редактор"],"ind":[],"mode":["личное"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ","Цифровой продукт / клиентский сервис"]},{"id":"AI-0074","n":"Анализ растений и график ухода","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Анализ"],"roles":["Частное лицо / член семьи"],"ind":["Садоводство и растения"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0075","n":"Генератор глубоких вопросов для близких","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Консультация и поддержка"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0076","n":"Генерация идей для вечерних игр с детьми","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Создание"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0077","n":"Диагностика бытовых неисправностей","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Консультация и поддержка"],"roles":["Частное лицо / член семьи"],"ind":["Домашние услуги и ЖКХ"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0078","n":"Идеи праздничного декора","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Консультация и поддержка"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0079","n":"ИИ-стилист и подбор одежды","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Поиск и рекомендации"],"roles":["Частное лицо / член семьи"],"ind":["Розница и e-commerce","Красота и мода"],"mode":["личное"],"uni":false,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0080","n":"Исследование истории семьи и генеалогического древа","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Консультация и поддержка"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0081","n":"Комбинирование вещей из существующего гардероба","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Консультация и поддержка"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0082","n":"Конвертация форматов и единиц измерения","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Преобразование"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0083","n":"Написание и редактирование писем","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Создание"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0084","n":"Напоминания о встречах, делах и событиях","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Автоматизация"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Внутренний инструмент / интеграция"]},{"id":"AI-0085","n":"Настройка и управление умным домом","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Консультация и поддержка"],"roles":["Частное лицо / член семьи"],"ind":["Недвижимость и строительство","Домашние услуги и ЖКХ"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0086","n":"Отслеживание посылок и заказов","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Автоматизация"],"roles":["Частное лицо / член семьи"],"ind":["Розница и e-commerce"],"mode":["личное"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Внутренний инструмент / интеграция"]},{"id":"AI-0087","n":"Оценка импульсивной покупки перед оплатой","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Анализ"],"roles":["Частное лицо / член семьи"],"ind":["Розница и e-commerce"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт"]},{"id":"AI-0088","n":"Очистка почты, приоритизация и черновики ответов","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Коммуникация"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0089","n":"Перенос экспертизы в персонального GPT-ассистента","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Консультация и поддержка"],"roles":["Частное лицо / член семьи","Эксперт / консультант / коуч","Медицинский / wellness-специалист"],"ind":["Здравоохранение и wellness","Профессиональные услуги"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0090","n":"Персональные рекомендации книг, фильмов и музыки","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Поиск и рекомендации"],"roles":["Частное лицо / член семьи","Медицинский / wellness-специалист"],"ind":["Здравоохранение и wellness"],"mode":["личное"],"uni":false,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0091","n":"Персональный подбор подарков","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Поиск и рекомендации"],"roles":["Частное лицо / член семьи","Медицинский / wellness-специалист"],"ind":["Здравоохранение и wellness"],"mode":["личное"],"uni":false,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0092","n":"Подбор бытовой техники, электроники и гаджетов","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Поиск и рекомендации"],"roles":["Частное лицо / член семьи"],"ind":["Розница и e-commerce","Домашние услуги и ЖКХ"],"mode":["личное"],"uni":false,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0093","n":"Подбор и освоение творческих хобби","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Поиск и рекомендации"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0094","n":"Подбор макияжа, прически и косметических процедур","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Поиск и рекомендации"],"roles":["Частное лицо / член семьи"],"ind":["Красота и мода"],"mode":["личное"],"uni":false,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0095","n":"Поиск информации по любому вопросу","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Поиск и рекомендации"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0096","n":"Поиск слепых зон и критика собственных решений","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Поиск и рекомендации"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0097","n":"Помощник по уходу и выбору автомобиля","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Поиск и рекомендации"],"roles":["Частное лицо / член семьи"],"ind":["Автомобильная отрасль"],"mode":["личное"],"uni":false,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0098","n":"Проверка качества ИИ-клона экспертизы","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Анализ"],"roles":["Частное лицо / член семьи","Эксперт / консультант / коуч"],"ind":["Профессиональные услуги"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0099","n":"Рекомендации по организации домашнего офиса","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Планирование","Поиск и рекомендации"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0100","n":"Саммари книг и ежедневные тезисы","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Преобразование"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0101","n":"Создание игр, квизов и квестов","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Создание"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ","Цифровой продукт / клиентский сервис"]},{"id":"AI-0102","n":"Создание поздравлений, речей и тостов","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Создание","Коммуникация"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ","Цифровой продукт / клиентский сервис"]},{"id":"AI-0103","n":"Создание профессионального портфолио","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Создание"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ","Цифровой продукт / клиентский сервис"]},{"id":"AI-0104","n":"Создание списков дел и напоминаний","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Создание","Автоматизация"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ","Внутренний инструмент / интеграция","Цифровой продукт / клиентский сервис"]},{"id":"AI-0105","n":"Составление списка покупок для детской комнаты","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Создание"],"roles":["Частное лицо / член семьи"],"ind":["Розница и e-commerce"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0106","n":"Управление подписками и календарем списаний","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Консультация и поддержка"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0107","n":"Экологизация быта и выбор экологичных товаров","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Дом, семья и досуг","life":"Дом, семья, быт","task":["Поиск и рекомендации"],"roles":["Частное лицо / член семьи"],"ind":["Розница и e-commerce"],"mode":["личное"],"uni":false,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0108","n":"Документирование семейного наследия и ценностей","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Личные деньги","life":"Личные деньги","task":["Консультация и поддержка"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0109","n":"Личный дневник и планировщик","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Личные деньги","life":"Личные деньги","task":["Планирование"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0110","n":"Организация семейных традиций","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Личные деньги","life":"Личные деньги","task":["Планирование"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0111","n":"Помощник по семейной коммуникации","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Личные деньги","life":"Личные деньги","task":["Консультация и поддержка"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0112","n":"Проверка личных целей на навязанность","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Личные деньги","life":"Личные деньги","task":["Анализ"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0113","n":"Рекомендации по книгам для семейного чтения","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Личные деньги","life":"Личные деньги","task":["Поиск и рекомендации"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0114","n":"Рефлексивный сторителлинг для личных историй","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Личные деньги","life":"Личные деньги","task":["Консультация и поддержка"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0115","n":"Семейные стратегические сессии","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Личные деньги","life":"Личные деньги","task":["Консультация и поддержка"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0116","n":"Составление личных и семейных целей на год и стратегий их достижения","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Личные деньги","life":"Личные деньги","task":["Создание"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0117","n":"Помощник по уходу и питанию домашних животных","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Питание","life":"Здоровье и тело","task":["Консультация и поддержка"],"roles":["Частное лицо / член семьи","Медицинский / wellness-специалист"],"ind":["Здравоохранение и wellness"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт"]},{"id":"AI-0118","n":"Долгосрочный план целей → шаги","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Планирование и продуктивность","life":"Планирование и время","task":["Планирование"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0119","n":"Персональный помощник по продуктивности","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Планирование и продуктивность","life":"Планирование и время","task":["Консультация и поддержка"],"roles":["Частное лицо / член семьи","Предприниматель / руководитель","Медицинский / wellness-специалист"],"ind":["Здравоохранение и wellness"],"mode":["личное","рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0120","n":"План организации и проведение домашних кулинарных мастер-классов","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Планирование и продуктивность","life":"Планирование и время","task":["Планирование"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0121","n":"Планирование выходных, прогулок и отдыха","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Планирование и продуктивность","life":"Планирование и время","task":["Планирование"],"roles":["Частное лицо / член семьи"],"ind":[],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0122","n":"Планирование интерьера, ремонта и организации пространства","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Планирование и продуктивность","life":"Планирование и время","task":["Планирование"],"roles":["Частное лицо / член семьи"],"ind":["Недвижимость и строительство"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0123","n":"Настройка голосового помощника для бытовой автоматизации","sph":"Личная жизнь и быт","grp":"Жизнь, дом и здоровье","topic":"Процессы и автоматизация","life":"Планирование и время","task":["Автоматизация"],"roles":["Частное лицо / член семьи","Администратор / операционный менеджер"],"ind":["Недвижимость и строительство","Домашние услуги и ЖКХ"],"mode":["личное"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Внутренний инструмент / интеграция"]},{"id":"AI-0124","n":"Разработка личного бренда","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Личные деньги","life":"Личные деньги","task":["Создание","Автоматизация"],"roles":["Эксперт / консультант / коуч"],"ind":[],"mode":["личное"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0125","n":"Аудит лендинга","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Маркетинг и продвижение","life":"","task":["Анализ"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0126","n":"Генератор нейминга и брендинга","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Маркетинг и продвижение","life":"","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0127","n":"Генератор хуков","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Маркетинг и продвижение","life":"","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0128","n":"Генерация идей для маркетинговых и PR-кампаний","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Маркетинг и продвижение","life":"","task":["Создание"],"roles":["Маркетолог / SMM-специалист"],"ind":["Маркетинг, медиа и реклама"],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0129","n":"Запуск бизнеса или бренда с нуля с помощью ИИ","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Маркетинг и продвижение","life":"","task":["Консультация и поддержка"],"roles":["Предприниматель / руководитель"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0130","n":"Партнерские и реферальные программы с автоматическим начислением комиссий","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Маркетинг и продвижение","life":"","task":["Автоматизация"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Автоматизация (n8n / Make)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Внутренний инструмент / интеграция"]},{"id":"AI-0131","n":"Проектирование продуктовой матрицы и линейки продуктов","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Маркетинг и продвижение","life":"","task":["Консультация и поддержка"],"roles":["Предприниматель / руководитель"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0132","n":"Разбор охватов и гипотезы роста","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Маркетинг и продвижение","life":"","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0133","n":"Семантика и структура статей под запросы","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Маркетинг и продвижение","life":"","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0134","n":"Создание и управление рекламными кампаниями","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Маркетинг и продвижение","life":"","task":["Создание"],"roles":["Маркетолог / SMM-специалист"],"ind":["Маркетинг, медиа и реклама"],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"средний","pack":["Шаблон / промпт","Услуга под ключ","Цифровой продукт / клиентский сервис"]},{"id":"AI-0135","n":"Выявление триггеров и причин купить продукт","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Офферы и лид-магниты","life":"","task":["Консультация и поддержка"],"roles":["Предприниматель / руководитель"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0136","n":"Анализ вирусных Reels и паттернов конкурентов","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Соцсети и короткие видео","life":"","task":["Анализ"],"roles":["Маркетолог / SMM-специалист"],"ind":["Маркетинг, медиа и реклама"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0137","n":"Аудит сайтов и социальных сетей экспертов","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Соцсети и короткие видео","life":"","task":["Анализ"],"roles":["Эксперт / консультант / коуч","Разработчик / IT-специалист"],"ind":["Маркетинг, медиа и реклама","IT и разработка","Профессиональные услуги"],"mode":["рабочее"],"uni":false,"tool":"Сборка приложения (Claude Code / Lovable)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ","Цифровой продукт / клиентский сервис"]},{"id":"AI-0138","n":"Извлечение мест из Reels и создание общей подборки","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Соцсети и короткие видео","life":"","task":["Создание","Поиск и рекомендации"],"roles":["Маркетолог / SMM-специалист"],"ind":["Маркетинг, медиа и реклама"],"mode":["рабочее"],"uni":false,"tool":"Поисковая модель (Perplexity)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ","Цифровой продукт / клиентский сервис"]},{"id":"AI-0139","n":"Репаковка одного выступления во все социальные сети","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Соцсети и короткие видео","life":"","task":["Преобразование"],"roles":["Эксперт / консультант / коуч"],"ind":["Маркетинг, медиа и реклама"],"mode":["рабочее"],"uni":false,"tool":"Сборка приложения (Claude Code / Lovable)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0140","n":"Создание каруселей для социальных сетей","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Соцсети и короткие видео","life":"","task":["Создание"],"roles":[],"ind":["Маркетинг, медиа и реклама"],"mode":["рабочее"],"uni":true,"tool":"Сборка приложения (Claude Code / Lovable)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ","Цифровой продукт / клиентский сервис"]},{"id":"AI-0141","n":"Создание контента для социальных сетей и блогов","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Соцсети и короткие видео","life":"","task":["Создание"],"roles":["Маркетолог / SMM-специалист","Контент-креатор / редактор"],"ind":["Маркетинг, медиа и реклама"],"mode":["рабочее"],"uni":false,"tool":"Сборка приложения (Claude Code / Lovable)","lvl":"нужна сборка","risk":"средний","pack":["Шаблон / промпт","Услуга под ключ","Цифровой продукт / клиентский сервис"]},{"id":"AI-0142","n":"Клонирование стиля речи и голоса бренда","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Тексты и редактура","life":"","task":["Консультация и поддержка"],"roles":[],"ind":["Красота и мода"],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0143","n":"Тексты объявлений + сегменты аудитории","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Тексты и редактура","life":"","task":["Анализ"],"roles":["Маркетолог / SMM-специалист","Контент-креатор / редактор"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0144","n":"Анализ уровня осведомленности аудитории по лестнице Ханта","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Аудитория и конкуренты","life":"","task":["Анализ"],"roles":["Маркетолог / SMM-специалист"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0145","n":"Создание уникального конкурентного преимущества","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Аудитория и конкуренты","life":"","task":["Создание"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ","Цифровой продукт / клиентский сервис"]},{"id":"AI-0146","n":"Срез аудитории по репликам на форумах","sph":"Маркетинг и рост","grp":"Продвижение и контент","topic":"Аудитория и конкуренты","life":"","task":["Анализ"],"roles":["Маркетолог / SMM-специалист"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0147","n":"Образовательные подкасты для развития эрудиции","sph":"Обучение и развитие","grp":"Учёба и навыки","topic":"Видео, аудио и подкасты","life":"Творчество и контент","task":["Консультация и поддержка"],"roles":["Педагог / методист","Контент-креатор / редактор"],"ind":["Образование и EdTech"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0148","n":"Персональный образовательный план","sph":"Обучение и развитие","grp":"Учёба и навыки","topic":"Курсы и учебные материалы","life":"Учёба, языки, карьера","task":["Планирование"],"roles":["Педагог / методист","Медицинский / wellness-специалист"],"ind":["Образование и EdTech","Здравоохранение и wellness"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0149","n":"Подбор платформы для онлайн-курса","sph":"Обучение и развитие","grp":"Учёба и навыки","topic":"Курсы и учебные материалы","life":"Учёба, языки, карьера","task":["Поиск и рекомендации","Обучение"],"roles":["Эксперт / консультант / коуч","Педагог / методист"],"ind":["Образование и EdTech"],"mode":["личное"],"uni":false,"tool":"Сборка приложения (Claude Code / Lovable)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0150","n":"Подготовка к экзаменам и тестам","sph":"Обучение и развитие","grp":"Учёба и навыки","topic":"Курсы и учебные материалы","life":"Учёба, языки, карьера","task":["Создание","Обучение"],"roles":["Педагог / методист"],"ind":["Образование и EdTech"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0151","n":"Подготовка материалов для курсов и уроков","sph":"Обучение и развитие","grp":"Учёба и навыки","topic":"Курсы и учебные материалы","life":"Учёба, языки, карьера","task":["Создание","Обучение"],"roles":["Эксперт / консультант / коуч","Педагог / методист"],"ind":["Образование и EdTech"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0152","n":"Подготовка научных материалов и статей","sph":"Обучение и развитие","grp":"Учёба и навыки","topic":"Курсы и учебные материалы","life":"Учёба, языки, карьера","task":["Создание"],"roles":[],"ind":[],"mode":["личное"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0153","n":"Помощь в выборе образовательных программ и курсов для детей","sph":"Обучение и развитие","grp":"Учёба и навыки","topic":"Курсы и учебные материалы","life":"Учёба, языки, карьера","task":["Поиск и рекомендации","Обучение"],"roles":["Эксперт / консультант / коуч","Педагог / методист"],"ind":["Образование и EdTech"],"mode":["личное"],"uni":false,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0154","n":"Проектирование структуры онлайн-курса","sph":"Обучение и развитие","grp":"Учёба и навыки","topic":"Курсы и учебные материалы","life":"Учёба, языки, карьера","task":["Обучение"],"roles":["Предприниматель / руководитель","Эксперт / консультант / коуч","Педагог / методист"],"ind":["Образование и EdTech"],"mode":["личное","рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0155","n":"Рекомендации по выбору образовательных программ и курсов для саморазвития","sph":"Обучение и развитие","grp":"Учёба и навыки","topic":"Курсы и учебные материалы","life":"Учёба, языки, карьера","task":["Поиск и рекомендации","Обучение"],"roles":["Эксперт / консультант / коуч","Педагог / методист"],"ind":["Образование и EdTech"],"mode":["личное"],"uni":false,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0156","n":"Поддержка при изучении новых навыков, таких как программирование или игра на музыкальных инструментах","sph":"Обучение и развитие","grp":"Учёба и навыки","topic":"Личное развитие","life":"Учёба, языки, карьера","task":["Консультация и поддержка"],"roles":["Разработчик / IT-специалист"],"ind":["IT и разработка"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0157","n":"Развитие эрудиции","sph":"Обучение и развитие","grp":"Учёба и навыки","topic":"Личное развитие","life":"Учёба, языки, карьера","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["личное"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0158","n":"Составление списка литературы для саморазвития","sph":"Обучение и развитие","grp":"Учёба и навыки","topic":"Личное развитие","life":"Учёба, языки, карьера","task":["Создание"],"roles":[],"ind":[],"mode":["личное"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0159","n":"Учебные карточки и интервальное повторение","sph":"Обучение и развитие","grp":"Учёба и навыки","topic":"Личное развитие","life":"Учёба, языки, карьера","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["личное"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0160","n":"Подготовка к публичным выступлениям","sph":"Обучение и развитие","grp":"Учёба и навыки","topic":"Презентации и выступления","life":"Творчество и контент","task":["Создание"],"roles":["Эксперт / консультант / коуч"],"ind":[],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0161","n":"Объяснение сложных тем простыми словами","sph":"Обучение и развитие","grp":"Учёба и навыки","topic":"Языки и объяснения","life":"Учёба, языки, карьера","task":["Обучение"],"roles":[],"ind":[],"mode":["личное"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0162","n":"Персональный помощник по изучению иностранных языков","sph":"Обучение и развитие","grp":"Учёба и навыки","topic":"Языки и объяснения","life":"Учёба, языки, карьера","task":["Обучение"],"roles":["Медицинский / wellness-специалист"],"ind":["Образование и EdTech","Здравоохранение и wellness"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0163","n":"Синхронный голосовой перевод","sph":"Обучение и развитие","grp":"Учёба и навыки","topic":"Языки и объяснения","life":"Учёба, языки, карьера","task":["Преобразование"],"roles":[],"ind":[],"mode":["личное"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0164","n":"Тренер произношения","sph":"Обучение и развитие","grp":"Учёба и навыки","topic":"Языки и объяснения","life":"Учёба, языки, карьера","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["личное"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0165","n":"Преобразование голосовых отчетов со стройки в PDF","sph":"Операции и управление","grp":"Работа и процессы","topic":"Документы и договоры","life":"","task":["Консультация и поддержка"],"roles":[],"ind":["Недвижимость и строительство"],"mode":["рабочее"],"uni":true,"tool":"Сборка приложения (Claude Code / Lovable)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Внутренний инструмент / интеграция"]},{"id":"AI-0166","n":"Планирование личных проектов и инициатив","sph":"Операции и управление","grp":"Работа и процессы","topic":"Личные деньги","life":"Личные деньги","task":["Планирование"],"roles":["Предприниматель / руководитель"],"ind":[],"mode":["личное","рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0167","n":"Концепция и план бизнес-проекта","sph":"Операции и управление","grp":"Работа и процессы","topic":"Планирование и продуктивность","life":"Планирование и время","task":["Планирование"],"roles":["Предприниматель / руководитель"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0168","n":"Персональное расписание дня с балансом работы и отдыха","sph":"Операции и управление","grp":"Работа и процессы","topic":"Планирование и продуктивность","life":"Планирование и время","task":["Планирование","Автоматизация"],"roles":["Медицинский / wellness-специалист"],"ind":["Здравоохранение и wellness"],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0169","n":"Планирование благотворительных и волонтерских проектов","sph":"Операции и управление","grp":"Работа и процессы","topic":"Планирование и продуктивность","life":"Планирование и время","task":["Планирование"],"roles":["Предприниматель / руководитель"],"ind":["НКО, благотворительность и волонтерство"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0170","n":"Планирование мероприятий и праздников","sph":"Операции и управление","grp":"Работа и процессы","topic":"Планирование и продуктивность","life":"Планирование и время","task":["Планирование"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0171","n":"Планирование недели + напоминания","sph":"Операции и управление","grp":"Работа и процессы","topic":"Планирование и продуктивность","life":"Планирование и время","task":["Планирование","Автоматизация"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Автоматизация (n8n / Make)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ","Внутренний инструмент / интеграция"]},{"id":"AI-0172","n":"Преобразование транскрипта встречи в задачи и резюме","sph":"Операции и управление","grp":"Работа и процессы","topic":"Планирование и продуктивность","life":"Планирование и время","task":["Консультация и поддержка"],"roles":["Администратор / операционный менеджер"],"ind":[],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт"]},{"id":"AI-0173","n":"Расписание учебы и занятий для детей","sph":"Операции и управление","grp":"Работа и процессы","topic":"Планирование и продуктивность","life":"Планирование и время","task":["Планирование"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0174","n":"Управление задачами и проектами","sph":"Операции и управление","grp":"Работа и процессы","topic":"Планирование и продуктивность","life":"Планирование и время","task":["Консультация и поддержка"],"roles":["Предприниматель / руководитель","Администратор / операционный менеджер"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0175","n":"База знаний из выступлений, статей и лекций","sph":"Операции и управление","grp":"Работа и процессы","topic":"Презентации и выступления","life":"Творчество и контент","task":["Консультация и поддержка"],"roles":["Эксперт / консультант / коуч"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"База знаний (NotebookLM)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Внутренний инструмент / интеграция"]},{"id":"AI-0176","n":"Автоматизация действий по электронной почте","sph":"Операции и управление","grp":"Работа и процессы","topic":"Процессы и автоматизация","life":"Планирование и время","task":["Автоматизация"],"roles":["Администратор / операционный менеджер"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Внутренний инструмент / интеграция"]},{"id":"AI-0177","n":"Автоматическое создание инструкций, регламентов и гайдов","sph":"Операции и управление","grp":"Работа и процессы","topic":"Процессы и автоматизация","life":"Планирование и время","task":["Создание","Автоматизация"],"roles":["Администратор / операционный менеджер"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ","Внутренний инструмент / интеграция","Цифровой продукт / клиентский сервис"]},{"id":"AI-0178","n":"Поиск по внутренней базе и регламентам","sph":"Операции и управление","grp":"Работа и процессы","topic":"Процессы и автоматизация","life":"Планирование и время","task":["Поиск и рекомендации"],"roles":["Администратор / операционный менеджер"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0179","n":"Регламент / SOP из практики","sph":"Операции и управление","grp":"Работа и процессы","topic":"Процессы и автоматизация","life":"Планирование и время","task":["Консультация и поддержка"],"roles":["Администратор / операционный менеджер"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0180","n":"Создание майндмэпов и карт процессов","sph":"Операции и управление","grp":"Работа и процессы","topic":"Процессы и автоматизация","life":"Планирование и время","task":["Создание"],"roles":["Администратор / операционный менеджер"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ","Цифровой продукт / клиентский сервис"]},{"id":"AI-0181","n":"База знаний проекта для автоматических ответов на вопросы команды","sph":"Операции и управление","grp":"Работа и процессы","topic":"Процессы и автоматизация","life":"Планирование и время","task":["Автоматизация","Коммуникация"],"roles":["Предприниматель / руководитель"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Внутренний инструмент / интеграция"]},{"id":"AI-0182","n":"ИИ-копилот для интерьерного дизайнера","sph":"Операции и управление","grp":"Работа и процессы","topic":"Процессы и автоматизация","life":"Планирование и время","task":["Консультация и поддержка"],"roles":["Интерьерный дизайнер / архитектор"],"ind":["Недвижимость и строительство"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0183","n":"Карманный бизнес-коуч","sph":"Операции и управление","grp":"Работа и процессы","topic":"Процессы и автоматизация","life":"Планирование и время","task":["Консультация и поддержка"],"roles":["Предприниматель / руководитель"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0184","n":"Онбординг-методичка + чек-листы","sph":"Операции и управление","grp":"Работа и процессы","topic":"Процессы и автоматизация","life":"Планирование и время","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0185","n":"Утренняя сводка почты и календаря","sph":"Операции и управление","grp":"Работа и процессы","topic":"Процессы и автоматизация","life":"Планирование и время","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Сборка приложения (Claude Code / Lovable)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Внутренний инструмент / интеграция"]},{"id":"AI-0186","n":"Анализ окупаемости маркетинговой воронки","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Воронки и лиды","life":"","task":["Анализ"],"roles":["Маркетолог / SMM-специалист","Предприниматель / руководитель"],"ind":["Маркетинг, медиа и реклама"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0187","n":"Замена менеджера на этапе квалификации и работы с возражениями","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Воронки и лиды","life":"","task":["Автоматизация"],"roles":["Продажник / аккаунт-менеджер"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Внутренний инструмент / интеграция","Цифровой продукт / клиентский сервис"]},{"id":"AI-0188","n":"Калькуляторы и квизы для лидогенерации","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Воронки и лиды","life":"","task":["Создание"],"roles":["Продажник / аккаунт-менеджер"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0189","n":"Квалификация лидов чат-ботом до разговора с менеджером","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Воронки и лиды","life":"","task":["Автоматизация"],"roles":["Продажник / аккаунт-менеджер"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Внутренний инструмент / интеграция","Цифровой продукт / клиентский сервис"]},{"id":"AI-0190","n":"Прогрев-воронка для запуска","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Воронки и лиды","life":"","task":["Консультация и поддержка"],"roles":["Предприниматель / руководитель"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0191","n":"Создание прогрева и контентной воронки","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Воронки и лиды","life":"","task":["Создание"],"roles":["Маркетолог / SMM-специалист","Предприниматель / руководитель"],"ind":["Маркетинг, медиа и реклама"],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"средний","pack":["Шаблон / промпт","Услуга под ключ","Цифровой продукт / клиентский сервис"]},{"id":"AI-0192","n":"Авто follow-up с аудит-документом в чат клиента","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Документы и договоры","life":"","task":["Анализ"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0193","n":"Генерация лид-магнитов, квизов, лендингов и email-цепочек","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Офферы и лид-магниты","life":"","task":["Создание"],"roles":["Продажник / аккаунт-менеджер"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0194","n":"Генерация персонализированного оффера клиенту","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Офферы и лид-магниты","life":"","task":["Создание"],"roles":["Маркетолог / SMM-специалист","Медицинский / wellness-специалист"],"ind":["Здравоохранение и wellness"],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"средний","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0195","n":"Сборка воронки продаж из лендинга, оффера, бота и лид-магнита","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Офферы и лид-магниты","life":"","task":["Автоматизация"],"roles":["Маркетолог / SMM-специалист","Продажник / аккаунт-менеджер","Предприниматель / руководитель"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"средний","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0196","n":"Создание лид-магнитов","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Офферы и лид-магниты","life":"","task":["Создание"],"roles":["Продажник / аккаунт-менеджер"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ","Цифровой продукт / клиентский сервис"]},{"id":"AI-0197","n":"Усиление офферов, заголовков и описаний продукта","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Офферы и лид-магниты","life":"","task":["Консультация и поддержка"],"roles":["Маркетолог / SMM-специалист","Предприниматель / руководитель"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0198","n":"Анализ комментариев для выявления болей и возражений","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Переговоры и возражения","life":"","task":["Анализ"],"roles":["Продажник / аккаунт-менеджер"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0199","n":"Переговоры с покупателем недвижимости с доведением до реального звонка","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Переговоры и возражения","life":"","task":["Коммуникация"],"roles":["Продажник / аккаунт-менеджер"],"ind":["Розница и e-commerce","Недвижимость и строительство"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0200","n":"Разбор возражений + скрипт ответов","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Переговоры и возражения","life":"","task":["Коммуникация"],"roles":["Продажник / аккаунт-менеджер"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0201","n":"Ведение и обогащение CRM-базы","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Продажи","life":"","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0202","n":"Дашборды в реальном времени по продажам, конверсиям и деньгам","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Продажи","life":"","task":["Консультация и поддержка"],"roles":["Продажник / аккаунт-менеджер","Предприниматель / руководитель"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Сборка приложения (Claude Code / Lovable)","lvl":"нужна сборка","risk":"средний","pack":["Шаблон / промпт","Внутренний инструмент / интеграция"]},{"id":"AI-0203","n":"Дожим просрочек (invoice chaser)","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Продажи","life":"","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0204","n":"ИИ-копилот по продажам для эксперта или наставника","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Продажи","life":"","task":["Консультация и поддержка"],"roles":["Продажник / аккаунт-менеджер","Эксперт / консультант / коуч"],"ind":["Профессиональные услуги"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт"]},{"id":"AI-0205","n":"Парсер базы из 2ГИС / Яндекс.Карт по критериям","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Продажи","life":"","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0206","n":"Подготовка к встрече на основе информации о клиенте","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Продажи","life":"","task":["Создание"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0207","n":"Разбор истории продаж → выводы","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Продажи","life":"","task":["Консультация и поддержка"],"roles":["Продажник / аккаунт-менеджер"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт"]},{"id":"AI-0208","n":"Создание персонализированного коммерческого предложения","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Продажи","life":"","task":["Создание"],"roles":["Продажник / аккаунт-менеджер","Медицинский / wellness-специалист"],"ind":["Здравоохранение и wellness"],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ","Цифровой продукт / клиентский сервис"]},{"id":"AI-0209","n":"Лендинг из оффера: текст + секции","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Тексты и редактура","life":"","task":["Консультация и поддержка"],"roles":["Маркетолог / SMM-специалист","Контент-креатор / редактор"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0210","n":"Анализ целевой аудитории, отзывов и офферов конкурентов","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Аудитория и конкуренты","life":"","task":["Анализ"],"roles":["Маркетолог / SMM-специалист"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0211","n":"Автоматическая генерация договоров, КП и чек-листов","sph":"Продажи и лидогенерация","grp":"Клиенты и продажи","topic":"Право и страхование","life":"","task":["Создание","Автоматизация"],"roles":["Юрист / страховой специалист"],"ind":["Юридические услуги"],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна сборка","risk":"высокий","pack":["Шаблон / промпт","Внутренний инструмент / интеграция","Цифровой продукт / клиентский сервис"]},{"id":"AI-0212","n":"Персональные клиентские инструменты: трекеры привычек, планеры и калькуляторы","sph":"Продукт и инновации","grp":"Продукт и технологии","topic":"Клиентская поддержка","life":"","task":["Планирование"],"roles":["Медицинский / wellness-специалист"],"ind":["Здравоохранение и wellness"],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"средний","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0213","n":"Адаптация продукта под корпоративных клиентов","sph":"Продукт и инновации","grp":"Продукт и технологии","topic":"Найм и адаптация","life":"Учёба, языки, карьера","task":["Консультация и поддержка"],"roles":["Предприниматель / руководитель"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт"]},{"id":"AI-0214","n":"Анализ обратной связи для улучшения продукта","sph":"Продукт и инновации","grp":"Продукт и технологии","topic":"Продукт","life":"","task":["Анализ"],"roles":["Предприниматель / руководитель"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0215","n":"Геймификация: баллы, уровни и достижения","sph":"Продукт и инновации","grp":"Продукт и технологии","topic":"Продукт","life":"","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0216","n":"ИИ-копилот для продакт-менеджера","sph":"Продукт и инновации","grp":"Продукт и технологии","topic":"Продукт","life":"","task":["Консультация и поддержка"],"roles":["Продакт-менеджер"],"ind":["Продуктовый менеджмент и SaaS"],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0217","n":"Превращение сырой идеи в готовый онлайн-продукт","sph":"Продукт и инновации","grp":"Продукт и технологии","topic":"Продукт","life":"","task":["Консультация и поддержка"],"roles":["Предприниматель / руководитель"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0218","n":"Сбор и структурирование базы знаний о продукте","sph":"Продукт и инновации","grp":"Продукт и технологии","topic":"Продукт","life":"","task":["Консультация и поддержка"],"roles":["Предприниматель / руководитель"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0219","n":"Упаковка продукта и создание инструкций по применению","sph":"Продукт и инновации","grp":"Продукт и технологии","topic":"Процессы и автоматизация","life":"Планирование и время","task":["Создание"],"roles":["Предприниматель / руководитель"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ","Цифровой продукт / клиентский сервис"]},{"id":"AI-0220","n":"Внутренняя социальная сеть для команды или сообщества","sph":"Продукт и инновации","grp":"Продукт и технологии","topic":"Соцсети и короткие видео","life":"","task":["Консультация и поддержка"],"roles":[],"ind":["Маркетинг, медиа и реклама"],"mode":["рабочее"],"uni":true,"tool":"Сборка приложения (Claude Code / Lovable)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0221","n":"Анализ отелей по отзывам","sph":"Путешествия и мобильность","grp":"Жизнь, дом и здоровье","topic":"Бронирование и цены","life":"Поездки","task":["Анализ"],"roles":[],"ind":["Туризм и TravelTech"],"mode":["личное"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0222","n":"Мониторинг ошибочных тарифов и акций авиакомпаний","sph":"Путешествия и мобильность","grp":"Жизнь, дом и здоровье","topic":"Бронирование и цены","life":"Поездки","task":["Автоматизация"],"roles":["Предприниматель / руководитель"],"ind":[],"mode":["личное"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Внутренний инструмент / интеграция"]},{"id":"AI-0223","n":"Оптимизация миль и программ лояльности","sph":"Путешествия и мобильность","grp":"Жизнь, дом и здоровье","topic":"Бронирование и цены","life":"Поездки","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["личное"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0224","n":"Подбор и бронирование ресторанов","sph":"Путешествия и мобильность","grp":"Жизнь, дом и здоровье","topic":"Бронирование и цены","life":"Поездки","task":["Поиск и рекомендации"],"roles":[],"ind":["HoReCa и доставка еды"],"mode":["личное"],"uni":true,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0225","n":"Поиск и бронирование отелей и авиабилетов","sph":"Путешествия и мобильность","grp":"Жизнь, дом и здоровье","topic":"Бронирование и цены","life":"Поездки","task":["Поиск и рекомендации"],"roles":[],"ind":["Туризм и TravelTech"],"mode":["личное"],"uni":true,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0226","n":"Ценовые алерты на авиабилеты","sph":"Путешествия и мобильность","grp":"Жизнь, дом и здоровье","topic":"Бронирование и цены","life":"Поездки","task":["Консультация и поддержка"],"roles":[],"ind":["Туризм и TravelTech"],"mode":["личное"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0227","n":"Персональный аудиогид по городу","sph":"Путешествия и мобильность","grp":"Жизнь, дом и здоровье","topic":"Видео, аудио и подкасты","life":"Творчество и контент","task":["Консультация и поддержка"],"roles":["Медицинский / wellness-специалист"],"ind":["Здравоохранение и wellness"],"mode":["личное"],"uni":false,"tool":"Сборка приложения (Claude Code / Lovable)","lvl":"нужна сборка","risk":"низкий","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0228","n":"Визовый консультант и проверка документов для поездки","sph":"Путешествия и мобильность","grp":"Жизнь, дом и здоровье","topic":"Визы и документы","life":"Поездки","task":["Анализ"],"roles":[],"ind":["Туризм и TravelTech"],"mode":["личное"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт"]},{"id":"AI-0229","n":"Персональное планирование маршрута путешествия","sph":"Путешествия и мобильность","grp":"Жизнь, дом и здоровье","topic":"Маршруты и поездки","life":"Поездки","task":["Планирование"],"roles":["Медицинский / wellness-специалист"],"ind":["Здравоохранение и wellness","Туризм и TravelTech"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0230","n":"Планирование семейного отпуска","sph":"Путешествия и мобильность","grp":"Жизнь, дом и здоровье","topic":"Маршруты и поездки","life":"Поездки","task":["Планирование"],"roles":[],"ind":[],"mode":["личное"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0231","n":"Планирование экономного авиапутешествия по гибким датам","sph":"Путешествия и мобильность","grp":"Жизнь, дом и здоровье","topic":"Маршруты и поездки","life":"Поездки","task":["Планирование"],"roles":[],"ind":["Туризм и TravelTech"],"mode":["личное"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0232","n":"Помощь в выборе маршрутов и транспортных средств для поездок","sph":"Путешествия и мобильность","grp":"Жизнь, дом и здоровье","topic":"Маршруты и поездки","life":"Поездки","task":["Планирование","Поиск и рекомендации"],"roles":[],"ind":["Туризм и TravelTech","Спорт и фитнес"],"mode":["личное"],"uni":true,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0233","n":"Подбор мест для кемпинга","sph":"Путешествия и мобильность","grp":"Жизнь, дом и здоровье","topic":"Транспорт и перемещения","life":"Поездки","task":["Поиск и рекомендации"],"roles":[],"ind":["Туризм и TravelTech"],"mode":["личное"],"uni":true,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0234","n":"Создание чек-листов для поездок","sph":"Путешествия и мобильность","grp":"Жизнь, дом и здоровье","topic":"Транспорт и перемещения","life":"Поездки","task":["Создание"],"roles":[],"ind":[],"mode":["личное"],"uni":true,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"низкий","pack":["Шаблон / промпт","Услуга под ключ","Цифровой продукт / клиентский сервис"]},{"id":"AI-0235","n":"Калькулятор юнит-экономики: маржа, окупаемость и прибыль по проектам","sph":"Финансы и экономика","grp":"Деньги и аналитика","topic":"Финансы бизнеса","life":"","task":["Консультация и поддержка"],"roles":["Предприниматель / руководитель","Финансист / бухгалтер"],"ind":["Финансы и FinTech"],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"средний","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0236","n":"Прогноз кэша на 30 дней","sph":"Финансы и экономика","grp":"Деньги и аналитика","topic":"Финансы бизнеса","life":"","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"низкий","pack":["Шаблон / промпт"]},{"id":"AI-0237","n":"Расчет эффективности и ROI внедрения ИИ","sph":"Финансы и экономика","grp":"Деньги и аналитика","topic":"Финансы бизнеса","life":"","task":["Консультация и поддержка"],"roles":["Финансист / бухгалтер"],"ind":["Финансы и FinTech"],"mode":["рабочее"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"средний","pack":["Шаблон / промпт","Цифровой продукт / клиентский сервис"]},{"id":"AI-0238","n":"Анализ личных расходов и доходов","sph":"Финансы и экономика","grp":"Деньги и аналитика","topic":"Личные деньги","life":"Личные деньги","task":["Анализ"],"roles":["Финансист / бухгалтер"],"ind":[],"mode":["личное"],"uni":false,"tool":"Таблицы + модель (Sheets / Excel)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0239","n":"Анализ расходов на коммунальные услуги","sph":"Финансы и экономика","grp":"Деньги и аналитика","topic":"Личные деньги","life":"Личные деньги","task":["Анализ"],"roles":["Финансист / бухгалтер"],"ind":["Домашние услуги и ЖКХ"],"mode":["личное"],"uni":false,"tool":"Таблицы + модель (Sheets / Excel)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт","Услуга под ключ"]},{"id":"AI-0240","n":"Личный и семейный финансовый план","sph":"Финансы и экономика","grp":"Деньги и аналитика","topic":"Личные деньги","life":"Личные деньги","task":["Планирование"],"roles":["Финансист / бухгалтер"],"ind":["Финансы и FinTech"],"mode":["личное"],"uni":false,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт"]},{"id":"AI-0241","n":"Планирование личного и семейного бюджета","sph":"Финансы и экономика","grp":"Деньги и аналитика","topic":"Личные деньги","life":"Личные деньги","task":["Планирование"],"roles":["Финансист / бухгалтер"],"ind":["Финансы и FinTech"],"mode":["личное"],"uni":false,"tool":"Автоматизация (n8n / Make)","lvl":"нужна настройка","risk":"средний","pack":["Шаблон / промпт","Услуга под ключ","Цифровой продукт / клиентский сервис"]},{"id":"AI-0242","n":"Помощник по личным инвестициям","sph":"Финансы и экономика","grp":"Деньги и аналитика","topic":"Личные деньги","life":"Личные деньги","task":["Консультация и поддержка"],"roles":[],"ind":["Финансы и FinTech"],"mode":["личное"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"высокий","pack":["Шаблон / промпт"]},{"id":"AI-0243","n":"Поиск зон роста компании и оптимизация расходов","sph":"Финансы и экономика","grp":"Деньги и аналитика","topic":"Экономика и рынок","life":"","task":["Поиск и рекомендации"],"roles":["Предприниматель / руководитель","Финансист / бухгалтер"],"ind":[],"mode":["рабочее"],"uni":false,"tool":"Поисковая модель (Perplexity)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт"]},{"id":"AI-0244","n":"Сверка: банк vs учёт","sph":"Финансы и экономика","grp":"Деньги и аналитика","topic":"Экономика и рынок","life":"","task":["Консультация и поддержка"],"roles":[],"ind":[],"mode":["рабочее"],"uni":true,"tool":"Чат-модель (Claude / ChatGPT)","lvl":"в чате сразу","risk":"средний","pack":["Шаблон / промпт"]}],"vocab":{"workRoles":["Предприниматель / руководитель","Маркетолог / SMM-специалист","Продажник / аккаунт-менеджер","Контент-креатор / редактор","Эксперт / консультант / коуч","Администратор / операционный менеджер","Медицинский / wellness-специалист","Юрист / страховой специалист","Разработчик / IT-специалист","HR / рекрутер","Финансист / бухгалтер","Педагог / методист","Фотограф / видеограф","Интерьерный дизайнер / архитектор","Продакт-менеджер"],"workGroups":["Клиенты и продажи","Продвижение и контент","Работа и процессы","Деньги и аналитика","Продукт и технологии","Учёба и навыки","Жизнь, дом и здоровье"],"personalLives":["Дом, семья, быт","Здоровье и тело","Учёба, языки, карьера","Личные деньги","Поездки","Планирование и время","Творчество и контент"],"personalTasks":["Консультация и поддержка","Поиск и рекомендации","Создание","Планирование","Анализ","Обучение","Автоматизация","Преобразование","Коммуникация"],"groups":["Клиенты и продажи","Продвижение и контент","Работа и процессы","Деньги и аналитика","Продукт и технологии","Учёба и навыки","Жизнь, дом и здоровье"],"topics":["Дом, семья и досуг","Личные деньги","Планирование и продуктивность","Процессы и автоматизация","Клиентская поддержка","Маркетинг и продвижение","Видео, аудио и подкасты","Воронки и лиды","Курсы и учебные материалы","Продажи","Тексты и редактура","Соцсети и короткие видео","Бронирование и цены","Документы и договоры","Исследования и отчёты","Офферы и лид-магниты","Производство контента","Аудитория и конкуренты","Здоровье и врачи","Право и страхование","Продукт","Личное развитие","Маршруты и поездки","Найм и адаптация","Питание","Фитнес и спорт","Языки и объяснения","Переговоры и возражения","Презентации и выступления","Разработка и данные","Самочувствие и привычки","Управление командой","Финансы бизнеса","Психика и стресс","Транспорт и перемещения","Экономика и рынок","Визы и документы"],"lives":["Дом, семья, быт","Здоровье и тело","Учёба, языки, карьера","Личные деньги","Поездки","Планирование и время","Творчество и контент"],"spheres":["Личная жизнь и быт","Продажи и лидогенерация","Маркетинг и рост","Контент и медиа","Операции и управление","Обучение и развитие","Здоровье и wellbeing","Путешествия и мобильность","Финансы и экономика","Клиентский сервис","Продукт и инновации","Документы, право и комплаенс","HR и команда","Исследования и аналитика","IT и разработка"],"tasks":["Консультация и поддержка","Создание","Планирование","Поиск и рекомендации","Анализ","Автоматизация","Обучение","Коммуникация","Преобразование"],"roles":["Частное лицо / член семьи","Предприниматель / руководитель","Медицинский / wellness-специалист","Маркетолог / SMM-специалист","Эксперт / консультант / коуч","Контент-креатор / редактор","Продажник / аккаунт-менеджер","Администратор / операционный менеджер","Педагог / методист","Финансист / бухгалтер","Разработчик / IT-специалист","Юрист / страховой специалист","HR / рекрутер","Фотограф / видеограф","Интерьерный дизайнер / архитектор","Продакт-менеджер"],"industries":["Здравоохранение и wellness","Маркетинг, медиа и реклама","Образование и EdTech","Профессиональные услуги","Туризм и TravelTech","Розница и e-commerce","IT и разработка","Недвижимость и строительство","Домашние услуги и ЖКХ","Финансы и FinTech","Юридические услуги","Спорт и фитнес","HR и рекрутинг","HoReCa и доставка еды","Красота и мода","Фото- и видеопроизводство","Автомобильная отрасль","НКО, благотворительность и волонтерство","Продуктовый менеджмент и SaaS","Садоводство и растения","Страхование"],"tools":["Чат-модель (Claude / ChatGPT)","Поисковая модель (Perplexity)","База знаний (NotebookLM)","Таблицы + модель (Sheets / Excel)","Автоматизация (n8n / Make)","Сборка приложения (Claude Code / Lovable)"],"levels":["в чате сразу","нужна настройка","нужна сборка"]},"meta":{"total":244}};
+const CASES=CATALOG.cases,VOCAB=CATALOG.vocab;
 
-const DATA=[
-/* Контент */
-{sph:'Контент',sub:'Посты',n:'Контент-план на месяц из брифа',fmt:'Документ',niche:['услуги','эксперт','торговля'],forma:['соло','малый'],tool:'Claude'},
-{sph:'Контент',sub:'Посты',n:'Серия постов из одной статьи (репаковка)',fmt:'Пост',niche:['эксперт','агентство'],forma:['соло','малый'],tool:'Claude'},
-{sph:'Контент',sub:'Статьи',n:'Экспертная статья из голосовой заметки',fmt:'Статья',niche:['эксперт'],forma:['соло'],tool:'Claude'},
-{sph:'Контент',sub:'Сценарии',n:'Сценарий рилса / видео по структуре',fmt:'Сценарий',niche:['услуги','эксперт'],forma:['соло','малый'],tool:'Claude'},
-{sph:'Контент',sub:'Гайды и чек-листы',n:'Гайд или чек-лист как лид-магнит',fmt:'Гайд',niche:['эксперт','услуги'],forma:['соло','малый'],tool:'Claude'},
+/* ============ утилиты ============ */
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s).toLowerCase().replace(/ё/g,'е');
+/* морфология: сравниваем усечённые основы, чтобы «воронку» находило «воронки» */
+const stem=t=>t.length>5?t.slice(0,t.length-2):t;
+const tokens=s=>norm(s).split(/[^0-9a-zа-я]+/).filter(t=>t.length>1);
+/* Совпадение основ. Префикс засчитывается только с трёх букв — иначе короткий
+   запрос цепляет пол-каталога. Раньше правило было двусторонним без длины,
+   отсюда и лишние совпадения в выдаче. */
+function tmatch(t,q){return t===q||(q.length>=3&&t.startsWith(q))||(t.length>=4&&q.startsWith(t));}
+const $=id=>document.getElementById(id);
 
-/* Маркетинг */
-{sph:'Маркетинг',sub:'SMM',n:'Разбор охватов и гипотезы роста',fmt:'Отчёт',niche:['эксперт','торговля'],forma:['соло','малый'],tool:'Claude'},
-{sph:'Маркетинг',sub:'SEO',n:'Семантика и структура статей под запросы',fmt:'Таблица',niche:['торговля','агентство'],forma:['малый','стартап'],tool:'Claude'},
-{sph:'Маркетинг',sub:'Лендинги',n:'Лендинг из оффера: текст + секции',fmt:'Лендинг',niche:['услуги','эксперт'],forma:['соло','малый'],tool:'Claude'},
-{sph:'Маркетинг',sub:'Офферы и лид-магниты',n:'Упаковка оффера и лид-магнита',fmt:'Документ',niche:['эксперт','услуги'],forma:['соло','малый'],tool:'Claude'},
-{sph:'Маркетинг',sub:'Воронки',n:'Прогрев-воронка для запуска',fmt:'Процесс',niche:['эксперт'],forma:['соло','малый'],tool:'Claude'},
-{sph:'Маркетинг',sub:'Трафик',n:'Тексты объявлений + сегменты аудитории',fmt:'Таблица',niche:['торговля','услуги'],forma:['малый'],tool:'Claude'},
+const MODE_PERSONAL='личное',MODE_WORK='рабочее',MODE_BOTH='оба';
+const LVL_CHAT='в чате сразу';
+const ROLE_ANY='__any__';
+const UNI_YES='подойдёт любому',UNI_NO='под конкретную роль';
+const LS_KEY='kris-ai-catalog-v3';
 
-/* Продажи */
-{sph:'Продажи',sub:'Лидген',n:'Парсер базы из 2ГИС / Яндекс.Карт по критериям',fmt:'Процесс',niche:['агентство','торговля'],forma:['малый','стартап','крупный'],tool:'Скрипт + Claude'},
-{sph:'Продажи',sub:'Отдел продаж',n:'Аналитика звонков по скрипту + оценка менеджеров',fmt:'Отчёт',niche:['агентство'],forma:['малый','крупный'],tool:'Claude'},
-{sph:'Продажи',sub:'Отдел продаж',n:'Авто follow-up с аудит-документом в чат клиента',fmt:'Агент',niche:['агентство'],forma:['малый','крупный'],tool:'Claude'},
-{sph:'Продажи',sub:'КП',n:'Персональное КП из карточки клиента',fmt:'Документ',niche:['услуги','агентство'],forma:['соло','малый'],tool:'Claude'},
-{sph:'Продажи',sub:'Клиентская база',n:'Ведение и обогащение CRM-базы',fmt:'Таблица',niche:['агентство','торговля'],forma:['малый','стартап'],tool:'Claude'},
-{sph:'Продажи',sub:'Переговоры',n:'Разбор возражений + скрипт ответов',fmt:'Документ',niche:['услуги','эксперт'],forma:['соло','малый'],tool:'Claude'},
+/* поисковый индекс: основы всех значимых полей кейса */
+CASES.forEach(c=>{
+  c._idx=tokens([c.n,c.grp,c.topic,c.life,c.sph,c.task.join(' '),c.roles.join(' '),c.ind.join(' '),c.tool,c.lvl].join(' ')).map(stem);
+});
+function matchSearch(c,qs){
+  if(!qs.length)return true;
+  return qs.every(q=>c._idx.some(t=>tmatch(t,q)));
+}
 
-/* Сервис */
-{sph:'Сервис',sub:'Отзывы',n:'Обработка отзывов и авто-ответы',fmt:'Процесс',niche:['услуги','торговля','HoReCa'],forma:['малый'],tool:'Claude'},
-{sph:'Сервис',sub:'Колл-центр',n:'Классификация и роутинг обращений',fmt:'Процесс',niche:['торговля','агентство'],forma:['малый','крупный'],tool:'Claude'},
-{sph:'Сервис',sub:'Чат-бот',n:'Бот-ассистент по частым вопросам',fmt:'Чат-ассистент',niche:['услуги','торговля'],forma:['малый','стартап'],tool:'Claude'},
-{sph:'Сервис',sub:'База знаний',n:'Поиск по внутренней базе и регламентам',fmt:'Процесс',niche:['агентство','IT'],forma:['малый','крупный'],tool:'Claude'},
+/* Позиции значений в словарях. Объявлены здесь, а не рядом с сортировками: ими
+   пользуется TOPIC_GROUP сразу ниже, а const не поднимается. */
+const GRP_POS={};VOCAB.groups.forEach((g,i)=>GRP_POS[g]=i);
+const TOPIC_POS={};VOCAB.topics.forEach((t,i)=>TOPIC_POS[t]=i);
+const LVL_POS={};VOCAB.levels.forEach((l,i)=>LVL_POS[l]=i);
 
-/* Ресёрч и аналитика */
-{sph:'Ресёрч и аналитика',sub:'Аудитория',n:'Срез аудитории по репликам на форумах',fmt:'Отчёт',niche:['эксперт','IT'],forma:['соло','стартап'],tool:'Claude'},
-{sph:'Ресёрч и аналитика',sub:'Конкуренты',n:'Аудит конкурентов по отзывам и офферам',fmt:'Отчёт',niche:['услуги','торговля','эксперт'],forma:['соло','малый','стартап'],tool:'Claude'},
-{sph:'Ресёрч и аналитика',sub:'Тренды',n:'Глубокое исследование ниши или тренда',fmt:'Отчёт',niche:['эксперт','IT'],forma:['соло','стартап'],tool:'Claude'},
-{sph:'Ресёрч и аналитика',sub:'Кастдев',n:'Обработка кастдев-интервью → инсайты',fmt:'Отчёт',niche:['эксперт','IT'],forma:['соло','стартап'],tool:'Claude'},
-{sph:'Ресёрч и аналитика',sub:'Исторические данные',n:'Разбор истории продаж → выводы',fmt:'Дашборд',niche:['торговля','производство'],forma:['малый','крупный'],tool:'Claude'},
+/* Тема живёт сразу в нескольких направлениях — в списке группируем её по тому,
+   где кейсов больше всего. Это подпись для навигации, а не переразметка. */
+const TOPIC_GROUP={};
+(function(){
+  const tally={};
+  CASES.forEach(c=>{(tally[c.topic]=tally[c.topic]||{})[c.grp]=((tally[c.topic]||{})[c.grp]||0)+1;});
+  Object.keys(tally).forEach(t=>{
+    TOPIC_GROUP[t]=Object.keys(tally[t]).sort((a,b)=>tally[t][b]-tally[t][a]||GRP_POS[a]-GRP_POS[b])[0];
+  });
+})();
 
-/* Документооборот */
-{sph:'Документооборот',sub:'Генерация',n:'Договор или акт из шаблона и данных',fmt:'Документ',niche:['услуги','агентство','проф-услуги'],forma:['соло','малый'],tool:'Claude'},
-{sph:'Документооборот',sub:'Заполнение',n:'Массовое заполнение бланков по данным',fmt:'Процесс',niche:['проф-услуги','производство'],forma:['малый','крупный'],tool:'Claude'},
-{sph:'Документооборот',sub:'Письма',n:'Деловые, страховые, юридические письма',fmt:'Письмо',niche:['проф-услуги','личное'],forma:['соло','малый'],tool:'Claude'},
-{sph:'Документооборот',sub:'Перевод',n:'Перевод и адаптация документов',fmt:'Документ',niche:['торговля','личное'],forma:['соло','малый'],tool:'Claude'},
-
-/* Операции */
-{sph:'Операции',sub:'Онбординг',n:'Онбординг-методичка + чек-листы',fmt:'Документ',niche:['агентство','производство'],forma:['малый','стартап'],tool:'Claude'},
-{sph:'Операции',sub:'Мэппинг процессов',n:'Карта процесса из описания',fmt:'Майндкарта',niche:['агентство','IT'],forma:['стартап','малый','крупный'],tool:'Claude'},
-{sph:'Операции',sub:'Регламенты',n:'Регламент / SOP из практики',fmt:'Документ',niche:['услуги','производство'],forma:['малый','стартап'],tool:'Claude'},
-
-/* Личный ассистент */
-{sph:'Личный ассистент',sub:'Почта',n:'Разбор почты и черновики ответов',fmt:'Процесс',niche:['личное'],forma:['сотрудник','соло'],tool:'Gmail + Claude'},
-{sph:'Личный ассистент',sub:'Календарь',n:'Планирование недели + напоминания',fmt:'Процесс',niche:['личное'],forma:['сотрудник','соло'],tool:'Claude'},
-{sph:'Личный ассистент',sub:'Планирование',n:'Долгосрочный план целей → шаги',fmt:'Документ',niche:['личное','эксперт'],forma:['соло','сотрудник'],tool:'Claude'},
-{sph:'Личный ассистент',sub:'Тревел',n:'Консультация по визам и документам поездки',fmt:'Документ',niche:['личное'],forma:['соло','сотрудник'],tool:'Claude'},
-
-/* Обучение */
-{sph:'Обучение',sub:'Курсы',n:'Структура курса из экспертизы',fmt:'Документ',niche:['эксперт'],forma:['соло','малый'],tool:'Claude'},
-{sph:'Обучение',sub:'Уроки',n:'Урок + материалы + проверка работ',fmt:'Документ',niche:['эксперт','услуги'],forma:['соло'],tool:'Claude'},
-{sph:'Обучение',sub:'Вовлечение',n:'Квиз или игра для вовлечения',fmt:'Квиз / игра',niche:['эксперт','торговля'],forma:['соло','малый'],tool:'Claude'},
-
-/* HR */
-{sph:'HR',sub:'Найм',n:'Скрининг откликов по критериям',fmt:'Таблица',niche:['агентство','производство'],forma:['малый','стартап','крупный'],tool:'Claude'},
-{sph:'HR',sub:'Оценка',n:'Сводка обратной связи по сотруднику',fmt:'Отчёт',niche:['агентство','производство'],forma:['малый','крупный'],tool:'Claude'},
-
-/* Финансы */
-{sph:'Финансы',sub:'Учёт',n:'Сверка: банк vs учёт',fmt:'Процесс',niche:['агентство','торговля'],forma:['соло','малый'],tool:'Claude'},
-{sph:'Финансы',sub:'Прогноз',n:'Прогноз кэша на 30 дней',fmt:'Отчёт',niche:['услуги','торговля'],forma:['соло','малый','стартап'],tool:'Claude'},
-{sph:'Финансы',sub:'Счета',n:'Дожим просрочек (invoice chaser)',fmt:'Процесс',niche:['агентство','проф-услуги'],forma:['малый','крупный'],tool:'Claude'},
+/* ============ фасеты ============
+   Один список задаёт всё разом: контрол, правило фильтрации, подсчёт и сброс.
+   ui:'dd' — выпадающий список, ui:'tag' — короткий ряд тегов.
+   Добавить срез — добавить строку сюда, больше нигде. */
+const FACETS=[
+  /* «кому» стоит первым, но живёт в общем ряду фильтров: тот же компактный дропдаун,
+     что и остальные — отдельная горизонтальная полоса съедала строку целиком.
+     В личной ветке он молчит: там 84 кейса из 110 помечены бытовыми ролями
+     («Частное лицо / член семьи»), и деление «под конкретную роль» читается как ошибка. */
+  {key:'uni',  label:'кому',       ui:'dd', of:c=>[c.uni?UNI_YES:UNI_NO],values:()=>[UNI_YES,UNI_NO],tone:'lime',keepOrder:true,hidden:()=>S.mode===MODE_PERSONAL},
+  {key:'role', label:'роль',       ui:'dd', of:c=>c.roles,  values:()=>VOCAB.roles,  hidden:()=>S.mode===MODE_PERSONAL},
+  {key:'grp',  label:'направление',ui:'dd', of:c=>[c.grp],  values:()=>VOCAB.groups},
+  {key:'topic',label:'тема',       ui:'dd', of:c=>[c.topic],values:()=>VOCAB.topics,groupBy:t=>TOPIC_GROUP[t]||'—'},
+  {key:'task', label:'что сделать',ui:'dd', of:c=>c.task,   values:()=>VOCAB.tasks}
+  /* «вход» и «инструмент» фасетами больше не выведены: ряд тегов забивал пол-экрана,
+     а оба среза читаются прямо в карточке. Уровень входа остаётся в сортировках
+     «сначала простые / сложные» и в легенде. */
 ];
+const FACET_BY_KEY={};FACETS.forEach(f=>FACET_BY_KEY[f.key]=f);
 
-let view='tree',personaBy='niche',axis='niche',q='';
-const selForma=new Set(),selNiche=new Set();
-const openSet=new Set();
-const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-const uid=(...p)=>p.join('¦');
-const distinct=(arr)=>arr.filter((v,i)=>arr.indexOf(v)===i);
+/* ============ состояние ============ */
+const S={
+  visited:false,     /* каталог уже открывали — опрос больше не всплывает сам */
+  answered:false,    /* на опрос ответили хотя бы одним ответом */
+  mode:'',           /* личное | рабочее | оба */
+  role:'',           /* рабочая ветка; ROLE_ANY = «неважно, покажи универсальное» */
+  grp:'',            /* рабочая ветка */
+  life:'',           /* личная ветка */
+  task:'',           /* личная ветка */
+  step:0,
+  view:'list',
+  sort:'match',      /* порядок выдачи; match = ранжирование по ответам опроса */
+  q:'',
+  sel:Object.fromEntries(FACETS.map(f=>[f.key,new Set()])),
+  qOff:new Set(),        /* ответы опроса, снятые руками — не фильтруют */
+  folded:true,           /* панель фильтров свёрнута (важно только на телефоне) */
+  fav:new Set(),         /* id отмеченных звездой — переживает перезагрузку */
+  favOnly:false,         /* показывать только избранное */
+  openNodes:new Set(),   /* раскрытые узлы дерева */
+  openCards:new Set(),   /* раскрытые карточки — общие для всех видов */
+  openDD:''              /* ключ раскрытого выпадающего списка ('' — все закрыты) */
+};
 
-function matchQ(d){if(!q)return true;const h=(d.sph+' '+d.sub+' '+d.fmt+' '+d.n+' '+d.niche.join(' ')+' '+d.forma.join(' ')+' '+d.tool).toLowerCase();return h.includes(q);}
-function matchFilters(d){
-  if(selForma.size&&!d.forma.some(f=>selForma.has(f)))return false;
-  if(selNiche.size&&!d.niche.some(n=>selNiche.has(n)))return false;
+/* ============ телеметрия ============ */
+const TELEMETRY_URL='';
+function track(event,payload){
+  const rec={event:event,payload:payload||{},ts:new Date().toISOString()};
+  try{
+    const buf=JSON.parse(localStorage.getItem(LS_KEY+':events')||'[]');
+    buf.push(rec);localStorage.setItem(LS_KEY+':events',JSON.stringify(buf.slice(-400)));
+  }catch(e){}
+  if(TELEMETRY_URL&&navigator.sendBeacon)navigator.sendBeacon(TELEMETRY_URL,JSON.stringify(rec));
+}
+
+/* ============ ранжирование ============
+   Опрос ничего не отрезает — он только меняет порядок. Совпало по занятию и направлению —
+   верх списка, не совпало — уходит вниз, но остаётся доступным. Пустой выдачи не бывает. */
+const W={role:50,grp:26,life:30,task:18,uni:12,mode:20,modeMiss:-40,chat:2};
+/* Содержательное совпадение — только ответы про суть. Ни режим, ни бонус «подойдёт
+   любому» сюда не входят: иначе верхняя полка забивается универсальными кейсами,
+   которые к ответу отношения не имеют. */
+function contentScore(c){
+  let s=0;
+  if(S.role)s+=S.role===ROLE_ANY?(c.uni?W.role:0):(c.roles.includes(S.role)?W.role:0);
+  if(S.grp&&c.grp===S.grp)s+=W.grp;
+  if(S.life&&c.life===S.life)s+=W.life;
+  if(S.task&&c.task.includes(S.task))s+=W.task;
+  return s;
+}
+function score(c){
+  let s=contentScore(c);
+  if(S.mode===MODE_BOTH)s+=W.mode;
+  else if(S.mode)s+=c.mode.includes(S.mode)?W.mode:W.modeMiss;
+  /* универсальное — не «моё», но и не мимо: небольшая добавка, не полка */
+  if(c.uni&&S.role&&S.role!==ROLE_ANY&&!c.roles.includes(S.role))s+=W.uni;
+  if(c.lvl===LVL_CHAT)s+=W.chat;
+  return s;
+}
+function inMode(c){return !S.mode||S.mode===MODE_BOTH||c.mode.includes(S.mode);}
+/* Размер верхней полки — от числа реально совпавших кейсов, зажат в 5..20.
+   Меньше пяти показывать бессмысленно, больше двадцати никто не пролистает. */
+const OWN_MIN=5,OWN_MAX=20;
+function ownSize(list){
+  if(!S.answered)return 0;
+  const matched=list.filter(x=>inMode(x.c)&&contentScore(x.c)>0).length;
+  const pool=list.filter(x=>inMode(x.c)).length;
+  if(!matched)return 0;
+  return Math.min(pool,Math.max(OWN_MIN,Math.min(OWN_MAX,matched)));
+}
+const BAND_TITLE={own:'Твоё',near:'Близкое',rest:'Весь каталог'};
+const BAND_HINT={own:'ближе всего к твоим ответам',near:'соседнее — часто переносится один в один',rest:'всё остальное, на случай если захочется вширь'};
+
+/* ============ ответы опроса как фильтр ============
+   Раньше опрос только менял порядок — человек отвечал на три вопроса и видел
+   тот же список. Теперь ответы режут выдачу по-настоящему, но с двумя оговорками:
+   каждый ответ снимается своим чипом, и ответ, после которого осталось бы меньше
+   SURVEY_MIN идей, не применяется вовсе (role × направление пусто в 155 парах из 210 —
+   жёсткий AND давал бы пустой экран). Порядок в списке = порядок важности ответа. */
+const SURVEY_MIN=8;
+function surveyAnswers(){
+  const a=[];
+  if(S.mode&&S.mode!==MODE_BOTH)
+    a.push({k:'mode',l:S.mode===MODE_WORK?'для работы':'для себя и семьи',t:c=>c.mode.includes(S.mode)});
+  if(S.mode===MODE_PERSONAL){
+    if(S.life)a.push({k:'life',l:S.life,t:c=>c.life===S.life});
+    if(S.task)a.push({k:'task',l:S.task,t:c=>c.task.includes(S.task)});
+  }else{
+    if(S.role)a.push(S.role===ROLE_ANY
+      ? {k:'role',l:'подойдёт любому',t:c=>c.uni}
+      : {k:'role',l:S.role,t:c=>c.roles.includes(S.role)});
+    if(S.grp)a.push({k:'grp',l:S.grp,t:c=>c.grp===S.grp});
+  }
+  return a.filter(x=>!S.qOff.has(x.k));
+}
+/* План считается один раз за отрисовку: какие ответы реально применены к базе. */
+function surveyPlan(base){
+  const applied=[],skipped=[];
+  let cur=base;
+  surveyAnswers().forEach(a=>{
+    const next=cur.filter(a.t);
+    if(next.length>=SURVEY_MIN){cur=next;applied.push(a);}
+    else skipped.push(a);
+  });
+  return {applied:applied,skipped:skipped};
+}
+function planApplied(){return (S._plan&&S._plan.applied)||[];}
+function passesSurvey(c){
+  const ap=planApplied();
+  for(let i=0;i<ap.length;i++)if(!ap[i].t(c))return false;
   return true;
 }
-function fdata(){return DATA.filter(d=>matchQ(d)&&matchFilters(d));}
 
-/* ---- pins on a case ---- */
-function casePins(d){
-  let h=`<span class="pin fmt">${esc(d.fmt)}</span>`;
-  d.niche.forEach(n=>h+=`<span class="pin">${esc(n)}</span>`);
-  h+=`<span class="pin frm">${d.forma.map(esc).join(' · ')}</span>`;
-  h+=`<span class="pin tool">${esc(d.tool)}</span>`;
-  return h;
+/* ============ фильтрация ============ */
+function passes(c,skip){
+  for(let i=0;i<FACETS.length;i++){
+    const f=FACETS[i];
+    if(f.key===skip)continue;
+    const set=S.sel[f.key];
+    if(!set.size)continue;
+    const vals=f.of(c);
+    let hit=false;
+    for(let j=0;j<vals.length;j++)if(set.has(vals[j])){hit=true;break;}
+    if(!hit)return false;
+  }
+  return true;
 }
-function caseRow(d){return `<div class="case"><span class="leaf-dot">◦</span><div class="cl"><div class="cn">${esc(d.n)}</div><div class="facets">${casePins(d)}</div></div></div>`;}
-function nodeOpen(id){return openSet.has(id)?' open':'';}
+/* skip — фасет, который не учитываем: так считаются счётчики его же чипов */
+function rows(skip){
+  const qs=tokens(S.q).map(stem);
+  return CASES.filter(c=>(!S.favOnly||S.fav.has(c.id))&&matchSearch(c,qs)&&passes(c,skip)&&passesSurvey(c));
+}
+/* План считается по всему каталогу, а не по текущей выдаче: если бы он зависел от
+   фильтров и поиска, выбор фильтра мог бы отменить ответ опроса и внезапно расширить
+   список. Набор применённых ответов меняется только вместе с самими ответами. */
+function planBase(){return CASES;}
+function ranked(){
+  return rows().map(c=>({c:c,s:score(c)}))
+    .sort((a,b)=>b.s-a.s||(GRP_POS[a.c.grp]-GRP_POS[b.c.grp])||a.c.n.localeCompare(b.c.n,'ru'));
+}
+/* ============ сортировка ============
+   «По совпадению» — единственный порядок, где есть полки: он опирается на ответы опроса.
+   Любой явный порядок их отменяет — иначе полка «Твоё» противоречит выбранной сортировке. */
+/* «По направлениям» и «по темам» убраны: то же самое даёт вид «По направлениям»
+   и фильтры, а в плоском списке эти порядки читались как случайная перетасовка. */
+const SORTS=[
+  {k:'match',l:'по совпадению',hint:'ответы опроса сверху'},
+  {k:'new',  l:'по дате добавления',hint:'сначала новые'},
+  {k:'az',   l:'по алфавиту А–Я'},
+  {k:'za',   l:'по алфавиту Я–А'},
+  {k:'easy', l:'сначала простые'},
+  {k:'hard', l:'сначала сложные'}
+];
+const SORT_BY_KEY={};SORTS.forEach(s=>SORT_BY_KEY[s.k]=s);
+const byName=(a,b)=>a.c.n.localeCompare(b.c.n,'ru');
+/* Отдельной даты в источнике нет. ID выдаются подряд по мере пополнения каталога,
+   поэтому порядок ID — это и есть порядок добавления; свежие идут первыми. */
+const byNew=(a,b)=>b.c.id.localeCompare(a.c.id)||byName(a,b);
+const CMP={
+  az:byName,
+  za:(a,b)=>-byName(a,b),
+  new:byNew,
+  easy:(a,b)=>(LVL_POS[a.c.lvl]-LVL_POS[b.c.lvl])||(b.s-a.s)||byName(a,b),
+  hard:(a,b)=>(LVL_POS[b.c.lvl]-LVL_POS[a.c.lvl])||(b.s-a.s)||byName(a,b)
+};
+/* Полки «Твоё / Близкое» имеют смысл, только когда опрос ничего не отрезал:
+   если ответы уже применены как фильтр, всё на экране и есть «твоё». */
+function banded(){return S.sort==='match'&&!planApplied().length;}
+function listRows(){
+  const r=ranked();
+  return banded()?r:r.slice().sort(CMP[S.sort]||byName);
+}
+function countIf(fn){return CASES.filter(fn).length;}
 
-/* ---- TREE: сфера -> под -> кейс ---- */
-function renderTree(){
-  const rows=fdata();
-  let html='<div class="tree">';
-  let shown=0;
-  SPHERES.forEach(sph=>{
-    const sr=rows.filter(d=>d.sph===sph);if(!sr.length)return;shown++;
-    const subs=distinct(sr.map(d=>d.sub));
-    const sid=uid('s',sph);
-    let body='';
-    subs.forEach(sub=>{
-      const br=sr.filter(d=>d.sub===sub);
-      const bid=uid('b',sph,sub);
-      body+=`<div class="node d2${nodeOpen(bid)}"><button class="nbtn" data-id="${bid}"><span class="chev">▸</span><span class="tag-lvl">напр.</span><span class="nlabel">${esc(sub)}</span><span class="ncount">${br.length} ${br.length===1?'кейс':'кейсов'}</span></button><div class="kids"><div class="kids-in">${br.map(caseRow).join('')}</div></div></div>`;
+/* ============ опрос ============ */
+function steps(){
+  const first={
+    key:'mode',head:'Вопрос 1 из 3',title:'Для чего ищешь?',
+    hint:'От этого зависит, что показать первым — рабочие применения или бытовые.',
+    opts:[
+      {v:MODE_WORK,l:'Для работы',n:countIf(c=>c.mode.includes(MODE_WORK))},
+      {v:MODE_PERSONAL,l:'Для себя и семьи',n:countIf(c=>c.mode.includes(MODE_PERSONAL))},
+      {v:MODE_BOTH,l:'И то, и другое',n:CASES.length}
+    ]
+  };
+  if(S.mode===MODE_PERSONAL){
+    return [first,
+      {key:'life',head:'Вопрос 2 из 3',title:'Какая область жизни?',
+       hint:'Где сейчас больше всего рутины. Остальное никуда не денется.',
+       opts:VOCAB.personalLives.map(v=>({v:v,l:v,n:countIf(c=>c.mode.includes(MODE_PERSONAL)&&c.life===v)}))},
+      {key:'task',head:'Вопрос 3 из 3',title:'Что хочется сделать?',
+       hint:'Тип задачи, а не конкретный инструмент.',
+       opts:VOCAB.personalTasks.map(v=>({v:v,l:v,n:countIf(c=>c.mode.includes(MODE_PERSONAL)&&c.task.includes(v))}))}
+    ];
+  }
+  return [first,
+    {key:'role',head:'Вопрос 2 из 3',title:'Чем занимаешься по работе?',
+     hint:'Ближайшее занятие. Своего не видишь — бери «неважно»: это применения, которые ложатся на любую работу.',
+     opts:VOCAB.workRoles.map(v=>({v:v,l:v,n:countIf(c=>c.roles.includes(v))}))
+       .concat([{v:ROLE_ANY,l:'Неважно — покажи универсальное',n:countIf(c=>c.uni)}])},
+    {key:'grp',head:'Вопрос 3 из 3',title:'Что подтянуть в первую очередь?',
+     hint:'Направление, где сейчас больнее всего.',
+     opts:VOCAB.workGroups.map(v=>({v:v,l:v,n:countIf(c=>c.mode.includes(MODE_WORK)&&c.grp===v)}))}
+  ];
+}
+function renderQuiz(){
+  const st=steps(),cur=st[S.step];
+  $('steps').innerHTML=st.map((_,i)=>`<i class="${i<=S.step?'on':''}"></i>`).join('');
+  $('qhead').textContent=cur.head;
+  $('qtitle').textContent=cur.title;
+  $('qhint').textContent=cur.hint;
+  $('qopts').innerHTML=cur.opts.map(o=>
+    `<button class="opt${S[cur.key]===o.v?' on':''}" data-v="${esc(o.v)}">${esc(o.l)}<span class="cnt">${o.n}</span></button>`).join('');
+  $('qopts').querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
+    S[cur.key]=b.dataset.v;
+    track('quiz_answer',{step:S.step,key:cur.key,value:b.dataset.v});
+    if(cur.key==='mode'){S.role='';S.grp='';S.life='';S.task='';}
+    if(S.step<steps().length-1){S.step++;renderQuiz();}
+    else finishQuiz();
+  }));
+  $('qback').classList.toggle('hide',S.step===0);
+  $('qskip').textContent=S.step===0?'Пропустить опрос':'Пропустить вопрос';
+  const preview=CASES.filter(c=>inMode(c)&&contentScore(c)>0).length;
+  $('qpreview').innerHTML=S.step>0?`совпало <b>${preview}</b>`:`в каталоге <b>${CASES.length}</b> идей`;
+}
+function finishQuiz(){
+  S.answered=!!(S.mode||S.role||S.grp||S.life||S.task);
+  S.visited=true;
+  /* в личной ветке роли не спрашиваем — снимаем и выбор, иначе он фильтрует незаметно */
+  if(S.mode===MODE_PERSONAL)S.sel.role.clear();
+  save();
+  showCatalog(true);
+  track('quiz_done',{mode:S.mode,role:S.role,grp:S.grp,life:S.life,task:S.task});
+  render();
+  const box=$('catalog');
+  if(box.scrollIntoView)box.scrollIntoView({behavior:'smooth',block:'start'});
+}
+/* Каталог и опрос — два экрана. Строка «пройти опрос заново» живёт только там,
+   где опрос уже позади. */
+function showCatalog(on){
+  $('catalog').classList.toggle('hide',!on);
+  $('quiz').classList.toggle('hide',on);
+  $('requizLine').classList.toggle('hide',!on);
+}
+function startQuiz(){
+  S.step=0;S.answered=false;S.mode='';S.role='';S.grp='';S.life='';S.task='';S.qOff.clear();
+  showCatalog(false);
+  renderQuiz();
+  try{window.scrollTo({top:0,behavior:'smooth'});}catch(e){}
+}
+
+/* ============ карточка ============ */
+function hl(text){
+  const qs=tokens(S.q).map(stem);
+  if(!qs.length)return esc(text);
+  return esc(text).split(/(\s+)/).map(w=>{
+    const n=stem(norm(w.replace(/[^0-9a-zа-я]/gi,'')));
+    return n&&qs.some(q=>tmatch(n,q))?`<mark>${w}</mark>`:w;
+  }).join('');
+}
+function card(c){
+  const roles=c.roles.length?c.roles.join(' · '):'';
+  return `<div class="card${S.openCards.has(c.id)?' on':''}" data-id="${c.id}">
+    <span class="dot">◦</span>
+    <div class="cl">
+      <div class="cn">${hl(c.n)}</div>
+      <div class="facets">
+        <span class="pin sph">${esc(c.grp)}</span>
+        <span class="pin task">${esc(c.topic)}</span>
+        ${c.task.map(t=>`<span class="pin task">${esc(t)}</span>`).join('')}
+        <span class="pin tool">${esc(c.tool)}</span>
+      </div>
+      <div class="det"><dl>
+        <dt>Сфера</dt><dd>${esc(c.sph)}</dd>
+        ${c.life?`<dt>Область жизни</dt><dd>${esc(c.life)}</dd>`:''}
+        ${roles?`<dt>Кому</dt><dd>${esc(roles)}</dd>`:''}
+        ${c.ind.length?`<dt>Отрасли</dt><dd>${esc(c.ind.join(' · '))}</dd>`:''}
+        <dt>Вход</dt><dd>${esc(c.lvl)}</dd>
+        <dt>Риск ошибки</dt><dd>${esc(c.risk)}</dd>
+      </dl></div>
+    </div>
+    <button class="star${S.fav.has(c.id)?' on':''}" data-star="${c.id}" title="В избранное">${S.fav.has(c.id)?'★':'☆'}</button>
+  </div>`;
+}
+
+/* ============ виды ============ */
+function renderList(){
+  const r=listRows();
+  const k=banded()?ownSize(r):0;
+  let html='';
+  if(!k){
+    html=r.length?`<div class="band rest"><div class="cards">${r.map(x=>card(x.c)).join('')}</div></div>`:'';
+  }else{
+    const groups={own:[],near:[],rest:[]};
+    r.forEach((x,i)=>groups[i<k?'own':(inMode(x.c)?'near':'rest')].push(x.c));
+    ['own','near','rest'].forEach(g=>{
+      if(!groups[g].length)return;
+      html+=`<div class="band ${g}"><div class="band-h"><span class="t">${BAND_TITLE[g]}</span><span class="n">${groups[g].length} · ${BAND_HINT[g]}</span></div>
+        <div class="cards">${groups[g].map(card).join('')}</div></div>`;
     });
-    html+=`<div class="node d1${nodeOpen(sid)}"><button class="nbtn" data-id="${sid}"><span class="chev">▸</span><span class="nlabel">${esc(sph)}</span><span class="ncount">${subs.length} напр. · ${sr.length}</span></button><div class="kids"><div class="kids-in">${body}</div></div></div>`;
+  }
+  $('view-list').innerHTML=html||(S.favOnly
+    ? '<div class="empty">В избранном под этот запрос ничего нет. Сними фильтры или выключи «★ избранное».</div>'
+    : '<div class="empty">Под этот запрос ничего нет. Сотри поиск или сними фильтры.</div>');
+}
+function renderTree(){
+  const r=rows();
+  let html='<div class="tree">',shown=0;
+  VOCAB.groups.forEach(grp=>{
+    const gr=r.filter(c=>c.grp===grp);if(!gr.length)return;shown++;
+    const topics=VOCAB.topics.filter(t=>gr.some(c=>c.topic===t));
+    const gid='g|'+grp;
+    const body=topics.map(topic=>{
+      const br=gr.filter(c=>c.topic===topic),bid='t|'+grp+'|'+topic;
+      return `<div class="node d2${S.openNodes.has(bid)?' open':''}"><button class="nbtn" data-node="${esc(bid)}"><span class="chev">▸</span><span class="tag-lvl">тема</span><span class="nlabel">${esc(topic)}</span><span class="ncount">${br.length}</span></button><div class="kids"><div class="kids-in">${br.map(card).join('')}</div></div></div>`;
+    }).join('');
+    html+=`<div class="node d1${S.openNodes.has(gid)?' open':''}"><button class="nbtn" data-node="${esc(gid)}"><span class="chev">▸</span><span class="nlabel">${esc(grp)}</span><span class="ncount">${topics.length} тем · ${gr.length}</span></button><div class="kids"><div class="kids-in">${body}</div></div></div>`;
   });
   html+='</div>';
-  document.getElementById('view-tree').innerHTML=shown?html:'<div class="empty">Под этот фильтр кейсов нет. Сними лишние чипы.</div>';
-  wireNodes('view-tree');
+  $('view-tree').innerHTML=shown?html:'<div class="empty">Под этот запрос ничего нет.</div>';
 }
-
-/* ---- PERSONA: группировка «от метки» ---- */
-function renderPersona(){
-  const rows=fdata();
-  let groups,label,valOf;
-  if(personaBy==='niche'){groups=NICHES;label='ниша';valOf=d=>d.niche;}
-  else if(personaBy==='forma'){groups=FORMAS;label='форма';valOf=d=>d.forma;}
-  else if(personaBy==='fmt'){groups=distinct(rows.map(d=>d.fmt)).sort((a,b)=>a.localeCompare(b,'ru'));label='формат';valOf=d=>[d.fmt];}
-  else{groups=distinct(rows.map(d=>d.tool)).sort((a,b)=>a.localeCompare(b,'ru'));label='инструмент';valOf=d=>[d.tool];}
-  let html='',shown=0;
-  groups.forEach(g=>{
-    const gr=rows.filter(d=>valOf(d).includes(g));if(!gr.length)return;shown++;
-    const id=uid('p',personaBy,g);
-    const lbl=personaBy==='niche'?NICHE_LABEL[g]:personaBy==='forma'?FORMA_LABEL[g]:g;
-    html+=`<div class="node d1${nodeOpen(id)}"><button class="nbtn" data-id="${id}"><span class="chev">▸</span><span class="tag-lvl">${label}</span><span class="nlabel">${esc(lbl)}</span><span class="ncount">${gr.length} ${gr.length===1?'применение':'применений'}</span></button><div class="kids"><div class="kids-in">${gr.map(caseRow).join('')}</div></div></div>`;
+/* Приватный срез для Kris: во что упаковывается каждое направление. Наружу не показывается. */
+const PACKS=['Услуга под ключ','Цифровой продукт / клиентский сервис','Внутренний инструмент / интеграция'];
+function renderSell(){
+  const r=rows();
+  let html=`<thead><tr><th class="corner">Направление ↓</th>${PACKS.map(p=>`<th>${esc(p)}</th>`).join('')}<th>всего</th></tr></thead><tbody>`;
+  VOCAB.groups.forEach(grp=>{
+    const gr=r.filter(c=>c.grp===grp);if(!gr.length)return;
+    html+=`<tr><th>${esc(grp)}</th>${PACKS.map(p=>{
+      const n=gr.filter(c=>c.pack.includes(p)).length;
+      return n?`<td class="cell-on">${n}</td>`:'<td class="cell-off">·</td>';
+    }).join('')}<td>${gr.length}</td></tr>`;
   });
-  document.getElementById('persona-body').innerHTML=shown?html:'<div class="empty">Под этот фильтр применений нет.</div>';
-  wireNodes('persona-body');
+  html+=`<tr><th>Итого</th>${PACKS.map(p=>`<td class="cell-on">${r.filter(c=>c.pack.includes(p)).length}</td>`).join('')}<td>${r.length}</td></tr></tbody>`;
+  $('sell-table').innerHTML=html;
 }
 
-/* ---- MATRIX: сфера × ниша|форма ---- */
-function renderMatrix(){
-  const rows=fdata();
-  const cols=axis==='niche'?NICHES:FORMAS;
-  const colLabel=axis==='niche'?NICHE_LABEL:FORMA_LABEL;
-  const valOf=axis==='niche'?(d=>d.niche):(d=>d.forma);
-  let head=`<thead><tr><th class="corner">Сфера ↓</th>${cols.map(c=>`<th>${esc(colLabel[c])}</th>`).join('')}</tr></thead>`;
-  let body='<tbody>';
-  SPHERES.forEach(sph=>{
-    const sr=rows.filter(d=>d.sph===sph);if(!sr.length)return;
-    body+=`<tr><th>${esc(sph)}</th>${cols.map(c=>{
-      const on=sr.some(d=>valOf(d).includes(c));
-      return on?`<td class="cell-on">●</td>`:`<td class="cell-off">·</td>`;
-    }).join('')}</tr>`;
+/* ============ фильтры: выпадающие списки ============
+   Один ряд компактных кнопок вместо семи рядов чипов. Счётчик в пункте считается
+   без учёта своего же фасета — поэтому пункт никогда не показывает 0 для того,
+   что на самом деле достижимо. Выбранное дублируется чипами под рядом: иначе,
+   когда список закрыт, фильтр работает невидимо. */
+function ddCounts(f){
+  const counts={};f.values().forEach(v=>counts[v]=0);
+  rows(f.key).forEach(c=>f.of(c).forEach(v=>{if(v in counts)counts[v]++;}));
+  return counts;
+}
+function ddItem(f,v,n){
+  const on=S.sel[f.key].has(v),tone=f.tone?' '+f.tone:'';
+  return `<button class="ddi${tone}${on?' on':''}${(!n&&!on)?' off':''}" data-f="${f.key}" data-v="${esc(v)}">
+    <span class="bx">✓</span><span class="l">${esc(v)}</span><span class="c">${n}</span></button>`;
+}
+/* Значения внутри списка идут по алфавиту — кроме фасетов с keepOrder, где порядок
+   сам по себе информативен (вход: от простого к сложному). Фасет с groupBy режется
+   на подзаголовки, чтобы 37 тем не читались как сплошная простыня. */
+function ddMenu(f){
+  const counts=ddCounts(f);
+  const sel=S.sel[f.key].size;
+  let html=`<button class="ddi clr${sel?'':' off'}" data-clear="${f.key}">сбросить${sel?' ('+sel+')':''}</button>`;
+  let vals=f.values().slice();
+  if(!f.keepOrder)vals.sort((a,b)=>a.localeCompare(b,'ru'));
+  if(f.groupBy){
+    const buckets={};
+    vals.forEach(v=>{const g=f.groupBy(v)||'—';(buckets[g]=buckets[g]||[]).push(v);});
+    Object.keys(buckets).sort((a,b)=>(GRP_POS[a]??99)-(GRP_POS[b]??99)||a.localeCompare(b,'ru')).forEach(g=>{
+      html+=`<div class="ddg">${esc(g)}</div>`+buckets[g].map(v=>ddItem(f,v,counts[v])).join('');
+    });
+  }else{
+    html+=vals.map(v=>ddItem(f,v,counts[v])).join('');
+  }
+  return html;
+}
+/* В кнопке фасета — только количество: само значение живёт в чипах под панелью.
+   Иначе длинное «Администратор / операционный менеджер» растягивает кнопку и
+   вся строка фильтров перестраивается на каждый выбор. */
+function ddTitle(f){
+  const n=S.sel[f.key].size;
+  return n?n+' выбрано':'все';
+}
+function ddBox(f){
+  const on=S.sel[f.key].size>0,open=S.openDD===f.key,tone=f.tone?' '+f.tone:'';
+  return `<div class="dd" data-dd="${f.key}">
+    <button class="ddb${tone}${on?' on':''}${open?' open':''}" data-ddb="${f.key}">
+      <span class="k">${esc(f.label)}</span><span class="v">${esc(ddTitle(f))}</span><span class="ch">▼</span></button>
+    ${open?`<div class="ddm">${ddMenu(f)}</div>`:''}</div>`;
+}
+function renderFilters(){
+  let dd='';
+  FACETS.forEach(f=>{
+    if(f.hidden&&f.hidden()){S.sel[f.key].clear();return;}
+    dd+=ddBox(f);
   });
-  body+='</tbody>';
-  document.getElementById('mx-table').innerHTML=head+body;
+  $('facet-rows').innerHTML=dd;
+
+  const picked=[];
+  FACETS.forEach(f=>{
+    if(f.hidden&&f.hidden())return;
+    S.sel[f.key].forEach(v=>picked.push(
+      `<button class="chip pick on${f.tone?' '+f.tone:''}" data-f="${f.key}" data-v="${esc(v)}">${esc(v)}<span class="x">×</span></button>`));
+  });
+  /* меню у правого края экрана прижимаем к правому краю кнопки */
+  const om=document.querySelector('#facet-rows .ddm');
+  if(om&&om.getBoundingClientRect().right>window.innerWidth-8)om.classList.add('right');
+
+  $('picked').innerHTML=picked.length?`<span class="filt-lbl">выбрано</span>${picked.join('')}<button class="mini" id="clearAll">снять всё</button>`:'';
+  $('picked').classList.toggle('hide',!picked.length);
+  $('ftglN').textContent=picked.length?picked.length:'';
+  renderFav();
+}
+/* Чипы ответов опроса — отдельной строкой над фильтрами: видно, чем сужен каталог,
+   и каждый ответ снимается по тапу. */
+function renderQFilters(){
+  const ap=planApplied(),sk=(S._plan&&S._plan.skipped)||[];
+  const html=ap.map(a=>`<button class="chip qf on" data-qoff="${esc(a.k)}">${esc(a.l)}<span class="x">×</span></button>`).join('')
+    +(sk.length?`<span class="miss">не применено: ${sk.map(a=>esc(a.l)).join(', ')}</span>`:'');
+  $('qrow').innerHTML=html?`<span class="filt-lbl">из опроса</span>${html}`:'';
+  $('qrow').classList.toggle('hide',!html);
+}
+/* Избранное: переключатель показывает только отмеченные звездой. */
+function renderFav(){
+  const n=S.fav.size;
+  $('fav-slot').innerHTML=n
+    ? `<button class="chip fav${S.favOnly?' on':''}" id="favTgl">★ избранное<span class="c">${n}</span></button>`
+    : '';
+  /* слот живёт в шапке, вне делегата каталога — слушатель вешаем на месте */
+  const t=$('favTgl');
+  if(t)t.addEventListener('click',()=>{S.favOnly=!S.favOnly;track('fav_only',{on:S.favOnly});save();render();});
+}
+function renderSort(){
+  const open=S.openDD==='__sort__',cur=SORT_BY_KEY[S.sort]||SORTS[0];
+  $('sort-slot').innerHTML=`<div class="dd" data-dd="__sort__">
+    <button class="ddb${S.sort!=='match'?' on':''}${open?' open':''}" data-ddb="__sort__">
+      <span class="k">сортировка</span><span class="v">${esc(cur.l)}</span><span class="ch">▼</span></button>
+    ${open?`<div class="ddm right">${SORTS.map(s=>
+      `<button class="ddi${s.k===S.sort?' on':''}" data-sort="${s.k}"><span class="bx">✓</span><span class="l">${esc(s.l)}</span>${s.hint?`<span class="c">${esc(s.hint)}</span>`:''}</button>`).join('')}</div>`:''}
+  </div>`;
 }
 
-function wireNodes(containerId){
-  document.querySelectorAll('#'+containerId+' .nbtn[data-id]').forEach(b=>b.addEventListener('click',()=>{
-    const id=b.dataset.id;
-    if(openSet.has(id))openSet.delete(id);else openSet.add(id);
-    b.parentElement.classList.toggle('open');
-  }));
+/* ============ сборка ============ */
+function render(){
+  S._plan=surveyPlan(planBase());
+  renderFilters();renderSort();renderQFilters();
+  const r=rows();
+  $('count').innerHTML=`<b>${r.length}</b> из ${CASES.length}`;
+  const own=ownSize(ranked());
+  const ap=planApplied();
+  /* Постоянное объяснение порядка переехало в справку — здесь остаётся только то,
+     что зависит от текущего состояния каталога. */
+  const tip=ap.length
+    ? `<b>Каталог сужен по ответам опроса:</b> ${ap.map(a=>esc(a.l)).join(' · ')}. Сними чип над списком — вернётся остальное.${
+        S._plan.skipped.length?` Ответ «${esc(S._plan.skipped[0].l)}» не применён: вместе с остальными осталось бы меньше ${SURVEY_MIN} идей.`:''}`
+    : !banded()
+    ? `<b>Порядок: ${esc((SORT_BY_KEY[S.sort]||SORTS[0]).l)}.</b> Полки «Твоё / Близкое» выключены — они есть только в сортировке по совпадению. Ничего не скрыто: фильтры и поиск работают по всем ${CASES.length} идеям.`
+    : S.answered
+    ? `Сверху — <b>${own}</b> идей под твой ответ, дальше соседние, в самом низу остальной каталог.`
+    : `<b>Опрос пропущен.</b> Порядок обычный, по направлениям — пройти опрос можно в любой момент.`;
+  $('tip').innerHTML=tip;
+  $('tip').classList.toggle('hide',!tip);
+  $('foot').textContent='Банк идей: '+CASES.length+' применений · '+VOCAB.groups.length+' направлений · '+VOCAB.topics.length+' тем. Каталог пополняется.';
+  if(S.view==='list')renderList();
+  if(S.view==='tree')renderTree();
+  if(S.view==='sell')renderSell();
 }
 
-/* ---- chips ---- */
-function buildChips(){
-  const cf=document.getElementById('chips-forma');
-  cf.innerHTML=FORMAS.map(f=>`<button class="chip forma" data-f="${f}">${esc(FORMA_LABEL[f])}</button>`).join('');
-  const cn=document.getElementById('chips-niche');
-  cn.innerHTML=NICHES.map(n=>`<button class="chip niche" data-n="${n}">${esc(NICHE_LABEL[n])}</button>`).join('');
-  cf.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{
-    const f=b.dataset.f;if(selForma.has(f))selForma.delete(f);else selForma.add(f);
-    b.classList.toggle('on');renderAll();
-  }));
-  cn.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{
-    const n=b.dataset.n;if(selNiche.has(n))selNiche.delete(n);else selNiche.add(n);
-    b.classList.toggle('on');renderAll();
-  }));
+/* ============ сохранение ============ */
+function save(){
+  try{localStorage.setItem(LS_KEY,JSON.stringify({
+    visited:S.visited,answered:S.answered,mode:S.mode,role:S.role,grp:S.grp,life:S.life,task:S.task,
+    view:S.view,sort:S.sort,sel:Object.fromEntries(FACETS.map(f=>[f.key,[...S.sel[f.key]]])),
+    fav:[...S.fav],favOnly:S.favOnly,qOff:[...S.qOff]
+  }));}catch(e){}
+}
+function restore(){
+  try{
+    const d=JSON.parse(localStorage.getItem(LS_KEY)||'null');
+    if(!d||!d.visited)return false;
+    S.visited=true;S.answered=!!d.answered;
+    S.mode=d.mode||'';S.role=d.role||'';S.grp=d.grp||'';S.life=d.life||'';S.task=d.task||'';
+    if(d.sort&&SORT_BY_KEY[d.sort])S.sort=d.sort;
+    FACETS.forEach(f=>((d.sel&&d.sel[f.key])||[]).forEach(v=>S.sel[f.key].add(v)));
+    (d.qOff||[]).forEach(k=>S.qOff.add(k));
+    (d.fav||[]).forEach(id=>S.fav.add(id));
+    S.favOnly=!!d.favOnly&&S.fav.size>0;
+    if(d.view)setView(d.view);
+    return true;
+  }catch(e){return false;}
 }
 
-function renderAll(){
-  const rows=fdata();
-  document.getElementById('count').innerHTML=`<b>${rows.length}</b> из ${DATA.length}`;
-  document.getElementById('foot').textContent='Каталог: '+DATA.length+' применений · '+SPHERES.length+' сфер. Спина: сфера → под-направление → кейс. Теги: формат · ниша · форма · инструмент. Вход двойной — от ниши или формы. Наполняется под аудиторию Kris; список кейсов растёт.';
-  if(view==='tree')renderTree();
-  if(view==='persona')renderPersona();
-  if(view==='matrix')renderMatrix();
+/* ============ контролы ============ */
+function setView(v){
+  S.view=v;
+  document.querySelectorAll('#seg-view button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+  ['list','tree','sell'].forEach(x=>$('view-'+x).classList.toggle('hide',v!==x));
 }
-
-/* ---- controls ---- */
 document.querySelectorAll('#seg-view button').forEach(b=>b.addEventListener('click',()=>{
-  view=b.dataset.v;
-  document.querySelectorAll('#seg-view button').forEach(x=>x.classList.toggle('on',x===b));
-  document.getElementById('view-tree').classList.toggle('hide',view!=='tree');
-  document.getElementById('view-persona').classList.toggle('hide',view!=='persona');
-  document.getElementById('view-matrix').classList.toggle('hide',view!=='matrix');
-  renderAll();
+  setView(b.dataset.v);track('view',{view:S.view});save();render();
 }));
-document.querySelectorAll('#seg-persona button').forEach(b=>b.addEventListener('click',()=>{
-  personaBy=b.dataset.p;document.querySelectorAll('#seg-persona button').forEach(x=>x.classList.toggle('on',x===b));renderPersona();
-}));
-document.querySelectorAll('#seg-axis button').forEach(b=>b.addEventListener('click',()=>{
-  axis=b.dataset.a;document.querySelectorAll('#seg-axis button').forEach(x=>x.classList.toggle('on',x===b));renderMatrix();
-}));
-document.getElementById('resetAll').addEventListener('click',()=>{
-  selForma.clear();selNiche.clear();openSet.clear();q='';
-  document.getElementById('search').value='';
-  document.querySelectorAll('.chip.on').forEach(c=>c.classList.remove('on'));
-  renderAll();
+/* Клики по чипам, карточкам и узлам дерева — одним делегатом: разметка
+   перерисовывается часто, вешать слушатели на каждый узел незачем. */
+/* Пункты меню перерисовывают весь список — сохраняем прокрутку открытого меню,
+   иначе после каждой галочки длинный список тем отматывается в начало. */
+function withDDScroll(fn){
+  const m=document.querySelector('.ddm'),top=m?m.scrollTop:0;
+  fn();
+  const m2=document.querySelector('.ddm');
+  if(m2)m2.scrollTop=top;
+}
+$('catalog').addEventListener('click',e=>{
+  const ddb=e.target.closest('.ddb[data-ddb]');
+  if(ddb){
+    const k=ddb.dataset.ddb;
+    S.openDD=S.openDD===k?'':k;
+    renderFilters();renderSort();return;
+  }
+  const sortItem=e.target.closest('.ddi[data-sort]');
+  if(sortItem){
+    S.sort=sortItem.dataset.sort;S.openDD='';
+    track('sort',{sort:S.sort});save();render();return;
+  }
+  const item=e.target.closest('.ddi[data-f]');
+  if(item){
+    if(item.classList.contains('off'))return;
+    const set=S.sel[item.dataset.f];
+    if(set.has(item.dataset.v))set.delete(item.dataset.v);
+    else{set.add(item.dataset.v);track('filter',{facet:item.dataset.f,value:item.dataset.v});}
+    save();withDDScroll(render);return;
+  }
+  const clr=e.target.closest('.ddi[data-clear]');
+  if(clr){S.sel[clr.dataset.clear].clear();save();withDDScroll(render);return;}
+  const qoff=e.target.closest('.chip[data-qoff]');
+  if(qoff){
+    S.qOff.add(qoff.dataset.qoff);track('survey_off',{key:qoff.dataset.qoff});save();render();return;
+  }
+  const star=e.target.closest('.star[data-star]');
+  if(star){
+    const id=star.dataset.star;
+    if(S.fav.has(id))S.fav.delete(id);else{S.fav.add(id);track('fav',{id:id});}
+    save();render();return;
+  }
+  /* чип: в ряду «выбрано» снимает свой фильтр, в ряду тегов — переключает */
+  const chip=e.target.closest('.chip[data-f]');
+  if(chip){
+    if(chip.disabled)return;
+    const set=S.sel[chip.dataset.f],v=chip.dataset.v;
+    if(chip.classList.contains('pick')||set.has(v))set.delete(v);
+    else{set.add(v);track('filter',{facet:chip.dataset.f,value:v});}
+    save();render();return;
+  }
+  if(e.target.closest('#clearAll')){
+    FACETS.forEach(f=>S.sel[f.key].clear());S.openDD='';save();render();return;
+  }
+  const node=e.target.closest('.nbtn[data-node]');
+  if(node){
+    const id=node.dataset.node;
+    if(S.openNodes.has(id))S.openNodes.delete(id);else S.openNodes.add(id);
+    node.parentElement.classList.toggle('open');return;
+  }
+  const cardEl=e.target.closest('.card[data-id]');
+  if(cardEl){
+    const id=cardEl.dataset.id,open=!S.openCards.has(id);
+    if(open){S.openCards.add(id);track('case_open',{id:id});}else S.openCards.delete(id);
+    /* один кейс может быть на экране дважды (список и дерево) — синхронизируем обе копии */
+    document.querySelectorAll('.card[data-id="'+id+'"]').forEach(el=>el.classList.toggle('on',open));
+  }
 });
-document.getElementById('search').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase();renderAll();});
-const r=document.documentElement,t=document.getElementById('themeToggle');
-t.addEventListener('click',()=>{const dark=r.classList.contains('dark');r.classList.toggle('dark',!dark);r.classList.toggle('light',dark);t.classList.toggle('on',!dark);});
+/* клик мимо списка и Esc — закрыть */
+document.addEventListener('click',e=>{
+  if(!S.openDD)return;
+  if(e.target.closest('.dd'))return;
+  S.openDD='';renderFilters();renderSort();
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&S.openDD){S.openDD='';renderFilters();renderSort();}
+});
+$('qback').addEventListener('click',()=>{if(S.step>0){S.step--;renderQuiz();}});
+$('qskip').addEventListener('click',()=>{
+  const st=steps();
+  if(S.step>0&&S.step<st.length-1){S.step++;renderQuiz();}
+  else finishQuiz();
+});
+$('requiz').addEventListener('click',startQuiz);
+/* Легенда: всё, что нельзя уместить в карточку, живёт в одном модальном окне. */
+function legend(on){
+  $('legend').classList.toggle('hide',!on);
+  document.body.classList.toggle('noscroll',on);
+  if(on)track('legend');
+}
+$('legendBtn').addEventListener('click',()=>legend(true));
+$('legend').addEventListener('click',e=>{if(e.target.closest('[data-close]'))legend(false);});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&!$('legend').classList.contains('hide'))legend(false);
+});
+/* Полный сброс: фильтры, поиск, порядок, режим избранного. Избранное само не трогаем —
+   это личный список, а не фильтр. Логотип делает то же самое, что кнопка. */
+function resetAll(){
+  FACETS.forEach(f=>S.sel[f.key].clear());
+  S.q='';$('search').value='';
+  S.sort='match';S.openDD='';S.favOnly=false;S.openNodes.clear();
+  save();render();
+}
+$('resetAll').addEventListener('click',resetAll);
+/* На телефоне панель фильтров съедает первый экран — сворачиваем её по умолчанию
+   и открываем по кнопке. На десктопе класс ничего не делает: там места хватает. */
+function renderFold(){
+  $('controls').classList.toggle('folded',S.folded);
+  $('filtToggle').classList.toggle('on',!S.folded);
+}
+$('filtToggle').addEventListener('click',()=>{S.folded=!S.folded;renderFold();});
+$('logo').addEventListener('click',()=>{
+  resetAll();
+  try{window.scrollTo({top:0,behavior:'smooth'});}catch(e){}
+});
+let searchTimer=null;
+$('search').addEventListener('input',e=>{
+  S.q=e.target.value.trim();
+  clearTimeout(searchTimer);
+  searchTimer=setTimeout(()=>{track('search',{q:S.q});},900);
+  render();
+});
+const root=document.documentElement,tgl=$('themeToggle');
+tgl.addEventListener('click',()=>{
+  const dark=root.classList.contains('dark');
+  root.classList.toggle('dark',!dark);root.classList.toggle('light',dark);tgl.classList.toggle('on',!dark);
+});
 
-buildChips();
-renderAll();
+/* ============ старт ============ */
+$('sub').textContent=CASES.length+' идей, которые люди уже делают с ИИ — в работе и дома';
+renderFold();
+if(location.hash==='#kris')$('btn-sell').classList.remove('hide');
+if(restore()){
+  showCatalog(true);
+  render();
+}else{
+  showCatalog(false);
+  renderQuiz();
+}
 </script>
 </body>
 </html>
