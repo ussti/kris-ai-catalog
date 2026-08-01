@@ -94,8 +94,12 @@ h1{font-size:clamp(24px,5vw,34px);font-weight:900;letter-spacing:-.025em;line-he
 .ddb.lime.on{border-color:var(--accent-2)}
 .ddb.lime.on .k{color:var(--accent-2)}
 .ddb.open{border-color:var(--line-2)}
-.ddm{position:absolute;z-index:60;top:calc(100% + 5px);left:0;min-width:230px;max-width:330px;max-height:330px;overflow:auto;background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-md);box-shadow:0 14px 38px rgba(0,0,0,.34);padding:5px}
+/* Меню — колонка из трёх частей: шапка, прокручиваемый список, футер. На десктопе
+   видна только середина, на телефоне те же три части становятся нижней шторкой. */
+.ddm{position:absolute;z-index:60;top:calc(100% + 5px);left:0;min-width:230px;max-width:330px;max-height:330px;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-md);box-shadow:0 14px 38px rgba(0,0,0,.34)}
 .ddm.right{left:auto;right:0}
+.ddscroll{overflow:auto;padding:5px}
+.ddhead,.ddfoot,.ddveil{display:none}
 .ddi{display:flex;align-items:center;gap:9px;width:100%;font:500 12.5px var(--font-sans);background:transparent;color:var(--ink-soft);border:none;border-radius:6px;padding:7px 9px;cursor:pointer;text-align:left}
 .ddi:hover{background:var(--rowhover);color:var(--ink)}
 .ddi .bx{flex:none;width:13px;height:13px;border:1px solid var(--line-2);border-radius:3px;font:700 9px var(--font-mono);line-height:11px;text-align:center;color:transparent}
@@ -310,8 +314,24 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
   .count{order:-1}
   .ddb{max-width:100%;padding:9px 11px}
   .dd{position:static}
-  .ddm{position:absolute;left:13px;right:13px;min-width:0;max-width:none;width:auto}
-  .ddm.right{left:13px;right:13px}
+  /* Нижняя шторка. Меню в потоке цеплялось не к своей кнопке, а к панели фильтров,
+     и уезжало под поиск и чипы — тап вверху, список внизу экрана. Fixed-шторка
+     приходит под большой палец независимо от того, где стояла кнопка. */
+  .ddveil{display:block;position:fixed;inset:0;z-index:59;background:rgba(0,0,0,.58)}
+  .ddm,.ddm.right{position:fixed;left:0;right:0;bottom:0;top:auto;width:auto;min-width:0;max-width:none;
+    max-height:78vh;border-radius:var(--r-card) var(--r-card) 0 0;border-left:none;border-right:none;border-bottom:none;
+    box-shadow:0 -16px 44px rgba(0,0,0,.5)}
+  .ddscroll{padding:4px 11px 10px}
+  .ddhead{display:flex;align-items:center;gap:10px;padding:14px 15px 11px;border-bottom:1px solid var(--line);position:relative}
+  /* полоска-хват: подсказывает, что шторку можно смахнуть вниз */
+  .ddhead::before{content:'';position:absolute;top:6px;left:50%;transform:translateX(-50%);width:36px;height:4px;border-radius:2px;background:var(--line-2)}
+  .ddhead .ddt{flex:1;font:600 10.5px var(--font-mono);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+  .ddx{flex:none;width:30px;height:30px;border:none;background:var(--surface-2);color:var(--muted);border-radius:50%;font-size:17px;line-height:1;cursor:pointer}
+  .ddfoot{display:flex;padding:10px 13px calc(13px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--surface)}
+  .ddapply{flex:1;background:var(--accent);color:var(--accent-ink);border:none;border-radius:var(--r-md);padding:13px;font:700 13.5px var(--font-sans);cursor:pointer}
+  .ddi{padding:11px 9px;font-size:13.5px}
+  /* пока шторка открыта — страница под ней не едет */
+  body.ddlock{overflow:hidden}
   /* 16px — порог, ниже которого Safari на iOS зумит страницу при фокусе в поле.
      Ровно этот зум и «дёргал» шапку, поэтому размер держим не меньше. */
   .search input{min-width:0;width:100%;font-size:16px}
@@ -996,12 +1016,24 @@ function ddTitle(f){
   const n=S.sel[f.key].size;
   return n?n+' выбрано':'все';
 }
+/* Обёртка меню. Шапка и футер нужны только шторке на телефоне — на десктопе они
+   скрыты стилями, поэтому разметка одна на оба режима. Футер держит счётчик: за
+   шторкой не видно выдачу, и без него выбор идёт вслепую. */
+function ddShell(title,body,foot,cls){
+  return `<div class="ddm${cls?' '+cls:''}">
+    <div class="ddhead"><span class="ddt">${esc(title)}</span>
+      <button class="ddx" data-ddclose aria-label="Закрыть">×</button></div>
+    <div class="ddscroll">${body}</div>
+    ${foot?`<div class="ddfoot"><button class="ddapply" data-ddclose>${esc(foot)}</button></div>`:''}
+  </div>`;
+}
 function ddBox(f){
   const on=S.sel[f.key].size>0,open=S.openDD===f.key,tone=f.tone?' '+f.tone:'';
+  const n=open?rows().length:0;
   return `<div class="dd" data-dd="${f.key}">
     <button class="ddb${tone}${on?' on':''}${open?' open':''}" data-ddb="${f.key}">
       <span class="k">${esc(f.label)}</span><span class="v">${esc(ddTitle(f))}</span><span class="ch">▼</span></button>
-    ${open?`<div class="ddm">${ddMenu(f)}</div>`:''}</div>`;
+    ${open?`<div class="ddveil" data-ddclose></div>`+ddShell(f.label,ddMenu(f),'Показать '+n):''}</div>`;
 }
 function renderFilters(){
   let dd='';
@@ -1020,6 +1052,9 @@ function renderFilters(){
   /* меню у правого края экрана прижимаем к правому краю кнопки */
   const om=document.querySelector('#facet-rows .ddm');
   if(om&&om.getBoundingClientRect().right>window.innerWidth-8)om.classList.add('right');
+
+  /* шторка перекрывает экран — фон под ней не должен уезжать вместе с пальцем */
+  document.body.classList.toggle('ddlock',!!S.openDD);
 
   $('picked').innerHTML=picked.length?`<span class="filt-lbl">выбрано</span>${picked.join('')}<button class="mini" id="clearAll">снять всё</button>`:'';
   $('picked').classList.toggle('hide',!picked.length);
@@ -1070,8 +1105,8 @@ function renderSort(){
   $('sort-slot').innerHTML=`<div class="dd" data-dd="__sort__">
     <button class="ddb${S.sort!=='match'?' on':''}${open?' open':''}" data-ddb="__sort__">
       <span class="k">сортировка</span><span class="v">${esc(cur.l)}</span><span class="ch">▼</span></button>
-    ${open?`<div class="ddm right">${SORTS.map(s=>
-      `<button class="ddi${s.k===S.sort?' on':''}" data-sort="${s.k}"><span class="bx">✓</span><span class="l">${esc(s.l)}</span>${s.hint?`<span class="c">${esc(s.hint)}</span>`:''}</button>`).join('')}</div>`:''}
+    ${open?`<div class="ddveil" data-ddclose></div>`+ddShell('сортировка',SORTS.map(s=>
+      `<button class="ddi${s.k===S.sort?' on':''}" data-sort="${s.k}"><span class="bx">✓</span><span class="l">${esc(s.l)}</span>${s.hint?`<span class="c">${esc(s.hint)}</span>`:''}</button>`).join(''),'','right'):''}
   </div>`;
 }
 
@@ -1147,12 +1182,16 @@ document.querySelectorAll('#seg-view button').forEach(b=>b.addEventListener('cli
 /* Пункты меню перерисовывают весь список — сохраняем прокрутку открытого меню,
    иначе после каждой галочки длинный список тем отматывается в начало. */
 function withDDScroll(fn){
-  const m=document.querySelector('.ddm'),top=m?m.scrollTop:0;
+  const m=document.querySelector('.ddscroll'),top=m?m.scrollTop:0;
   fn();
-  const m2=document.querySelector('.ddm');
+  const m2=document.querySelector('.ddscroll');
   if(m2)m2.scrollTop=top;
 }
+function closeDD(){S.openDD='';renderFilters();renderSort();}
 $('catalog').addEventListener('click',e=>{
+  /* крестик, «Показать N» и затемнение за шторкой — все закрывают меню; они
+     лежат внутри .dd, поэтому глобальный «клик мимо» их не ловит */
+  if(e.target.closest('[data-ddclose]')){closeDD();return;}
   const ddb=e.target.closest('.ddb[data-ddb]');
   if(ddb){
     const k=ddb.dataset.ddb;
@@ -1227,11 +1266,21 @@ $('catalog').addEventListener('click',e=>{
 document.addEventListener('click',e=>{
   if(!S.openDD)return;
   if(e.target.closest('.dd'))return;
-  S.openDD='';renderFilters();renderSort();
+  closeDD();
 });
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'&&S.openDD){S.openDD='';renderFilters();renderSort();}
+  if(e.key==='Escape'&&S.openDD)closeDD();
 });
+/* Смахивание вниз по шапке шторки — привычный жест закрытия на телефоне. */
+let ddTouchY=null;
+document.addEventListener('touchstart',e=>{
+  ddTouchY=e.target.closest('.ddhead')?e.touches[0].clientY:null;
+},{passive:true});
+document.addEventListener('touchmove',e=>{
+  if(ddTouchY===null)return;
+  if(e.touches[0].clientY-ddTouchY>55){ddTouchY=null;closeDD();}
+},{passive:true});
+document.addEventListener('touchend',()=>{ddTouchY=null;},{passive:true});
 $('qback').addEventListener('click',()=>{if(S.step>0){S.step--;renderQuiz();}});
 $('qskip').addEventListener('click',()=>{
   const st=steps();
