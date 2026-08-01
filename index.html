@@ -76,6 +76,11 @@ h1{font-size:clamp(24px,5vw,34px);font-weight:900;letter-spacing:-.025em;line-he
 .spacer{flex:1}
 .mini{font:600 12px var(--font-mono);background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:var(--r-md);padding:8px 12px;cursor:pointer}
 .mini:hover{color:var(--ink);border-color:var(--accent)}
+/* «Сбросить фильтры» — лаймом, как сброс в шторке: одно действие, один цвет */
+#resetAll{color:var(--accent-2)}
+#resetAll:hover{color:var(--accent-2);border-color:var(--accent-2)}
+:root.light #resetAll,:root.light #resetAll:hover{color:#7C9600}
+:root.light #resetAll:hover{border-color:#7C9600}
 .search input{font:14px var(--font-sans);color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-md);padding:9px 13px;min-width:220px;flex:1}
 /* подсказка в поиске — тише самого запроса: она длинная и не должна читаться
    как набранный текст */
@@ -306,8 +311,8 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
 @media (max-width:720px){
   .wrap{padding:12px 13px 70px}
   .controls{padding:9px 0 9px;margin:8px 0 2px}
-  .ctl-row{gap:7px}
-  .ctl-row+.ctl-row{margin-top:8px}
+  .ctl-row{gap:6px}
+  .ctl-row+.ctl-row{margin-top:6px}
   .filt-lbl{display:none}
   /* фильтры: переключатель во всю ширину, под ним сетка кнопок 2×2 — тапабельно
      и без горизонтальной прокрутки, которая на телефоне читается как обрыв */
@@ -316,12 +321,14 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
   /* сворачивается только панель фасетов: поиск — главный вход в каталог с
      телефона и не должен прятаться за кнопкой «Фильтры» */
   .controls.folded #filt-panel{display:none}
-  .ctl-row.filters{flex-direction:column;align-items:stretch;gap:7px}
-  .dds .ddb{width:auto;max-width:none}
+  .ctl-row.filters{flex-direction:column;align-items:stretch;gap:5px}
+  /* кнопка тянется на всю ячейку сетки: при width:auto она сжималась по тексту,
+     и между блоками зияли дыры разной ширины */
+  .dds .ddb{width:100%;max-width:none}
   /* Панель фасетов держится в две строки: сетка из шести долей, пять фасетов
      ложатся 3+2, четыре (в личной ветке роль скрыта) — 2+2. Класс с числом
      кнопок вешает renderFilters, без него раскладка гадала бы по nth-child. */
-  .dds{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
+  .dds{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
   .dds>.dd{grid-column:span 3}
   .dds.n5>.dd{grid-column:span 2}
   .dds.n5>.dd:nth-child(4),.dds.n5>.dd:nth-child(5){grid-column:span 3}
