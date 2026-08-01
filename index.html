@@ -18,8 +18,10 @@ button{font-family:inherit;color:inherit}
 :focus{outline:none}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 body{margin:0;color:var(--ink);background:var(--bg);font:15px/1.55 var(--font-sans);-webkit-font-smoothing:antialiased;background-image:radial-gradient(var(--grid) 1px,transparent 1px);background-size:24px 24px;}
-.wrap{max-width:980px;margin:0 auto;padding:26px 18px 90px}
-.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.wrap{max-width:980px;margin:0 auto;padding:16px 18px 90px}
+/* Шапка держит только логотип, тему и строку статуса: заголовок дублировал
+   логотип и стоил экрана до первой карточки. */
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:10px}
 .eg-logo{font-weight:800;font-size:16px;display:inline-flex;align-items:center;background:none;border:none;padding:0;cursor:pointer;font-family:inherit}
 .eg-logo:hover .l{color:var(--accent)}
 .eg-logo .sq{width:9px;height:9px;background:var(--accent);display:inline-block;margin:0 3px;border-radius:1px}
@@ -32,10 +34,10 @@ body{margin:0;color:var(--ink);background:var(--bg);font:15px/1.55 var(--font-sa
 .topacts{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .topleft{display:flex;align-items:center;gap:10px}
 /* «пройти опрос заново» — строка под подзаголовком, не кнопка */
-.relink{margin:0 0 10px}
+.relink{margin:0 0 4px}
 .relink button{font:600 12.5px var(--font-sans);background:none;border:none;padding:0;cursor:pointer;color:var(--muted);border-bottom:1px solid var(--line-2)}
 .relink button:hover{color:var(--accent);border-bottom-color:var(--accent)}
-.sub{font:600 13px var(--font-mono);letter-spacing:-.01em;color:var(--muted);margin:0 0 10px}
+.sub{font:600 12.5px var(--font-mono);letter-spacing:-.01em;color:var(--muted);margin:0 0 6px}
 .kicker{font:600 12px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);display:inline-flex;align-items:center;gap:9px}
 .kicker:before{content:"";width:11px;height:11px;background:var(--accent);border-radius:2px}
 h1{font-size:clamp(24px,5vw,34px);font-weight:900;letter-spacing:-.025em;line-height:1.08;margin:.3em 0 .16em}
@@ -64,7 +66,7 @@ h1{font-size:clamp(24px,5vw,34px);font-weight:900;letter-spacing:-.025em;line-he
 .btn.lime{background:var(--accent-2);color:#0A0A0A;border-color:var(--accent-2)}
 
 /* ---- КОНТРОЛЫ ---- */
-.controls{position:sticky;top:0;z-index:30;background:var(--bg);padding:14px 0 12px;border-bottom:1px solid var(--line);margin:20px 0 4px}
+.controls{position:sticky;top:0;z-index:30;background:var(--bg);padding:10px 0 10px;border-bottom:1px solid var(--line);margin:10px 0 4px}
 .ctl-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .ctl-row+.ctl-row{margin-top:10px}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--surface-2)}
@@ -75,6 +77,9 @@ h1{font-size:clamp(24px,5vw,34px);font-weight:900;letter-spacing:-.025em;line-he
 .mini{font:600 12px var(--font-mono);background:transparent;color:var(--muted);border:1px solid var(--line);border-radius:var(--r-md);padding:8px 12px;cursor:pointer}
 .mini:hover{color:var(--ink);border-color:var(--accent)}
 .search input{font:14px var(--font-sans);color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-md);padding:9px 13px;min-width:220px;flex:1}
+/* подсказка в поиске — тише самого запроса: она длинная и не должна читаться
+   как набранный текст */
+.search input::placeholder{font-size:12px;color:var(--faint)}
 .search input:focus{border-color:var(--accent)}
 .count{font:600 12px var(--font-mono);color:var(--faint);white-space:nowrap}
 .count b{color:var(--accent)}
@@ -299,8 +304,8 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
 
 /* ---- МОБИЛЬНАЯ ВЁРСТКА ---- */
 @media (max-width:720px){
-  .wrap{padding:18px 13px 70px}
-  .controls{padding:10px 0 9px;margin:16px 0 2px}
+  .wrap{padding:12px 13px 70px}
+  .controls{padding:9px 0 9px;margin:8px 0 2px}
   .ctl-row{gap:7px}
   .ctl-row+.ctl-row{margin-top:8px}
   .filt-lbl{display:none}
@@ -313,7 +318,18 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
   .controls.folded #filt-panel{display:none}
   .ctl-row.filters{flex-direction:column;align-items:stretch;gap:7px}
   .dds .ddb{width:auto;max-width:none}
-  .dds{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+  /* Панель фасетов держится в две строки: сетка из шести долей, пять фасетов
+     ложатся 3+2, четыре (в личной ветке роль скрыта) — 2+2. Класс с числом
+     кнопок вешает renderFilters, без него раскладка гадала бы по nth-child. */
+  .dds{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
+  .dds>.dd{grid-column:span 3}
+  .dds.n5>.dd{grid-column:span 2}
+  .dds.n5>.dd:nth-child(4),.dds.n5>.dd:nth-child(5){grid-column:span 3}
+  /* в три колонки подпись и значение не помещаются в строку — ставим их друг
+     под другом, стрелка при такой ширине только съедает место */
+  .dds.n5 .ddb{flex-direction:column;align-items:flex-start;gap:2px;padding:8px 9px}
+  .dds.n5 .ddb .k,.dds.n5 .ddb .v{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .dds.n5 .ddb .ch{display:none}
   .ddb{width:100%;justify-content:flex-start}
   .ddb .k{display:block}
   .ddb .v{font-size:11.5px}
@@ -350,10 +366,11 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
   .ddx{flex:none;width:30px;height:30px;border:none;background:var(--surface-2);color:var(--muted);border-radius:50%;font-size:17px;line-height:1;cursor:pointer}
   .ddfoot{display:flex;gap:8px;align-items:center;padding:10px 13px calc(13px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--surface)}
   .ddapply{flex:1;background:var(--accent);color:var(--accent-ink);border:none;border-radius:var(--r-md);padding:13px;font:700 13.5px var(--font-sans);cursor:pointer}
-  /* сброс — справа от «Показать», зелёным: снять выбор рядом с подтверждением,
-     но не спутать с ним */
-  .ddreset{flex:none;background:transparent;color:var(--ok);border:1px solid var(--ok);border-radius:var(--r-md);padding:13px 15px;font:700 13.5px var(--font-sans);cursor:pointer}
-  .ddreset[disabled]{opacity:.4}
+  /* сброс — справа, на одной направляющей с «Показать», но не кнопка: мелкая
+     зелёная строка, как он выглядел первой строкой списка. Две кнопки рядом
+     читались как равный выбор, хотя подтверждение здесь одно. */
+  .ddreset{flex:none;background:transparent;color:var(--ok);border:none;border-radius:0;padding:13px 4px 13px 14px;font:600 11px var(--font-mono);cursor:pointer}
+  .ddreset[disabled]{opacity:.34}
   /* в шторке сброс живёт в подвале — дублировать его первой строкой списка незачем */
   .ddscroll .ddi.clr{display:none}
   .ddi{padding:11px 9px;font-size:13.5px}
@@ -362,10 +379,10 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
   /* 16px — порог, ниже которого Safari на iOS зумит страницу при фокусе в поле.
      Ровно этот зум и «дёргал» шапку, поэтому размер держим не меньше. */
   .search input{min-width:0;width:100%;font-size:16px}
-  /* «Сбросить фильтры» встаёт в одну строку с «Фильтры», сортировка — ниже */
+  /* «Сбросить фильтры» встаёт в одну строку с «Фильтры»; сортировка живёт
+     отдельной строкой под поиском */
   .ctl-row.top .ftgl{order:1;flex:1}
   .ctl-row.top #resetAll{order:2;flex:1}
-  .ctl-row.top #sort-slot{order:3}
   .quiz{padding:18px 15px}
   .opt{width:100%;justify-content:space-between}
   .card{padding:11px 12px;gap:9px}
@@ -394,8 +411,6 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
   </div>
 
   <header>
-    <span class="kicker">БАНК ИДЕЙ</span>
-    <h1>Где применить ИИ</h1>
     <p class="sub" id="sub"></p>
     <p class="relink hide" id="requizLine"><button id="requiz">Пройти опрос заново</button></p>
   </header>
@@ -428,7 +443,6 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
         <button class="mini ftgl" id="filtToggle">Фильтры<span class="c" id="ftglN"></span></button>
         <div class="spacer"></div>
         <span class="count" id="count"></span>
-        <div id="sort-slot"></div>
         <button class="mini" id="resetAll">Сбросить фильтры</button>
       </div>
       <div class="ctl-row filters" id="filt-panel">
@@ -436,6 +450,7 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
       </div>
       <div class="ctl-row search" id="search-row">
         <input type="text" id="search" placeholder="Поиск: воронка, отчёт, ремонт, питание, договор…">
+        <div id="sort-slot"></div>
       </div>
       <div class="ctl-row qrow hide" id="qrow"></div>
       <div class="ctl-row picked hide" id="picked"></div>
@@ -1032,18 +1047,17 @@ function ddMenu(f){
   }
   return html;
 }
-/* В кнопке фасета — только количество: само значение живёт в чипах под панелью.
-   Иначе длинное «Администратор / операционный менеджер» растягивает кнопку и
-   вся строка фильтров перестраивается на каждый выбор. */
+/* Кнопка фасета не печатает выбор вообще: значение растягивало кнопку, а
+   «N выбрано» повторяло то, что и так видно — розовая рамка на кнопке плюс
+   чипы под панелью. Остаётся нейтральное «все». */
 function ddTitle(f){
-  const n=S.sel[f.key].size;
-  return n?n+' выбрано':'все';
+  return 'все';
 }
 /* Обёртка меню. Шапка и футер нужны только шторке на телефоне — на десктопе они
    скрыты стилями, поэтому разметка одна на оба режима. Футер держит счётчик: за
    шторкой не видно выдачу, и без него выбор идёт вслепую. */
 function ddShell(title,body,foot,cls,reset){
-  const rst=reset?`<button class="ddreset" data-clear="${reset.key}"${reset.n?'':' disabled'}>Сбросить</button>`:'';
+  const rst=reset?`<button class="ddreset" data-clear="${reset.key}"${reset.n?'':' disabled'}>сбросить${reset.n?' ('+reset.n+')':''}</button>`:'';
   return `<div class="ddm${cls?' '+cls:''}">
     <div class="ddhead"><span class="ddt">${esc(title)}</span>
       <button class="ddx" data-ddclose aria-label="Закрыть">×</button></div>
@@ -1060,12 +1074,15 @@ function ddBox(f){
     ${open?`<div class="ddveil" data-ddclose></div>`+ddShell(f.label,ddMenu(f),'Показать '+n,'',{key:f.key,n:S.sel[f.key].size}):''}</div>`;
 }
 function renderFilters(){
-  let dd='';
+  let dd='',shown=0;
   FACETS.forEach(f=>{
     if(f.hidden&&f.hidden()){S.sel[f.key].clear();return;}
-    dd+=ddBox(f);
+    shown++;dd+=ddBox(f);
   });
   $('facet-rows').innerHTML=dd;
+  /* число видимых фасетов — в класс: на телефоне от него зависит, режется
+     панель на 3+2 или на 2+2, и обе раскладки остаются в две строки */
+  $('facet-rows').className='dds n'+shown;
 
   const picked=[];
   FACETS.forEach(f=>{
