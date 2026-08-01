@@ -367,9 +367,12 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
   .ddfoot{display:flex;gap:8px;align-items:center;padding:10px 13px calc(13px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--surface)}
   .ddapply{flex:1;background:var(--accent);color:var(--accent-ink);border:none;border-radius:var(--r-md);padding:13px;font:700 13.5px var(--font-sans);cursor:pointer}
   /* сброс — справа, на одной направляющей с «Показать», но не кнопка: мелкая
-     зелёная строка, как он выглядел первой строкой списка. Две кнопки рядом
-     читались как равный выбор, хотя подтверждение здесь одно. */
-  .ddreset{flex:none;background:transparent;color:var(--ok);border:none;border-radius:0;padding:13px 4px 13px 14px;font:600 11px var(--font-mono);cursor:pointer}
+     строка лаймом (тот же --accent-2, что у звезды), как он выглядел первой
+     строкой списка. Две кнопки рядом читались как равный выбор, хотя
+     подтверждение здесь одно. */
+  .ddreset{flex:none;background:transparent;color:var(--accent-2);border:none;border-radius:0;padding:13px 4px 13px 14px;font:600 11px var(--font-mono);cursor:pointer}
+  /* на светлой теме чистый лайм на белом не читается — тот же оттенок глубже */
+  :root.light .ddreset{color:#7C9600}
   .ddreset[disabled]{opacity:.34}
   /* в шторке сброс живёт в подвале — дублировать его первой строкой списка незачем */
   .ddscroll .ddi.clr{display:none}
