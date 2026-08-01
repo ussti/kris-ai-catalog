@@ -37,11 +37,11 @@ body{margin:0;color:var(--ink);background:var(--bg);font:15px/1.55 var(--font-sa
 .relink{margin:0 0 10px}
 .relink button{font:600 12.5px var(--font-sans);background:none;border:none;padding:0;cursor:pointer;color:var(--muted);border-bottom:1px solid var(--line-2)}
 .relink button:hover{color:var(--accent);border-bottom-color:var(--accent)}
-.sub{font:600 13.5px var(--font-mono);letter-spacing:-.01em;color:var(--accent-2);margin:0 0 10px}
+.sub{font:600 13px var(--font-mono);letter-spacing:-.01em;color:var(--muted);margin:0 0 10px}
 .kicker{font:600 12px/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);display:inline-flex;align-items:center;gap:9px}
 .kicker:before{content:"";width:11px;height:11px;background:var(--accent);border-radius:2px}
 h1{font-size:clamp(24px,5vw,34px);font-weight:900;letter-spacing:-.025em;line-height:1.08;margin:.3em 0 .16em}
-.lead{font-size:15px;color:var(--ink-soft);max-width:720px}
+.lead{font-size:13px;color:var(--muted);max-width:640px;margin:0}
 .lead b{color:var(--ink)}
 .hide{display:none!important}
 
@@ -149,6 +149,25 @@ dl.lg dt{font:600 10px var(--font-mono);letter-spacing:.05em;text-transform:uppe
 dl.lg dd{margin:0;color:var(--ink-soft)}
 /* строки легенды, где вместо подписи стоит сама метка с карточки */
 dl.lg.lgp dt{padding-top:1px;font:inherit;letter-spacing:normal;text-transform:none;color:inherit}
+/* три пути входа в каталог — нумерованные карточки вместо абзацев */
+ol.paths{list-style:none;margin:10px 0 2px;padding:0;display:grid;gap:8px}
+ol.paths li{display:flex;gap:11px;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-md);padding:11px 13px}
+.pnum{flex:none;width:21px;height:21px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font:800 11px var(--font-mono);display:flex;align-items:center;justify-content:center}
+.pth{font:800 13.5px var(--font-sans);color:var(--ink);display:flex;align-items:baseline;gap:7px;flex-wrap:wrap}
+ol.paths p{margin:4px 0 0;font-size:12.5px;line-height:1.5}
+.tag{font:600 9.5px var(--font-mono);letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:var(--r-pill);background:var(--surface-3);color:var(--muted);white-space:nowrap}
+.tag.hot{background:var(--accent-soft);color:var(--accent)}
+.tag.lime{background:var(--lime-soft);color:var(--ink)}
+.modal-box mark{background:var(--lime-soft);color:var(--ink);font-weight:600;padding:0 4px;border-radius:3px}
+.modal-box u{text-decoration-color:var(--accent);text-underline-offset:2px;text-decoration-thickness:1.5px}
+/* «вход» шкалой: три деления, закрашено столько, сколько работы до результата */
+.lvls{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:9px 0 2px}
+.lvl{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-md);padding:10px 11px}
+.lvl .bars{display:flex;gap:3px;margin-bottom:8px}
+.lvl .bars i{height:4px;flex:1;border-radius:2px;background:var(--line-2)}
+.lvl .bars i.on{background:var(--accent)}
+.lvl b{display:block;font-size:12.5px;letter-spacing:-.01em;color:var(--ink)}
+.lvl em{display:block;font-style:normal;font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.45}
 .modal-x{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--faint);font-size:22px;line-height:1;cursor:pointer;padding:2px 6px}
 .modal-x:hover{color:var(--ink)}
 .picked{gap:6px}
@@ -281,6 +300,8 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
   .modal-box{max-width:none;width:100%;max-height:92vh;border-radius:var(--r-card) var(--r-card) 0 0;padding:22px 17px 28px}
   dl.lg{grid-template-columns:1fr;gap:2px}
   dl.lg dt{margin-top:9px}
+  .lvls{grid-template-columns:1fr}
+  .lvl .bars{max-width:120px}
   .seg{width:100%;overflow-x:auto}
   .seg button{flex:1;padding:9px 11px;font-size:11.5px;white-space:nowrap}
   .spacer{display:none}
@@ -291,7 +312,13 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
   .dd{position:static}
   .ddm{position:absolute;left:13px;right:13px;min-width:0;max-width:none;width:auto}
   .ddm.right{left:13px;right:13px}
-  .search input{min-width:0;width:100%}
+  /* 16px — порог, ниже которого Safari на iOS зумит страницу при фокусе в поле.
+     Ровно этот зум и «дёргал» шапку, поэтому размер держим не меньше. */
+  .search input{min-width:0;width:100%;font-size:16px}
+  /* «Сбросить фильтры» встаёт в одну строку с «Фильтры», сортировка — ниже */
+  .ctl-row.top .ftgl{order:1;flex:1}
+  .ctl-row.top #resetAll{order:2;flex:1}
+  .ctl-row.top #sort-slot{order:3}
   .quiz{padding:18px 15px}
   .opt{width:100%;justify-content:space-between}
   .card{padding:11px 12px;gap:9px}
@@ -325,7 +352,7 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
     <h1>Где применить ИИ</h1>
     <p class="sub" id="sub"></p>
     <p class="relink hide" id="requizLine"><button id="requiz">Пройти опрос заново</button></p>
-    <p class="lead">Каталог того, <b>что вообще можно сделать</b> с ИИ — в работе и в жизни. Ответь на три вопроса — и наверху окажется то, что ближе к твоим задачам. Что зацепило, отмечай звездой: соберётся личная подборка, к которой можно вернуться.</p>
+    <p class="lead">Каталог по юзкейсам, что можно сделать с ИИ — в работе и в жизни.</p>
   </header>
 
   <!-- ОПРОС -->
@@ -432,52 +459,82 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
   <div class="modal-bg" data-close="1"></div>
   <div class="modal-box" role="dialog" aria-label="Как читать каталог">
     <button class="modal-x" data-close="1" aria-label="Закрыть">×</button>
-    <span class="kicker">ЛЕГЕНДА</span>
-    <h2>Как читать каталог</h2>
-    <h3>Что это</h3>
-    <p>Банк идей: что <b>вообще можно</b> сделать с ИИ — в работе и в жизни. Инструкций здесь нет,
-      есть сам кейс и метки, по которым его можно найти. Каталог ничего не прячет: опрос и фильтры
-      меняют порядок и сужают выдачу, но полный список всегда в одном клике.</p>
+    <span class="kicker">ПАМЯТКА</span>
+    <h2>Как этим пользоваться</h2>
+    <p>Здесь <mark>готовые примеры</mark>, что люди уже делают с ИИ. Не инструкции — идеи.
+      Найти своё можно тремя способами, любым.</p>
 
-    <h3>Как устроен порядок</h3>
-    <p>Сверху — идеи под твои ответы, дальше соседние, в самом низу остальной каталог.
-      Тапни карточку — раскроется, кому это, что нужно на входе и чем рискуешь.
-      Звезда справа кладёт идею в избранное.</p>
+    <ol class="paths">
+      <li>
+        <span class="pnum">1</span>
+        <div>
+          <div class="pth">Пройти опрос <span class="tag hot">3 вопроса</span></div>
+          <p>Отвечаешь, кто ты и что тебе ближе — каталог подстраивается под тебя, и сверху
+            встают подходящие идеи. <u>Ничего не пропадает</u>: остальное остаётся ниже.</p>
+        </div>
+      </li>
+      <li>
+        <span class="pnum">2</span>
+        <div>
+          <div class="pth">Не хочется опрос <span class="tag">фильтры</span> <span class="tag">сортировка</span></div>
+          <p>Жми «Пропустить» и крути сам. <b>Фильтры</b> убирают лишнее — по сфере, задаче,
+            инструменту. <b>Сортировка</b> меняет порядок. Кнопка <b>«Сбросить фильтры»</b>
+            в любой момент возвращает полный список.</p>
+        </div>
+      </li>
+      <li>
+        <span class="pnum">3</span>
+        <div>
+          <div class="pth">Личная подборка <span class="tag lime">★ избранное</span></div>
+          <p>Звезда на карточке откладывает идею к себе — как закладка. Подборка открывается
+            отдельной страницей и <u>живёт в твоём браузере</u>: закроешь вкладку, вернёшься
+            завтра — на месте. Сброс фильтров её не трогает.</p>
+        </div>
+      </li>
+    </ol>
 
-    <h3>Метки на карточке</h3>
-    <p>Под названием идёт ряд меток. Слева направо и по оформлению они всегда одинаковые —
-      вот что за чем стоит:</p>
+    <h3>Что написано на карточке</h3>
+    <p>Под названием — ряд меток. Порядок и вид у них всегда одинаковые:</p>
     <dl class="lg lgp">
       <dt><span class="pin sph">#направление</span></dt>
-      <dd>Розовая метка, всегда первая. Крупный срез каталога: 7 областей, кейс попадает ровно в одну.</dd>
+      <dd>Розовая, всегда первая. Крупная область — 7 штук, кейс попадает ровно в одну.</dd>
       <dt><span class="pin task">#тема</span></dt>
-      <dd>Метка в тонкой рамке сразу за розовой. Более узкий срез внутри направления.</dd>
+      <dd>В тонкой рамке, сразу за розовой. Более узкий срез внутри направления.</dd>
       <dt><span class="pin task">#что-сделать</span></dt>
-      <dd>В такой же рамке, дальше по ряду и может быть не одна. Тип задачи: написать,
-        проанализировать, автоматизировать и так далее.</dd>
+      <dd>Такая же рамка, дальше по ряду, может быть не одна. Тип работы: написать,
+        посчитать, автоматизировать.</dd>
       <dt><span class="pin tool">#инструмент</span></dt>
-      <dd>Бледная метка пунктиром, замыкает ряд. Чем это делается — чат-модель, база знаний,
-        таблицы, автоматизация, сборка приложения.</dd>
+      <dd>Бледная пунктиром, замыкает ряд. Чем это делается: чат, база знаний, таблицы,
+        автоматизация.</dd>
     </dl>
-    <p>Тапни карточку — под меткам откроются <b>Сфера</b>, <b>Кому</b>, <b>Отрасли</b>,
-      а также <b>Вход</b> (сколько работы до первого результата, три значения разобраны ниже)
-      и <b>Риск ошибки</b>: насколько дорого обойдётся, если ИИ ошибётся и это не заметят.</p>
+    <p><b>Тапни карточку</b> — она раскроется: кому подходит, в каких отраслях,
+      сколько работы на входе и чем рискуешь.</p>
 
-    <h3>Вход: в чате сразу · нужна настройка · нужна сборка</h3>
-    <ul>
-      <li><b>В чате сразу</b> — открыл модель, написал запрос, получил результат.</li>
-      <li><b>Нужна настройка</b> — один раз собираешь инструмент под себя: подключаешь свои
-        документы, таблицы, шаблоны. Дальше он работает сам.</li>
-      <li><b>Нужна сборка</b> — связать несколько частей, дать доступ к данным и запустить
-        по событию. Либо самому разобраться, либо с чьей-то помощью.</li>
-    </ul>
-    <p class="warn">Читай метку как ориентир, а не как приговор: граница между настройкой
-      и сборкой у каждого своя и зависит от того, что уже настроено вокруг.</p>
+    <h3>Вход: сколько работы до первого результата</h3>
+    <div class="lvls">
+      <div class="lvl">
+        <div class="bars"><i class="on"></i><i></i><i></i></div>
+        <b>В чате сразу</b>
+        <em>Открыл ИИ, написал запрос, получил ответ. Ничего настраивать не надо.</em>
+      </div>
+      <div class="lvl">
+        <div class="bars"><i class="on"></i><i class="on"></i><i></i></div>
+        <b>Нужна настройка</b>
+        <em>Один раз подключаешь свои документы и шаблоны — дальше работает само.</em>
+      </div>
+      <div class="lvl">
+        <div class="bars"><i class="on"></i><i class="on"></i><i class="on"></i></div>
+        <b>Нужна сборка</b>
+        <em>Связать несколько сервисов и запустить по событию. Своими силами или с помощью.</em>
+      </div>
+    </div>
+    <p class="warn">Это ориентир, а не приговор — граница зависит от того, что у тебя уже
+      настроено вокруг.</p>
 
-    <h3>Избранное</h3>
-    <p>Звезда справа на карточке собирает личную подборку: то, к чему хочешь вернуться и с чего
-      думаешь начать. Подборка живёт в этом браузере и переживает перезагрузку, а «Сбросить
-      фильтры» и клик по логотипу её не трогают — фильтры сбрасываются, отмеченное остаётся.</p>
+    <h3>Риск ошибки</h3>
+    <p>Насколько дорого обойдётся, если ИИ ошибётся, а этого не заметят.
+      <mark>Высокий</mark> — перепроверяй результат руками: деньги, договоры, здоровье, публичные
+      тексты. <b>Низкий</b> — можно смело пробовать.</p>
   </div>
 </div>
 
@@ -1227,7 +1284,7 @@ tgl.addEventListener('click',()=>{
 });
 
 /* ============ старт ============ */
-$('sub').textContent=CASES.length+' идей, которые люди уже делают с ИИ — в работе и дома';
+$('sub').textContent=CASES.length+' '+plural(CASES.length,'юзкейс','юзкейса','юзкейсов')+', что люди уже сделали с ИИ';
 renderFold();
 if(location.hash==='#kris')$('btn-sell').classList.remove('hide');
 if(restore()){
