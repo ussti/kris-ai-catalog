@@ -7,7 +7,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230D0D09'/%3E%3Crect x='18' y='18' width='28' height='28' rx='4' fill='%23E91E63'/%3E%3C/svg%3E">
 <style>
 :root{
-  --accent:#E91E63;--accent-ink:#FFFFFF;--accent-2:#D4FF00;
+  --accent:#E91E63;--accent-ink:#FFFFFF;--accent-2:#D4FF00;--ok:#28C463;
   --font-sans:'Archivo','Segoe UI',system-ui,sans-serif;--font-mono:ui-monospace,'SF Mono','JetBrains Mono',monospace;
   --r-pill:99px;--r-card:14px;--r-md:10px;--r-sm:8px;
 }
@@ -31,8 +31,6 @@ body{margin:0;color:var(--ink);background:var(--bg);font:15px/1.55 var(--font-sa
 .toggle.on:after{left:24px}
 .topacts{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .topleft{display:flex;align-items:center;gap:10px}
-/* избранное в шапке держим ровно по высоте переключателя темы (27px) */
-.topacts .chip{height:27px;display:inline-flex;align-items:center;box-sizing:border-box;padding:0 12px}
 /* «пройти опрос заново» — строка под подзаголовком, не кнопка */
 .relink{margin:0 0 10px}
 .relink button{font:600 12.5px var(--font-sans);background:none;border:none;padding:0;cursor:pointer;color:var(--muted);border-bottom:1px solid var(--line-2)}
@@ -100,6 +98,14 @@ h1{font-size:clamp(24px,5vw,34px);font-weight:900;letter-spacing:-.025em;line-he
 .ddm.right{left:auto;right:0}
 .ddscroll{overflow:auto;padding:5px}
 .ddhead,.ddfoot,.ddveil{display:none}
+/* Шторка выезжает снизу и уезжает обратно: на телефоне она перекрывает экран,
+   и мгновенная подмена читается как перескок страницы. Класс .out вешается на
+   время выхода, разметка снимается по его окончании. */
+@keyframes ddup{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes ddfade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){
+  .ddm,.ddveil,.ddm.out,.ddveil.out{animation:none!important}
+}
 .ddi{display:flex;align-items:center;gap:9px;width:100%;font:500 12.5px var(--font-sans);background:transparent;color:var(--ink-soft);border:none;border-radius:6px;padding:7px 9px;cursor:pointer;text-align:left}
 .ddi:hover{background:var(--rowhover);color:var(--ink)}
 .ddi .bx{flex:none;width:13px;height:13px;border:1px solid var(--line-2);border-radius:3px;font:700 9px var(--font-mono);line-height:11px;text-align:center;color:transparent}
@@ -118,6 +124,14 @@ h1{font-size:clamp(24px,5vw,34px);font-weight:900;letter-spacing:-.025em;line-he
 .seg.views{border-color:var(--line-2);background:var(--surface)}
 .seg.views button{letter-spacing:.06em;text-transform:uppercase;font-size:10.5px;padding:9px 14px}
 .seg.views button.on{background:var(--accent);color:#fff}
+/* счётчик подборки прямо в кнопке вида — избранное живёт в этом ряду, не в шапке */
+.seg.views #btn-fav .c{margin-left:6px;font-size:9.5px;opacity:.75}
+.seg.views #btn-fav .c:empty{display:none}
+/* На странице подборки ряд видов остаётся навигацией, всё остальное в панели
+   к ней не относится и прячется. */
+.controls.favonly .ctl-row.top>*:not(.seg.views){display:none}
+.controls.favonly #filt-panel,.controls.favonly #search-row,
+.controls.favonly #qrow,.controls.favonly #picked{display:none}
 /* Сортировка — тише фильтров: не кнопка со своим полем, а текстовый контрол. */
 #sort-slot .ddb{background:transparent;border-color:transparent;color:var(--muted);padding:8px 6px}
 #sort-slot .ddb:hover{color:var(--ink);border-color:transparent}
@@ -184,7 +198,6 @@ ol.paths p{margin:4px 0 0;font-size:12.5px;line-height:1.5}
 .chip.on .c{color:var(--accent-ink);opacity:.75}
 .chip.lime.on .c{color:#0A0A0A}
 .chip[disabled]{opacity:.32;cursor:default}
-.chip.fav.on{background:var(--accent-2);color:#0A0A0A;border-color:var(--accent-2)}
 .favpage{margin-top:18px}
 .favhead{border:1px solid var(--line);border-radius:var(--r-card);background:var(--surface);padding:20px 20px 18px;margin-bottom:16px}
 .favhead h2{margin:.45em 0 .3em}
@@ -215,7 +228,8 @@ ol.paths p{margin:4px 0 0;font-size:12.5px;line-height:1.5}
 .pin.tool{background:transparent;border:1px dashed var(--faint);color:var(--faint)}
 .pin.uni{background:var(--lime-soft);color:var(--ink)}
 /* Звезда — основная цель тапа на карточке: 34×34, не 15px глиф */
-.cp{flex:none;background:none;border:none;cursor:pointer;font-size:14px;line-height:1;width:30px;height:34px;margin:-6px 0;color:var(--faint);transition:.13s}
+/* копирование — та же цель тапа, что и звезда рядом: один размер глифа и бокса */
+.cp{flex:none;background:none;border:none;cursor:pointer;font-size:20px;line-height:1;width:34px;height:34px;margin:-6px 0;color:var(--faint);transition:.13s}
 .cp:hover{color:var(--accent)}
 .cp.done{color:var(--accent-2)}
 .star{flex:none;background:none;border:none;cursor:pointer;font-size:20px;line-height:1;width:34px;height:34px;margin:-6px -8px -6px 0;color:var(--faint);transition:.13s}
@@ -274,7 +288,8 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
 .cta .btn{text-decoration:none;display:inline-flex;align-items:center;gap:8px}
 
 /* ---- ПОДВАЛ ---- */
-.site-foot{margin-top:34px;padding-top:20px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:flex-start}
+/* в подвале осталась одна ссылка — центрируем, иначе она висит слева в пустой строке */
+.site-foot{margin-top:34px;padding-top:20px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:18px;justify-content:center;align-items:center}
 .site-foot .who{font-size:13px;color:var(--ink-soft);max-width:430px}
 .site-foot .who b{color:var(--ink)}
 .socials{display:flex;flex-wrap:wrap;gap:8px}
@@ -293,7 +308,9 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
      и без горизонтальной прокрутки, которая на телефоне читается как обрыв */
   /* на телефоне панель фильтров по умолчанию свёрнута — экран отдан карточкам */
   .ftgl{display:inline-flex;align-items:center}
-  .controls.folded #filt-panel,.controls.folded #search-row{display:none}
+  /* сворачивается только панель фасетов: поиск — главный вход в каталог с
+     телефона и не должен прятаться за кнопкой «Фильтры» */
+  .controls.folded #filt-panel{display:none}
   .ctl-row.filters{flex-direction:column;align-items:stretch;gap:7px}
   .dds .ddb{width:auto;max-width:none}
   .dds{display:grid;grid-template-columns:1fr 1fr;gap:7px}
@@ -317,18 +334,28 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
   /* Нижняя шторка. Меню в потоке цеплялось не к своей кнопке, а к панели фильтров,
      и уезжало под поиск и чипы — тап вверху, список внизу экрана. Fixed-шторка
      приходит под большой палец независимо от того, где стояла кнопка. */
-  .ddveil{display:block;position:fixed;inset:0;z-index:59;background:rgba(0,0,0,.58)}
+  .ddveil{display:block;position:fixed;inset:0;z-index:59;background:rgba(0,0,0,.58);animation:ddfade .2s ease}
   .ddm,.ddm.right{position:fixed;left:0;right:0;bottom:0;top:auto;width:auto;min-width:0;max-width:none;
     max-height:78vh;border-radius:var(--r-card) var(--r-card) 0 0;border-left:none;border-right:none;border-bottom:none;
-    box-shadow:0 -16px 44px rgba(0,0,0,.5)}
+    box-shadow:0 -16px 44px rgba(0,0,0,.5);animation:ddup .22s cubic-bezier(.22,.75,.3,1)}
+  /* выход: те же кадры в обратную сторону, forwards — чтобы шторка не мигала
+     обратно в исходное положение на последнем кадре перед снятием разметки */
+  .ddm.out,.ddm.right.out{animation:ddup .18s ease-in reverse forwards}
+  .ddveil.out{animation:ddfade .18s ease-in reverse forwards}
   .ddscroll{padding:4px 11px 10px}
   .ddhead{display:flex;align-items:center;gap:10px;padding:14px 15px 11px;border-bottom:1px solid var(--line);position:relative}
   /* полоска-хват: подсказывает, что шторку можно смахнуть вниз */
   .ddhead::before{content:'';position:absolute;top:6px;left:50%;transform:translateX(-50%);width:36px;height:4px;border-radius:2px;background:var(--line-2)}
   .ddhead .ddt{flex:1;font:600 10.5px var(--font-mono);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
   .ddx{flex:none;width:30px;height:30px;border:none;background:var(--surface-2);color:var(--muted);border-radius:50%;font-size:17px;line-height:1;cursor:pointer}
-  .ddfoot{display:flex;padding:10px 13px calc(13px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--surface)}
+  .ddfoot{display:flex;gap:8px;align-items:center;padding:10px 13px calc(13px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--surface)}
   .ddapply{flex:1;background:var(--accent);color:var(--accent-ink);border:none;border-radius:var(--r-md);padding:13px;font:700 13.5px var(--font-sans);cursor:pointer}
+  /* сброс — справа от «Показать», зелёным: снять выбор рядом с подтверждением,
+     но не спутать с ним */
+  .ddreset{flex:none;background:transparent;color:var(--ok);border:1px solid var(--ok);border-radius:var(--r-md);padding:13px 15px;font:700 13.5px var(--font-sans);cursor:pointer}
+  .ddreset[disabled]{opacity:.4}
+  /* в шторке сброс живёт в подвале — дублировать его первой строкой списка незачем */
+  .ddscroll .ddi.clr{display:none}
   .ddi{padding:11px 9px;font-size:13.5px}
   /* пока шторка открыта — страница под ней не едет */
   body.ddlock{overflow:hidden}
@@ -362,7 +389,6 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
       <button class="mini ico" id="legendBtn" title="Как читать каталог">i</button>
     </div>
     <div class="topacts">
-      <span id="fav-slot"></span>
       <div class="theme-ctl"><span>тема</span><button class="toggle on" id="themeToggle" aria-label="тема"></button></div>
     </div>
   </div>
@@ -372,7 +398,6 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
     <h1>Где применить ИИ</h1>
     <p class="sub" id="sub"></p>
     <p class="relink hide" id="requizLine"><button id="requiz">Пройти опрос заново</button></p>
-    <p class="lead">Каталог по юзкейсам, что можно сделать с ИИ — в работе и в жизни.</p>
   </header>
 
   <!-- ОПРОС -->
@@ -397,6 +422,7 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
         <div class="seg views" id="seg-view">
           <button data-v="list" class="on">Список</button>
           <button data-v="tree">По направлениям</button>
+          <button data-v="fav" id="btn-fav">Избранное<span class="c" id="favN"></span></button>
           <button data-v="sell" class="hide" id="btn-sell">Что продавать</button>
         </div>
         <button class="mini ftgl" id="filtToggle">Фильтры<span class="c" id="ftglN"></span></button>
@@ -444,7 +470,6 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
     <p class="soft">Напиши мне — разберём твой кейс подробнее.</p>
     <div class="acts">
       <a class="btn" href="https://t.me/ussti" target="_blank" rel="noopener">Написать мне →</a>
-      <a class="btn ghost" href="https://t.me/ustikris" target="_blank" rel="noopener">Telegram-канал</a>
       <a class="btn ghost" href="https://www.instagram.com/kris.usti" target="_blank" rel="noopener">Instagram*</a>
     </div>
   </section>
@@ -456,7 +481,7 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
     <p>Если пока не до внедрения, а хочется просто начать — заходи туда, где я показываю всё это
       на живых примерах: что я сама собрала, что сломалось, что из этого стоит повторить.</p>
     <div class="acts">
-      <a class="btn" href="https://t.me/+wzxytsl7dlYxMWU6" target="_blank" rel="noopener">Сообщество в Telegram →</a>
+      <a class="btn" href="https://t.me/+wzxytsl7dlYxMWU6" target="_blank" rel="noopener">Вступить в сообщество →</a>
       <a class="btn ghost" href="https://www.instagram.com/kris.usti" target="_blank" rel="noopener">Instagram*</a>
     </div>
   </section>
@@ -464,9 +489,7 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
   <!-- ПОДВАЛ -->
   <footer class="site-foot">
     <div class="socials">
-      <a href="https://t.me/+wzxytsl7dlYxMWU6" target="_blank" rel="noopener">Сообщество</a>
       <a href="https://t.me/ustikris" target="_blank" rel="noopener">Telegram-канал</a>
-      <a href="https://www.instagram.com/kris.usti" target="_blank" rel="noopener">Instagram*</a>
     </div>
   </footer>
   <div class="fineprint">
@@ -1019,12 +1042,13 @@ function ddTitle(f){
 /* Обёртка меню. Шапка и футер нужны только шторке на телефоне — на десктопе они
    скрыты стилями, поэтому разметка одна на оба режима. Футер держит счётчик: за
    шторкой не видно выдачу, и без него выбор идёт вслепую. */
-function ddShell(title,body,foot,cls){
+function ddShell(title,body,foot,cls,reset){
+  const rst=reset?`<button class="ddreset" data-clear="${reset.key}"${reset.n?'':' disabled'}>Сбросить</button>`:'';
   return `<div class="ddm${cls?' '+cls:''}">
     <div class="ddhead"><span class="ddt">${esc(title)}</span>
       <button class="ddx" data-ddclose aria-label="Закрыть">×</button></div>
     <div class="ddscroll">${body}</div>
-    ${foot?`<div class="ddfoot"><button class="ddapply" data-ddclose>${esc(foot)}</button></div>`:''}
+    ${foot?`<div class="ddfoot"><button class="ddapply" data-ddclose>${esc(foot)}</button>${rst}</div>`:''}
   </div>`;
 }
 function ddBox(f){
@@ -1033,7 +1057,7 @@ function ddBox(f){
   return `<div class="dd" data-dd="${f.key}">
     <button class="ddb${tone}${on?' on':''}${open?' open':''}" data-ddb="${f.key}">
       <span class="k">${esc(f.label)}</span><span class="v">${esc(ddTitle(f))}</span><span class="ch">▼</span></button>
-    ${open?`<div class="ddveil" data-ddclose></div>`+ddShell(f.label,ddMenu(f),'Показать '+n):''}</div>`;
+    ${open?`<div class="ddveil" data-ddclose></div>`+ddShell(f.label,ddMenu(f),'Показать '+n,'',{key:f.key,n:S.sel[f.key].size}):''}</div>`;
 }
 function renderFilters(){
   let dd='';
@@ -1070,16 +1094,11 @@ function renderQFilters(){
   $('qrow').innerHTML=html?`<span class="filt-lbl">из опроса</span>${html}`:'';
   $('qrow').classList.toggle('hide',!html);
 }
-/* Подборка — не фильтр каталога, а отдельная страница: чип в шапке её открывает
-   и закрывает. Пока ничего не отмечено, чипа нет. */
+/* Подборка — не фильтр каталога, а отдельная страница; вход в неё стоит в ряду
+   видов рядом со «Списком». Здесь остаётся только счётчик отмеченного. */
 function renderFav(){
   const n=S.fav.size;
-  $('fav-slot').innerHTML=(n||S.favPage)
-    ? `<button class="chip fav${S.favPage?' on':''}" id="favTgl">★ подборка<span class="c">${n}</span></button>`
-    : '';
-  /* слот живёт в шапке, вне делегата каталога — слушатель вешаем на месте */
-  const t=$('favTgl');
-  if(t)t.addEventListener('click',()=>{S.favPage=!S.favPage;track('fav_page',{on:S.favPage});save();render();});
+  $('favN').textContent=n?n:'';
 }
 /* Порядок — в котором отмечали: подборка читается как личный список, а не как
    ещё одна выдача каталога. */
@@ -1114,10 +1133,11 @@ function renderSort(){
 function render(){
   /* Подборка занимает экран целиком: контролы каталога к ней не относятся. */
   $('favpage').classList.toggle('hide',!S.favPage);
-  ['controls','tip','foot','view-list','view-tree','view-sell'].forEach(id=>{
+  $('controls').classList.toggle('favonly',S.favPage);
+  ['tip','foot','view-list','view-tree','view-sell'].forEach(id=>{
     if(S.favPage)$(id).classList.add('hide');
   });
-  if(S.favPage){renderFavPage();renderFav();return;}
+  if(S.favPage){$('controls').classList.remove('hide');renderFavPage();renderFav();syncSeg();return;}
   $('controls').classList.remove('hide');$('foot').classList.remove('hide');
   setView(S.view);
   S._plan=surveyPlan(planBase());
@@ -1169,13 +1189,21 @@ function restore(){
 }
 
 /* ============ контролы ============ */
+/* Подборка — такой же вид, как список и дерево, поэтому подсветка одна на всех:
+   в режиме подборки горит «Избранное», иначе текущий вид каталога. */
+function syncSeg(){
+  document.querySelectorAll('#seg-view button').forEach(b=>
+    b.classList.toggle('on',S.favPage?b.dataset.v==='fav':b.dataset.v===S.view));
+}
 function setView(v){
   S.view=v;
-  document.querySelectorAll('#seg-view button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+  syncSeg();
   ['list','tree','sell'].forEach(x=>$('view-'+x).classList.toggle('hide',v!==x));
 }
 document.querySelectorAll('#seg-view button').forEach(b=>b.addEventListener('click',()=>{
-  setView(b.dataset.v);track('view',{view:S.view});save();render();
+  const v=b.dataset.v;
+  if(v==='fav'){S.favPage=true;track('fav_page',{on:true});save();render();return;}
+  S.favPage=false;setView(v);track('view',{view:S.view});save();render();
 }));
 /* Клики по чипам, карточкам и узлам дерева — одним делегатом: разметка
    перерисовывается часто, вешать слушатели на каждый узел незачем. */
@@ -1187,7 +1215,28 @@ function withDDScroll(fn){
   const m2=document.querySelector('.ddscroll');
   if(m2)m2.scrollTop=top;
 }
-function closeDD(){S.openDD='';renderFilters();renderSort();}
+/* Закрытие шторки на телефоне доигрывает анимацию ухода: разметка живёт до конца
+   кадров, иначе она пропадает мгновенно и выезд наружу виден только при открытии.
+   На десктопе и при prefers-reduced-motion закрываем синхронно. */
+const DD_OUT_MS=190;
+let ddClosing=false;
+function ddMobile(){
+  try{return window.matchMedia('(max-width:720px)').matches;}catch(e){return false;}
+}
+function ddAnimated(){
+  if(!ddMobile())return false;
+  try{return !window.matchMedia('(prefers-reduced-motion:reduce)').matches;}catch(e){return true;}
+}
+function closeDD(){
+  const shell=document.querySelector('#catalog .ddm');
+  if(!shell||!ddAnimated()){S.openDD='';ddClosing=false;renderFilters();renderSort();return;}
+  if(ddClosing)return;
+  ddClosing=true;
+  shell.classList.add('out');
+  const veil=document.querySelector('#catalog .ddveil');
+  if(veil)veil.classList.add('out');
+  setTimeout(()=>{ddClosing=false;S.openDD='';renderFilters();renderSort();},DD_OUT_MS);
+}
 $('catalog').addEventListener('click',e=>{
   /* крестик, «Показать N» и затемнение за шторкой — все закрывают меню; они
      лежат внутри .dd, поэтому глобальный «клик мимо» их не ловит */
@@ -1195,7 +1244,8 @@ $('catalog').addEventListener('click',e=>{
   const ddb=e.target.closest('.ddb[data-ddb]');
   if(ddb){
     const k=ddb.dataset.ddb;
-    S.openDD=S.openDD===k?'':k;
+    if(S.openDD===k){closeDD();return;}
+    S.openDD=k;
     renderFilters();renderSort();return;
   }
   const sortItem=e.target.closest('.ddi[data-sort]');
@@ -1211,8 +1261,13 @@ $('catalog').addEventListener('click',e=>{
     else{set.add(item.dataset.v);track('filter',{facet:item.dataset.f,value:item.dataset.v});}
     save();withDDScroll(render);return;
   }
-  const clr=e.target.closest('.ddi[data-clear]');
-  if(clr){S.sel[clr.dataset.clear].clear();save();withDDScroll(render);return;}
+  /* «сбросить» есть в двух видах: строкой в списке (десктоп) и кнопкой в подвале
+     шторки (телефон) — один обработчик на оба, меню остаётся открытым */
+  const clr=e.target.closest('[data-clear]');
+  if(clr){
+    if(clr.disabled)return;
+    S.sel[clr.dataset.clear].clear();save();withDDScroll(render);return;
+  }
   const qoff=e.target.closest('.chip[data-qoff]');
   if(qoff){
     S.qOff.add(qoff.dataset.qoff);track('survey_off',{key:qoff.dataset.qoff});save();render();return;
@@ -1264,12 +1319,18 @@ $('catalog').addEventListener('click',e=>{
 });
 /* клик мимо списка и Esc — закрыть */
 document.addEventListener('click',e=>{
-  if(!S.openDD)return;
-  if(e.target.closest('.dd'))return;
-  closeDD();
+  if(S.openDD&&!e.target.closest('.dd')){closeDD();return;}
+  /* Развёрнутая панель фильтров на телефоне закрывается и тапом мимо неё, а не
+     только повторным тапом по «Фильтры»: она занимает пол-экрана, и возвращаться
+     к одной кнопке ради этого неудобно. Тап внутри панели её не трогает. */
+  if(!S.folded&&!S.openDD&&ddMobile()&&!e.target.closest('#controls')){
+    S.folded=true;renderFold();
+  }
 });
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'&&S.openDD)closeDD();
+  if(e.key!=='Escape')return;
+  if(S.openDD){closeDD();return;}
+  if(!S.folded&&ddMobile()){S.folded=true;renderFold();}
 });
 /* Смахивание вниз по шапке шторки — привычный жест закрытия на телефоне. */
 let ddTouchY=null;
