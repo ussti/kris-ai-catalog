@@ -11,8 +11,8 @@
   --font-sans:'Archivo','Segoe UI',system-ui,sans-serif;--font-mono:ui-monospace,'SF Mono','JetBrains Mono',monospace;
   --r-pill:99px;--r-card:14px;--r-md:10px;--r-sm:8px;
 }
-:root,:root.dark{--bg:#0D0D09;--surface:#15150F;--surface-2:#1E1E15;--surface-3:#26261B;--ink:#FAFAF7;--ink-soft:#C5C5BC;--muted:#8A8A80;--faint:#5C5C54;--line:#28281C;--line-2:#38382C;--grid:rgba(255,255,255,.04);--accent-soft:rgba(233,30,99,.14);--lime-soft:rgba(212,255,0,.12);--rail:rgba(255,255,255,.09);--rowhover:rgba(255,255,255,.035);}
-:root.light{--bg:#FBFBF8;--surface:#FFFFFF;--surface-2:#F3F1EA;--surface-3:#E9E6DC;--ink:#0A0A0A;--ink-soft:#3A3A36;--muted:#6A6A62;--faint:#9A9A90;--line:#E7E7E2;--line-2:#D5D5CD;--grid:rgba(0,0,0,.045);--accent-soft:rgba(233,30,99,.10);--lime-soft:rgba(150,180,0,.14);--rail:rgba(0,0,0,.12);--rowhover:rgba(0,0,0,.025);}
+:root,:root.dark{--bg:#0D0D09;--surface:#15150F;--surface-2:#1E1E15;--surface-3:#26261B;--ink:#FAFAF7;--ink-soft:#C5C5BC;--muted:#8A8A80;--faint:#5C5C54;--line:#28281C;--line-2:#38382C;--grid:rgba(255,255,255,.04);--accent-soft:rgba(233,30,99,.14);--lime-soft:rgba(212,255,0,.12);--rail:rgba(255,255,255,.09);--rowhover:rgba(255,255,255,.035);--hit:#41E07C;--hit-soft:rgba(40,196,99,.20);}
+:root.light{--bg:#FBFBF8;--surface:#FFFFFF;--surface-2:#F3F1EA;--surface-3:#E9E6DC;--ink:#0A0A0A;--ink-soft:#3A3A36;--muted:#6A6A62;--faint:#9A9A90;--line:#E7E7E2;--line-2:#D5D5CD;--grid:rgba(0,0,0,.045);--accent-soft:rgba(233,30,99,.10);--lime-soft:rgba(150,180,0,.14);--rail:rgba(0,0,0,.12);--rowhover:rgba(0,0,0,.025);--hit:#0F8A3D;--hit-soft:rgba(40,196,99,.18);}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 button{font-family:inherit;color:inherit}
 :focus{outline:none}
@@ -230,7 +230,10 @@ ol.paths p{margin:4px 0 0;font-size:12.5px;line-height:1.5}
 .band.own .card .dot{color:var(--accent)}
 .card .cl{flex:1;min-width:0}
 .cn{font-weight:700;font-size:14px;line-height:1.35}
-.cn mark{background:var(--lime-soft);color:inherit;border-radius:3px;padding:0 2px}
+/* Совпадение с поисковым запросом — зелёным, и в названии, и в тегах, и в
+   раскрытых полях: поиск идёт по всем этим полям, значит и подсветка тоже. */
+.card mark{background:var(--hit-soft);color:var(--hit);border-radius:3px;padding:0 2px;font-weight:inherit}
+.pin mark{padding:0 1px}
 .facets{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
 .pin{font:600 9.5px var(--font-mono);padding:2px 8px;border-radius:var(--r-pill);background:var(--surface-3);color:var(--muted);white-space:nowrap}
 .pin.sph{background:var(--accent-soft);color:var(--accent)}
@@ -926,8 +929,12 @@ function startQuiz(){
 }
 
 /* ============ карточка ============ */
+/* hl зовётся ~10 раз на карточку — основы запроса считаем один раз на запрос,
+   а не на каждое поле. */
+let _hlq=null,_hlqs=[];
 function hl(text){
-  const qs=tokens(S.q).map(stem);
+  if(S.q!==_hlq){_hlq=S.q;_hlqs=tokens(S.q).map(stem);}
+  const qs=_hlqs;
   if(!qs.length)return esc(text);
   return esc(text).split(/(\s+)/).map(w=>{
     const n=stem(norm(w.replace(/[^0-9a-zа-я]/gi,'')));
@@ -953,17 +960,17 @@ function card(c){
     <div class="cl">
       <div class="cn">${hl(c.n)}</div>
       <div class="facets">
-        <span class="pin sph">${esc(c.grp)}</span>
-        <span class="pin task">${esc(c.topic)}</span>
-        ${c.task.map(t=>`<span class="pin task">${esc(t)}</span>`).join('')}
-        <span class="pin tool">${esc(c.tool)}</span>
+        <span class="pin sph">${hl(c.grp)}</span>
+        <span class="pin task">${hl(c.topic)}</span>
+        ${c.task.map(t=>`<span class="pin task">${hl(t)}</span>`).join('')}
+        <span class="pin tool">${hl(c.tool)}</span>
       </div>
       <div class="det"><dl>
-        <dt>Сфера</dt><dd>${esc(c.sph)}</dd>
-        ${c.life?`<dt>Область жизни</dt><dd>${esc(c.life)}</dd>`:''}
-        ${roles?`<dt>Кому</dt><dd>${esc(roles)}</dd>`:''}
-        ${c.ind.length?`<dt>Отрасли</dt><dd>${esc(c.ind.join(' · '))}</dd>`:''}
-        <dt>Вход</dt><dd>${esc(c.lvl)}</dd>
+        <dt>Сфера</dt><dd>${hl(c.sph)}</dd>
+        ${c.life?`<dt>Область жизни</dt><dd>${hl(c.life)}</dd>`:''}
+        ${roles?`<dt>Кому</dt><dd>${hl(roles)}</dd>`:''}
+        ${c.ind.length?`<dt>Отрасли</dt><dd>${hl(c.ind.join(' · '))}</dd>`:''}
+        <dt>Вход</dt><dd>${hl(c.lvl)}</dd>
         <dt>Риск ошибки</dt><dd>${esc(c.risk)}</dd>
       </dl></div>
     </div>
