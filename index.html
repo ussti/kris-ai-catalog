@@ -99,6 +99,15 @@ h1{font-size:clamp(24px,5vw,34px);font-weight:900;letter-spacing:-.025em;line-he
 #resetAll:hover{color:var(--accent-2);border-color:var(--accent-2)}
 :root.light #resetAll,:root.light #resetAll:hover{color:#7C9600}
 :root.light #resetAll:hover{border-color:#7C9600}
+/* Сбрасывать нечего — кнопка гаснет и не реагирует: иначе нажатие «ничего не делает»
+   и выглядит как поломка. Есть что сбросить — рядом стоит число. */
+#resetAll[disabled]{color:var(--faint);border-color:var(--line);cursor:default}
+:root.light #resetAll[disabled]{color:var(--faint)}
+#resetAll .c{margin-left:6px;color:var(--accent-ink);background:var(--accent-2);border-radius:999px;padding:0 6px}
+#resetAll[disabled] .c{display:none}
+/* Короткая вспышка после сброса — подтверждение, что нажатие сработало */
+@keyframes resetflash{0%{background:var(--accent-2);color:var(--accent-ink)}100%{background:transparent}}
+#resetAll.done{animation:resetflash .5s ease-out}
 .search input{font:14px var(--font-sans);color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-md);padding:9px 13px;min-width:220px;flex:1}
 /* подсказка в поиске — тише самого запроса: она длинная и не должна читаться
    как набранный текст */
@@ -474,7 +483,7 @@ tbody th{text-align:left;font:700 12.5px var(--font-sans);color:var(--ink);backg
         <button class="mini ftgl" id="filtToggle">Фильтры<span class="c" id="ftglN"></span></button>
         <div class="spacer"></div>
         <span class="count" id="count"></span>
-        <button class="mini" id="resetAll">Сбросить фильтры</button>
+        <button class="mini" id="resetAll">Сбросить фильтры<span class="c" id="resetN"></span></button>
       </div>
       <div class="ctl-row filters" id="filt-panel">
         <div class="dds" id="facet-rows"></div>
@@ -1196,6 +1205,7 @@ function render(){
   renderFilters();renderSort();renderQFilters();
   const r=rows();
   $('count').innerHTML=`<b>${r.length}</b> из ${CASES.length}`;
+  renderResetState();
   const own=ownSize(ranked());
   const ap=planApplied();
   /* Постоянное объяснение порядка переехало в справку — здесь остаётся только то,
@@ -1414,13 +1424,37 @@ document.addEventListener('keydown',e=>{
 });
 /* Полный сброс: фильтры, поиск, порядок, режим избранного. Избранное само не трогаем —
    это личный список, а не фильтр. Логотип делает то же самое, что кнопка. */
+/* Что именно сейчас сужает выдачу. Ответы опроса считаются наравне с фильтрами:
+   для человека это одно и то же — список короче, чем весь каталог. */
+function activeNarrowers(){
+  const n=[];
+  FACETS.forEach(f=>{if(S.sel[f.key].size)n.push(f.key);});
+  if(S.q)n.push('q');
+  if(planApplied().length)n.push('survey');
+  if(S.sort!=='match')n.push('sort');
+  return n;
+}
 function resetAll(){
   FACETS.forEach(f=>S.sel[f.key].clear());
   S.q='';$('search').value='';
+  /* Ответы опроса сбрасываются вместе с фильтрами — раньше они переживали сброс,
+     и список оставался суженным, хотя кнопку уже нажали. */
+  S.answered=false;S.mode='';S.role='';S.grp='';S.life='';S.task='';S.step=0;S.qOff.clear();
   S.sort='match';S.openDD='';S.favPage=false;S.openNodes.clear();
   save();render();
 }
-$('resetAll').addEventListener('click',resetAll);
+function renderResetState(){
+  const n=activeNarrowers().length;
+  const b=$('resetAll');
+  b.disabled=!n;
+  $('resetN').textContent=n?String(n):'';
+  b.title=n?'Снять фильтры, поиск и ответы опроса':'Сбрасывать нечего — показан весь каталог';
+}
+$('resetAll').addEventListener('click',()=>{
+  if(!activeNarrowers().length)return;
+  resetAll();
+  const b=$('resetAll');b.classList.remove('done');void b.offsetWidth;b.classList.add('done');
+});
 /* На телефоне панель фильтров съедает первый экран — сворачиваем её по умолчанию
    и открываем по кнопке. На десктопе класс ничего не делает: там места хватает. */
 function renderFold(){
